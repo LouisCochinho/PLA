@@ -1,42 +1,42 @@
 (* LES TYPES *)
-    
+
+type couleur =
+  | Ami
+  | Ennemi
+      
 type cellule =
   | C (* case *)
   | N (* nord *) | S | E | O
 
-type couleur =
-  | B (*Bleu*)
-  | V (*Vert*)
-  | J (*Jaune*)
-  | R (*Rouge*)
-  | T (*Neutre/Transparent*)
+type objetcassable =
+  | Mur
+  | Vitre
 
-type bonus =
-  | Bmb (*Bombe de peinture*)
-  | Np (*Napalm de peinture*)
-  | Bs (*Gros sceau de peinture*)
-  | Cp (*Corrupteur de couleur*)
-  | Tl (*Troll: le joueur peint en neutre*)
+type objetpeignable =
+  | Sol of couleur
+  | SolNormal
+      
 
-type action =
+type condition =   (* CECI SONT LES SYMBOLES *)
+  | Cassable of (objetcassable * cellule)
+  | Peignable of (objetpeignable * cellule)
+(*  | Amoi of couleur * cellule   *)
+  
+type action_etat =
+  | Avancer of cellule 
 
-  | Avancer
-  | Reculer
-  | Tourner_vers of cellule
-
+type action_trans =
   | Poser_mur
   | Peindre of couleur
   | Casser
-  | Repos
+  | Admirer
+  | Regenerer
+      
 
-type condition =
-  | Sol of couleur
-  | Ami of cellule
-  | Ennemi of cellule
-  | Bonus of bonus*cellule
-
-type etat = int
-type transition = etat * condition * action * etat
+type etat = int * action_etat
+		    
+type transition = etat * condition * action_trans * etat
+						
 type automate = transition list
 
 
@@ -55,7 +55,17 @@ let aut1 =
     (4, Amoi(C), Restaurer, 1)
   ]
 ;;
-    
+
+let autTest =
+  [ ((0,Avancer(N)), Cassable(Mur,C), Casser, (0,Avancer(N))) ;
+    ((0,Avancer(N)), Peignable(SolNormal,C), Peindre(Ami),(1,Avancer(E)));
+    ((1,Avancer(E)), Peignable(Sol(Ennemi),C),Peindre(Ami),(3,Avancer(S)));
+    ((1,Avancer(E)), Peignable(SolNormal,C),Peindre(Ami),(2,Avancer(O)));
+    ((2,Avancer(O)), Peignable(Sol(Ennemi),C),Peindre(Ami),(0,Avancer(N)));
+    ((2,Avancer(O)), Cassable(Mur,C),Casser,(3,Avancer(S)));
+    ((3,Avancer(S)), Peignable(Sol(Ennemi),C),Peindre(Ami),(3,Avancer(S)));
+    ((3,Avancer(S)), Peignable(SolNormal,C), Poser_mur,(2,Avancer(O)));
+  ] ;;
    
 (* ON PEUT GÉNÉRER CERTAINES PARTIES DE L'AUTOMATE *)
 
@@ -94,31 +104,43 @@ let (cellule_to_int: cellule -> int) = function
   | E -> 3
   | O -> 4
 
-let (condition_to_int: condition -> int) =  function
-  | Vide -> 0
-  | Ami(cellule) -> 1 + (cellule_to_int cellule) (* 1..5 *)
-  | Ennemi(cellule) -> 6 + (cellule_to_int cellule) (* 6..10 *)
-  | Comestible(cellule) -> 11 + (cellule_to_int cellule) (* 11..15 *)
-  | _ -> 0
+let (objetpeignable_to_int: objetpeignable -> int) = function
+  | SolNormal -> 0
+  | Sol(Ami) -> 5
+  | Sol(Ennemi) -> 10 (* penser à espacer de 5 si on rajoute objet *)
 
-let (action_to_int: action -> int) = function
-   | Attendre -> 0
-   | Avancer -> 1
-   | Reculer -> 2
-   | Frapper -> 3
-   | Prendre -> 4
-   | Tourner_vers (cellule) -> 5 + (cellule_to_int cellule)
+let (objetcassable_to_int: objetcassable -> int ) = function
+  | Mur -> 0
+  | Vitre -> 5 (* penser à espacer de 5 si on rajoute objet *)
+
+let (condition_to_int: condition -> int) =  function
+    
+  | Peignable(objetpeignable,cellule) -> 0 + (objetpeignable_to_int objetpeignable) + (cellule_to_int cellule) (* 1..9 *)
+  | Cassable(objetcassable,cellule) -> 15 + (objetcassable_to_int objetcassable) + (cellule_to_int cellule) (* 10..19 *)
+(* rajouter amoi *)
+
+let (action_trans_to_int: action_trans -> int) = function
+   | Admirer -> 0
+   | Poser_mur -> 1
+   | Peindre(couleur) -> if couleur == Ami then 1 else 2
+   | Casser -> 3
+   (* | Regenerer -> 4 *)
    | _ -> 0
 
-   
-let (traduction_transition: transition -> int * int * int * int) = fun (src,condition,action,tgt) ->
-   (src, condition_to_int condition, action_to_int action, tgt)
+let (action_etat_to_int: action_etat -> int) = function
+  | Avancer(cellule) -> cellule_to_int cellule
+				       
+let (etatA_to_int: etat -> int) = fun etat -> let (a,b) = etat in a
+let (etatB_to_int: etat -> int) = fun etat -> let (a,b) = etat in action_etat_to_int b
+				       
+let (traduction_transition: transition -> (int*int) * int * int * (int*int)) = fun (src,condition,action_trans,tgt) ->
+   ((etatA_to_int src,etatB_to_int src), condition_to_int condition, action_trans_to_int action_trans,(etatA_to_int tgt,etatB_to_int tgt))
 
-let (traduction_automate: automate -> (int * int * int * int) list) = fun automate ->
+let (traduction_automate: automate -> ((int*int) * int * int * (int*int)) list) = fun automate ->
    List.map traduction_transition automate ;;
 
 
-let trad_aut1 = traduction_automate aut1 ;;
+let trad_autTest = traduction_automate autTest ;;
 
 (* On obtient
    [ (1, 7, 6, 2); 

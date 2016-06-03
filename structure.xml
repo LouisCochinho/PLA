@@ -1,0 +1,33 @@
+<header>
+	<liste_action_etat>
+		<action_etat id=X>NOM_ACTION_ETAT</action_etat>
+		...
+	</liste_action_etat>
+	
+	<liste_action_transition>
+		<action_transition id=X>NOM_ACTION_TRANSITION</action_transition>
+		...
+	</liste_action_transition>
+	
+	<liste_symbole>
+		<symbole id=X>NOM_SYMBOLE</symbole>
+		...
+	</liste_symbole>
+</header>
+<automate>
+	<liste_etat>
+		<etat type="initial" id=X>ID_ACTION_ETAT</etat>
+		<etat id=X>ID_ACTION_ETAT</etat>
+		...
+	</liste_etat>
+	
+	<liste_transition>
+		<transition id=X>
+			<etat_depart>ID_ETAT</etat_depart>
+			<symbole>ID_SYMBOLE</symbole>
+			<action_transition>ID_ACTION_TRANSITION</action_transition>
+			<etat_arrivee>ID_ETAT</etat_arrivee>
+		</transition>
+		...
+	</liste_transition>
+</automate>

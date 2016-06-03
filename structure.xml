@@ -16,6 +16,7 @@
 </header>
 <automate>
 	<liste_etat>
+		<etat type="initial" id=X>ID_ACTION_ETAT</etat>
 		<etat id=X>ID_ACTION_ETAT</etat>
 		...
 	</liste_etat>

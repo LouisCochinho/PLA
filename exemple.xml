@@ -1,0 +1,48 @@
+<header>
+	<liste_action_etat>
+		<action_etat id=0>DeplacerHaut</action_etat>
+		<action_etat id=1>DeplacerBas</action_etat>
+		<action_etat id=2>DeplacerGauche</action_etat>
+		<action_etat id=3>DeplacerDroite</action_etat>
+	</liste_action_etat>
+	
+	<liste_action_transition>
+		<action_transition id=0>PeindreAmi</action_transition>
+		<action_transition id=1>PeindreEnnemi</action_transition>
+		<action_transition id=2>Casser</action_transition>
+		<action_transition id=3>PoserMur</action_transition>
+		<action_transition id=4>NeRienFaire</action_transition>
+	</liste_action_transition>
+	
+	<liste_symbole>
+		<symbole id=0>CouleurAmi</symbole>
+		<symbole id=1>CouleurEnnemi</symbole>
+		<symbole id=2>Sol</symbole>
+		<symbole id=3>Mur</symbole>
+		<symbole id=4>Vitre</symbole>
+	</liste_symbole>
+</header>
+<automate>
+	<liste_etat>
+		<etat type="initial" id=0>0</etat>
+		<etat id=1>1</etat>
+		<etat id=2>2</etat>
+		<etat id=3>3</etat>
+	</liste_etat>
+	
+	<liste_transition>
+		<transition id=0>
+			<etat_depart>0</etat_depart>
+			<symbole>3</symbole>
+			<action_transition>2</action_transition>
+			<etat_arrivee>1</etat_arrivee>
+		</transition>
+		
+		<transition id=1>
+			<etat_depart>0</etat_depart>
+			<symbole>2</symbole>
+			<action_transition>0</action_transition>
+			<etat_arrivee>2</etat_arrivee>
+		</transition>
+	</liste_transition>
+</automate>

@@ -15,6 +15,8 @@ type bonus =
   | Bmb (*Bombe de peinture*)
   | Np (*Napalm de peinture*)
   | Bs (*Gros sceau de peinture*)
+  | Cp (*Corrupteur de couleur*)
+  | Tl (*Troll: le joueur peint en neutre*)
 
 type action =
 

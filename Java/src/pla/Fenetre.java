@@ -1,8 +1,6 @@
 package pla;
 
-import java.awt.Color;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class Fenetre extends JFrame{
 	
@@ -20,10 +18,9 @@ public class Fenetre extends JFrame{
 				this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);			
 			
 				//On prévient notre JFrame que ce sera notre JPanel qui sera son contentPane
-				this.setContentPane(new Panneau());
+				this.setContentPane(new Map());
 				
 				// Faire afficher la fenetre
 				this.setVisible(true);
 	}
-
 }

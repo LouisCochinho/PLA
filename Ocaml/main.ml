@@ -11,6 +11,11 @@ type couleur =
   | R (*Rouge*)
   | T (*Neutre/Transparent*)
 
+type bonus =
+  | Bmb (*Bombe de peinture*)
+  | Np (*Napalm de peinture*)
+  | Bs (*Gros sceau de peinture*)
+
 type action =
 
   | Avancer
@@ -26,8 +31,7 @@ type condition =
   | Sol of couleur
   | Ami of cellule
   | Ennemi of cellule
-  | Bonus of cellule
-  | Activable of cellule
+  | Bonus of bonus*cellule
 
 type etat = int
 type transition = etat * condition * action * etat

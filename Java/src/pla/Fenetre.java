@@ -1,26 +1,54 @@
 package pla;
 
-import javax.swing.JFrame;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 
-public class Fenetre extends JFrame{
+
+public class Fenetre extends BasicGame{
 	
-	public Fenetre(){
-		//Définit un titre pour votre fenêtre
-				this.setTitle("Ma première fenêtre java");
+	private GameContainer gc;
+	private Map map;
 
-				//Définit une taille pour celle-ci ; ici, 400 px de
-				this.setSize(1000, 1000);
+	public Fenetre(String title) {
+		super(title);
+		// TODO Auto-generated constructor stub
+	}
 
-				//Nous allons maintenant dire à notre objet de se positionner au centre
-				this.setLocationRelativeTo(null);
+	// Initialise le contenu du jeu, charge les graphismes, la musique, etc..
+	@Override
+	public void init(GameContainer gc) throws SlickException {
+		// TODO Auto-generated method stub
+		this.gc = gc;
+		this.map = new Map();
+	}
+	
+	// Affiche le contenu du jeu
+	@Override
+	public void render(GameContainer gc, Graphics g) throws SlickException {
+		// TODO Auto-generated method stub
+	  /*g.setColor( Color.white );
+	    g.drawLine( 100, 150, 300, 350);
+		g.setColor( new Color( 128, 128, 128 ) );
+		g.drawString( "Basic font test", 0, 0);*/
+		this.map.paint(g);
+		this.map.placerAutomate(new Automate(), g);
+	}
 
-				//Terminer le processus lorsqu'on clique sur fermer 
-				this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);			
-			
-				//On prévient notre JFrame que ce sera notre JPanel qui sera son contentPane
-				this.setContentPane(new Map());
-				
-				// Faire afficher la fenetre
-				this.setVisible(true);
+	//Met à jour les éléments de la scène en fonction du delta temps survenu. C'est ici que la logique du jeu est enfermé.
+	@Override
+	public void update(GameContainer gc, int delta) throws SlickException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	//Arreter correctement le jeu
+	@Override
+	public void keyReleased(int key, char c) {
+		if (Input.KEY_ESCAPE == key) {
+			gc.exit();
+		}
 	}
 }

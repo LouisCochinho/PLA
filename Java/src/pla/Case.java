@@ -1,18 +1,37 @@
 package pla;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
+import org.newdawn.slick.Color;
 
-public class Case extends JPanel{
+public class Case{
 	private ArrayList<Personnage> personnages;
 	private Decor decor;
+
 	
-	
-	
-	public Case(Graphics g,int posX, int posY){
-		g.drawRect(posX, posY, 20, 20);
+	public Case(){
+		this.decor = new Decor(Color.gray);
 	}
+
+	public Color getCouleur() {
+		return decor.getCouleur();
+	}
+	
+	public void setDecor(Decor decor){
+		this.decor = decor;
+	}
+
+	public ArrayList<Personnage> getPersonnages() {
+		return personnages;
+	}
+
+	public void setPersonnages(ArrayList<Personnage> personnages) {
+		this.personnages = personnages;
+	}
+
+	public Decor getDecor() {
+		return decor;
+	}
+	
+	
 }

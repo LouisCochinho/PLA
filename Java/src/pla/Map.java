@@ -33,7 +33,7 @@ public class Map {
 		}
 	}
 
-	public void paint(Graphics g) {
+	public void paint(Personnage p, Graphics g) {
 		for(int i = 0; i< WIDTH; i++){
 			for(int j = 0; j<HEIGHT;j++){				
 				// carrés de fond noir
@@ -41,12 +41,13 @@ public class Map {
 				g.fillRect(i*TILE_SIZE,j*TILE_SIZE,TILE_SIZE,TILE_SIZE);							
 				g.setColor(Color.black);									
 				g.drawRect(i*TILE_SIZE,j*TILE_SIZE,TILE_SIZE,TILE_SIZE);
-				if(cases[j][i].getDecor().getImage() != null){
-					g.drawImage(cases[j][i].getDecor().getImage(),i*TILE_SIZE+2,j*TILE_SIZE+2); // Multiple de 20 (TILE_SIZE+2 pour centrer l'image)
-				}
-									
+				if(cases[i][j].getDecor().getImage() != null){
+					g.drawImage(cases[i][j].getDecor().getImage(),i*TILE_SIZE+2,j*TILE_SIZE+2); // Multiple de 20 (TILE_SIZE+2 pour centrer l'image)
+				}									
 			}
-		}	
+		}
+		placerAutomate(p.getAutomate(),p.getCouleur(),g);
+		placerPersonnage(p,g);
 	}
 	// Attention : Inversion i et j => x et y dans la map
 	//MAP
@@ -65,17 +66,21 @@ public class Map {
 	* i|
 	 * |
 	 * -
-	 */
+	 */	
+	public void placerPersonnage(Personnage p, Graphics g){
+		cases[p.getPosX()][p.getPosY()].setDecor(new Decor(p.getImage()));
+		g.drawImage(cases[p.getPosX()][p.getPosY()].getDecor().getImage(),p.getPosX()*TILE_SIZE+2,p.getPosY()*TILE_SIZE+2);
+	}
 	
-	public void placerAutomate(Automate a, Graphics g){
+	public void placerAutomate(Automate a,Color couleurPerso, Graphics g){
 		for(int i = 0; i< a.getTab_actionTransition().length;i++)
 			for(int j = 0;j< a.getTab_actionTransition().length;j++){
 				// pour chaque valeur dans le tableau action-transition 
 				chargerImage(a,g,i,j);	
 			}	
 		
-		g.setColor(a.getColor());
-		g.drawRect(a.getPosX()*TILE_SIZE, a.getPosY()*TILE_SIZE, a.getTaille()*TILE_SIZE, a.getTaille()*TILE_SIZE);		
+		g.setColor(couleurPerso);
+		g.drawRect(a.getPosX()*TILE_SIZE,a.getPosY()*TILE_SIZE, a.getTaille()*TILE_SIZE, a.getTaille()*TILE_SIZE);		
 	}
 	
 	
@@ -113,6 +118,7 @@ public class Map {
 			
 			default : img = null; 
 		}
+		// Attention inversion des indices entre les cases et la map
 		cases[j+a.getPosX()][i+a.getPosY()].setDecor(new Decor(img));		
 	}
 	

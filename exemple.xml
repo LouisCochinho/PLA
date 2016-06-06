@@ -16,13 +16,21 @@
 			<action_transition id="4">NeRienFaire</action_transition>
 		</liste_action_transition>
 		
-		<liste_symbole>
-			<symbole id="0">CouleurAmi</symbole>
-			<symbole id="1">CouleurEnnemi</symbole>
-			<symbole id="2">Sol</symbole>
-			<symbole id="3">Mur</symbole>
-			<symbole id="4">Vitre</symbole>
-		</liste_symbole>
+		<liste_decor>
+			<decor id="0">CouleurAmi</decor>
+			<decor id="1">CouleurEnnemi</decor>
+			<decor id="2">Sol</decor>
+			<decor id="3">Mur</decor>
+			<decor id="4">Vitre</decor>
+		</liste_decor>
+		
+		<liste_cellule>
+			<cellule id="0">Case</cellule>
+			<cellule id="1">Nord</cellule>
+			<cellule id="2">Sud</cellule>
+			<cellule id="3">Est</cellule>
+			<cellule id="4">Ouest</cellule>
+		</liste_cellule>
 	</header>
 
 	<automate>
@@ -33,17 +41,38 @@
 			<etat id="3">3</etat>
 		</liste_etat>
 		
+		<liste_condition>
+			<condition id="0">
+				<condition_simple>
+					<decor>3</decor>
+					<cellule>0</cellule>
+				</condition_simple>
+				
+				<condition_simple>
+					<decor>3</decor>
+					<cellule>1</cellule>
+				</condition_simple>
+			</condition>
+			
+			<condition id="1">
+				<condition_simple>
+					<decor>2</decor>
+					<cellule>3</cellule>
+				</condition_simple>
+			</condition>
+		</liste_condition>
+		
 		<liste_transition>
 			<transition id="0">
 				<etat_depart>0</etat_depart>
-				<symbole>3</symbole>
+				<condition>0</condition>
 				<action_transition>2</action_transition>
 				<etat_arrivee>1</etat_arrivee>
 			</transition>
 			
 			<transition id="1">
 				<etat_depart>0</etat_depart>
-				<symbole>2</symbole>
+				<condition>1</condition>
 				<action_transition>0</action_transition>
 				<etat_arrivee>2</etat_arrivee>
 			</transition>

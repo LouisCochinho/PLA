@@ -11,10 +11,15 @@
 			...
 		</liste_action_transition>
 		
-		<liste_symbole>
-			<symbole id="X">NOM_SYMBOLE</symbole>
+		<liste_decor>
+			<decor id="X">NOM_DECOR</decor>
 			...
-		</liste_symbole>
+		</liste_decor>
+		
+		<liste_cellule>
+			<cellule id="X">NOM_CELLULE</cellule>
+			...
+		</liste_cellule>
 	</header>
 	
 	<automate>
@@ -24,10 +29,21 @@
 			...
 		</liste_etat>
 		
+		<liste_condition>
+			<condition id="X">
+				<condition_simple>
+					<decor>ID_DECOR</decor>
+					<cellule>ID_CELLULE</cellule>
+				</condition_simple>
+				...
+			</condition>
+			...
+		</liste_condition>
+		
 		<liste_transition>
 			<transition id="X">
 				<etat_depart>ID_ETAT</etat_depart>
-				<symbole>ID_SYMBOLE</symbole>
+				<condition>ID_CONDITION</condition>
 				<action_transition>ID_ACTION_TRANSITION</action_transition>
 				<etat_arrivee>ID_ETAT</etat_arrivee>
 			</transition>

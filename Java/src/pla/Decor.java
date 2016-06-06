@@ -8,17 +8,11 @@ import org.newdawn.slick.Image;
 public class Decor{
 	private int id;
 	private ArrayList<Action> actions;
-	private Color couleur;
 	private Image image;
 	
-	public Decor(Color couleur){
-		this.couleur = couleur;
-	}
+
 	public Decor(Image img){
 		this.image = img;
-		
-		// couleur grise par défaut
-		this.couleur=Color.gray;
 	}
 	public int getId() {
 		return id;
@@ -31,12 +25,6 @@ public class Decor{
 	}
 	public void setActions(ArrayList<Action> actions) {
 		this.actions = actions;
-	}
-	public Color getCouleur() {
-		return couleur;
-	}
-	public void setCouleur(Color couleur) {
-		this.couleur = couleur;
 	}
 	public Image getImage() {
 		return image;

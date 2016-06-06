@@ -7,6 +7,7 @@ public class Automate {
 	private int tab_actionTransition[][]; //[Decor_id][etat_courant_id]
 	private int tab_action[];//[etat_courant_id]
 	private Color tab_couleur[]; //juste pour test
+	private Color couleur;
 	
 	private static final int taille = 4;
 	private int posX;
@@ -16,6 +17,13 @@ public class Automate {
 		
 		posX = 5;
 		posY = 6;
+		couleur = Color.orange; 
+		init_tab_actionTransition();
+		init_tabCouleur();
+	}
+	public Automate(int posX,int posY){
+		this.posX = posX;
+		this.posY = posY;
 		init_tab_actionTransition();
 		init_tabCouleur();
 	}
@@ -93,5 +101,7 @@ public class Automate {
 	public static int getTaille() {
 		return taille;
 	}
-	
+	public Color getColor(){
+		return this.couleur;
+	}
 }

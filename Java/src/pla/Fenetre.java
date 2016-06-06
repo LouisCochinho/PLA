@@ -35,13 +35,14 @@ public class Fenetre extends BasicGame{
 		g.drawString( "Basic font test", 0, 0);*/
 		this.map.paint(g);
 		this.map.placerAutomate(new Automate(), g);
+		
+		//this.map.placerAutomate(new Automate(10,10), g);
 	}
 
 	//Met à jour les éléments de la scène en fonction du delta temps survenu. C'est ici que la logique du jeu est enfermé.
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 	
 	//Arreter correctement le jeu

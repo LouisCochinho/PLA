@@ -1,8 +1,8 @@
 package pla;
 
 import java.util.ArrayList;
-
-import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 public class Case{
 	private ArrayList<Personnage> personnages;
@@ -10,11 +10,12 @@ public class Case{
 
 	
 	public Case(){
-		this.decor = new Decor(Color.gray);
-	}
-
-	public Color getCouleur() {
-		return decor.getCouleur();
+		try {
+			this.decor = new Decor(new Image("res/beton.jpg"));
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void setDecor(Decor decor){

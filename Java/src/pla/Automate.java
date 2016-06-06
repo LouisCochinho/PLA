@@ -1,12 +1,9 @@
 package pla;
 
-import org.newdawn.slick.Color;
-
 public class Automate {
 	private int tab_etatSuivant[][]; // [Decor_id][etat_courant_id]
 	private int tab_actionTransition[][]; //[Decor_id][etat_courant_id]
 	private int tab_action[];//[etat_courant_id]
-	private Color tab_couleur[]; //juste pour test
 	private int posX;
 	private int posY;
 	
@@ -15,13 +12,11 @@ public class Automate {
 		posX = 5;
 		posY = 6;
 		init_tab_actionTransition(4);
-		init_tabCouleur();
 	}
 	public Automate(int posX,int posY){
 		this.posX = posX;
 		this.posY = posY;
 		init_tab_actionTransition(4);
-		init_tabCouleur();
 	}
 	
 	private void init_tab_actionTransition(int taille){
@@ -32,19 +27,6 @@ public class Automate {
 		tab_actionTransition[3][0] = 4; tab_actionTransition[3][1] = 4; tab_actionTransition[3][2] = 4; tab_actionTransition[3][3] = 0;
 	}
 	
-	private void init_tabCouleur(){
-		tab_couleur = new Color[5];
-		tab_couleur[0] = Color.gray;
-		tab_couleur[1] = Color.green;
-		tab_couleur[2] = Color.blue;
-		// Inutile puisqu'il correspond � un mur donc couleur grise par d�faut
-		tab_couleur[3] = Color.black;
-		tab_couleur[4] = Color.white;
-	}
-	
-	public Color getColorByIndex(int index){
-		return tab_couleur[index];
-	}
 
 	public int[][] getTab_etatSuivant() {
 		return tab_etatSuivant;
@@ -68,14 +50,6 @@ public class Automate {
 
 	public void setTab_action(int[] tab_action) {
 		this.tab_action = tab_action;
-	}
-
-	public Color[] getTab_couleur() {
-		return tab_couleur;
-	}
-
-	public void setTab_couleur(Color[] tab_couleur) {
-		this.tab_couleur = tab_couleur;
 	}
 
 	public int getPosX() {

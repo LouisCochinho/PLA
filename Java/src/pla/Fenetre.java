@@ -1,5 +1,8 @@
 package pla;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -34,7 +37,11 @@ public class Fenetre extends BasicGame{
 	    g.drawLine( 100, 150, 300, 350);
 		g.setColor( new Color( 128, 128, 128 ) );
 		g.drawString( "Basic font test", 0, 0);*/
-		this.map.paint(new Personnage(Color.red,2,3,"res/perso_bleu.gif"),g);
+		List<Personnage> persos = new ArrayList<Personnage>();
+		persos.add(new Personnage(Color.black,10,10,"res/perso_bleu.gif"));
+		persos.add(new Personnage(Color.green,20,20,"res/perso_vert.png",new Automate(10,10)));
+		persos.add(new Personnage(Color.blue,15,15,"res/cop.png",new Automate(1,1)));
+		this.map.paint(persos,g);
 		
 		//this.map.placerAutomate(new Automate(10,10), g);
 	}

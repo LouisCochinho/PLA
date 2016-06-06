@@ -24,6 +24,20 @@ public class Personnage {
 		}
 	}
 	
+	public Personnage(Color c, int posX, int posY, String img, Automate a){
+		this.couleur = c;
+		this.posX = posX;
+		this.posY = posY;
+		this.automate = new Automate();
+		try {
+			this.image = new Image(img);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.automate = a;
+	}
+	
 	public Automate getAutomate() {
 		return automate;
 	}

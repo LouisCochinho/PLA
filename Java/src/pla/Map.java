@@ -1,12 +1,11 @@
 package pla;
 
+import java.util.List;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-
-
-
 
 public class Map {
 
@@ -33,7 +32,7 @@ public class Map {
 		}
 	}
 
-	public void paint(Personnage p, Graphics g) {
+	public void paint(List<Personnage> persos, Graphics g) {
 		for(int i = 0; i< WIDTH; i++){
 			for(int j = 0; j<HEIGHT;j++){				
 				// carrés de fond noir
@@ -45,8 +44,11 @@ public class Map {
 				}									
 			}
 		}
-		placerPersonnage(p,g);
-		placerAutomate(p.getAutomate(),p.getCouleur(),g);
+		for(Personnage p : persos){
+			placerPersonnage(p,g);		
+			placerAutomate(p.getAutomate(),p.getCouleur(),g);
+		}
+		
 		
 	}
 	// Attention : Inversion i et j => x et y dans la map
@@ -69,9 +71,9 @@ public class Map {
 	 */	
 	public void placerPersonnage(Personnage p, Graphics g){
 		// La case du personnage contient un nouveau decor contenant une image
-		cases[p.getPosX()][p.getPosY()].setDecor(new Decor(p.getImage()));
-		// dessiner l'image du personnage
-		g.drawImage(cases[p.getPosX()][p.getPosY()].getDecor().getImage(),p.getPosX()*TILE_SIZE+2,p.getPosY()*TILE_SIZE+2);
+			cases[p.getPosX()][p.getPosY()].setDecor(new Decor(p.getImage()));
+			// dessiner l'image du personnage
+			g.drawImage(cases[p.getPosX()][p.getPosY()].getDecor().getImage(),p.getPosX()*TILE_SIZE+2,p.getPosY()*TILE_SIZE+2);		
 	}
 	
 	public void placerAutomate(Automate a,Color couleurPerso, Graphics g){

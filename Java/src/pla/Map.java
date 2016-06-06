@@ -33,20 +33,20 @@ public class Map {
 	}
 
 	public void paint(Graphics g) {
+		
 
 		for(int i = 0; i< WIDTH; i++){
-			for(int j = 0; j<HEIGHT;j++){
-				
+			for(int j = 0; j<HEIGHT;j++){				
 				// carrés de fond noir
 				// position en x, en y, largeur et longueur
 				g.fillRect(i*TILE_SIZE,j*TILE_SIZE,TILE_SIZE,TILE_SIZE);							
-				g.setColor(Color.black);											
+				g.setColor(Color.black);
+								
+				
 				g.drawRect(i*TILE_SIZE,j*TILE_SIZE,TILE_SIZE,TILE_SIZE);
-				g.setColor(cases[i][j].getCouleur());
-				
-				
+				g.setColor(cases[i][j].getCouleur());							
 			}
-		}		
+		}	
 	}
 	
 	public void placerAutomate(Automate a, Graphics g){
@@ -74,9 +74,10 @@ public class Map {
 						 * |
 						 * -
 						 */
-						 					
+						 // Associer la case à l'image					
 						cases[j+a.getPosX()][i+a.getPosY()].setDecor(new Decor(new Image("res/wall.png")));
 					} catch (Exception e) {
+						// si l'image n'a pas été trouvée
 						g.setColor(Color.red);
 						g.drawString("Erreur : L'image du mur n'a pas pu être chargée", 50, 0);						
 					}
@@ -90,7 +91,7 @@ public class Map {
 				else{				
 					// Attention : Inversion i et j => x et y dans la map voir au dessus.
 					cases[j+a.getPosX()][i+a.getPosY()].setDecor(new Decor(a.getColorByIndex(a.getTab_actionTransition()[i][j]))); 
-				}
+				}				
 			}
 	}
 

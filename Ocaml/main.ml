@@ -1,3 +1,7 @@
+#load "dynlink.cma"
+#load "camlp4o.cma"
+open Printf
+
 (* LES TYPES *)
 
 type couleur =
@@ -33,38 +37,32 @@ type action_trans =
   | Regenerer
       
 
-type etat = int * action_etat
+type etat = int * action_etat  (* un état contient aussi une action d'état *)
 		    
 type transition = etat * condition * action_trans * etat
 						
-type automate = transition list
+type automate = transition list;;
+
+
 
 
 
 (* EXEMPLE D'AUTOMATE *)
-      
-	
-let aut1 = 	
-  [ (1, Ennemi(N), Tourner_vers(N), 2) ;
-    (1, Ennemi(S), Tourner_vers(S), 2) ;
-    (1, Ennemi(E), Tourner_vers(E), 2) ;
-    (1, Ennemi(O), Tourner_vers(O), 2) ;
 
-    (2, Ennemi(N), Frapper, 3) ;
-    (3, Vide, Avancer, 4) ;
-    (4, Amoi(C), Restaurer, 1)
-  ]
-;;
+let (e0: etat) = (0, Avancer(N));;
+let (e1: etat) = (1, Avancer(E));;
+let (e2: etat) = (2, Avancer(O));;
+let (e3: etat) = (3, Avancer(S));;
 
 let autTest =
-  [ ((0,Avancer(N)), Cassable(Mur,C), Casser, (0,Avancer(N))) ;
-    ((0,Avancer(N)), Peignable(SolNormal,C), Peindre(Ami),(1,Avancer(E)));
-    ((1,Avancer(E)), Peignable(Sol(Ennemi),C),Peindre(Ami),(3,Avancer(S)));
-    ((1,Avancer(E)), Peignable(SolNormal,C),Peindre(Ami),(2,Avancer(O)));
-    ((2,Avancer(O)), Peignable(Sol(Ennemi),C),Peindre(Ami),(0,Avancer(N)));
-    ((2,Avancer(O)), Cassable(Mur,C),Casser,(3,Avancer(S)));
-    ((3,Avancer(S)), Peignable(Sol(Ennemi),C),Peindre(Ami),(3,Avancer(S)));
-    ((3,Avancer(S)), Peignable(SolNormal,C), Poser_mur,(2,Avancer(O)));
+  [ (0, Cassable(Mur,C), Casser, 0) ;
+    (0, Peignable(SolNormal,C), Peindre(Ami),1);
+    (1, Peignable(Sol(Ennemi),C),Peindre(Ami),3);
+    (1, Peignable(SolNormal,C),Peindre(Ami),2);
+    (2, Peignable(Sol(Ennemi),C),Peindre(Ami),0);
+    (2, Cassable(Mur,C),Casser,3);
+    (3, Peignable(Sol(Ennemi),C),Peindre(Ami),3);
+    (3, Peignable(SolNormal,C), Poser_mur,2);
   ] ;;
    
 (* ON PEUT GÉNÉRER CERTAINES PARTIES DE L'AUTOMATE *)
@@ -96,7 +94,9 @@ let aut2 =
 
    
 (* TRADUCTION DES CONDITIONS COMPLEXES EN ENTIER *)
-  
+
+
+ 
 let (cellule_to_int: cellule -> int) = function
   | C -> 0
   | N -> 1
@@ -115,8 +115,8 @@ let (objetcassable_to_int: objetcassable -> int ) = function
 
 let (condition_to_int: condition -> int) =  function
     
-  | Peignable(objetpeignable,cellule) -> 0 + (objetpeignable_to_int objetpeignable) + (cellule_to_int cellule) (* 1..9 *)
-  | Cassable(objetcassable,cellule) -> 15 + (objetcassable_to_int objetcassable) + (cellule_to_int cellule) (* 10..19 *)
+  | Peignable(objetpeignable,cellule) -> 0 + (objetpeignable_to_int objetpeignable) + (cellule_to_int cellule) (* 0..14 *)
+  | Cassable(objetcassable,cellule) -> 15 + (objetcassable_to_int objetcassable) + (cellule_to_int cellule) (* 15..24 *)
 (* rajouter amoi *)
 
 let (action_trans_to_int: action_trans -> int) = function
@@ -128,7 +128,9 @@ let (action_trans_to_int: action_trans -> int) = function
    | _ -> 0
 
 let (action_etat_to_int: action_etat -> int) = function
-  | Avancer(cellule) -> cellule_to_int cellule
+  | Avancer(cellule) -> cellule_to_int cellule;;
+
+					      				
 				       
 let (etatA_to_int: etat -> int) = fun etat -> let (a,b) = etat in a
 let (etatB_to_int: etat -> int) = fun etat -> let (a,b) = etat in action_etat_to_int b
@@ -143,39 +145,69 @@ let (traduction_automate: automate -> ((int*int) * int * int * (int*int)) list) 
 let trad_autTest = traduction_automate autTest ;;
 
 (* On obtient
-   [ (1, 7, 6, 2); 
-     (1, 8, 7, 2); 
-     (1, 9, 8, 2); 
-     (1, 10, 9, 2); 
-     (2, 7, 3, 3);
-     (3, 0, 1, 4); 
-     (4, 0, 0, 1) ]
+   [ ((0,1), 15, 3, (0,1)); 
+     ((0,1), 0, 1, (1,3)); 
+     ((1,3), 10, 1, (3, 2));
+     ((1, 3), 0, 1, (2, 4)); 
+     ((2, 4), 10, 1, (0, 1));
+     ((2, 4), 15, 3, (3, 2));
+     ((3, 2), 10, 1, (3, 2));
+     ((3, 2), 0, 1, (2, 4))
+   ]
 
   à partir duquel on peut constuire le tableau des transitions et celui des actions.
 
  *)
 
-   
-(* LE SIMULATEUR examine le voisinage de la position (x,y) du personnage 
-   
-         ?      |  Ennemi(N)    |  ?
- ------------------------------------------------
-  Comestible(O) | Comestible(C) | Comestible(E)
- ------------------------------------------------
-         ?      |  Ennemi(S)    |  ?
 
-qui correspond aux conditions 
+let autStream = Stream.of_list trad_autTest;;
+  
+let test = parser
 
-    ?  | 7  | ?
-    15 | 11 | 14
-     ? | 8  | ? 
+| [< '(a,b),c,d,(e,f) >] -> output_string fic_out b
+| [< >] -> () ;;
 
-Supposons que l'automate du personnage soit dans l'état 1,
-le simulateur cherche les transitions exécutables de l'automate 
-dans l'état 1 sur les conditions/symboles {7,8,11,14,15}
-il y en a deux transitions possibles :
+let next = parser [< 'e >] -> e;;
 
- (1, 7, 6, 2)  et (1, 8, 7, 2);
 
-Le simulateur en prend tire une parmi celle là est l'exécute.
-*)
+test autStream;;
+next autStream;;
+
+let fic_out = open_out "test.txt";;
+let fic_in = open_in "../exemple.xml";;
+
+input_line fic_in;;
+output_string fic_out a ;;
+
+close_out fic_out;;    
+
+(* ----------------------------------------------------------------------- *)
+
+let list_action_etat = [(0,"DeplacerHaut");(1,"DeplacerBas");(2,"DeplacerGauche");(3,"DeplacerBas");(4,"DeplacerDroite")];;
+
+let list_action_transition = [(0,"PendreAmi"),(1,"PeindreEnnemi"),(2,"Casser"),(3,"Poser_mur"),(4,"Admirer")];;
+
+  
+
+let rec (ecrire_action_etat: (int*string) list -> out_channel -> unit) = fun l fic_out -> match l with
+  | [] -> fprintf fic_out ""
+  |(a,b)::r -> fprintf fic_out "<action_etat id=\"%d\">%s</action_etat>\n"a b ; ecrire_action_etat r fic_out;;
+
+
+let rec (ecrire_action_transition: (int*string) list -> out_channel -> unit) = fun l fic_out -> match l with
+  | [] -> fprintf fic_out ""
+  |(a,b)::r -> fprintf fic_out "<action_transition id=\"%d\">%s</action_transmission>\n"a b ; ecrire_action_etat r fic_out;;
+						     
+  
+let fic_out = open_out "test.txt";;
+fprintf fic_out "<root>\n";;
+fprintf fic_out "<header>\n";;
+fprintf fic_out "<liste_action_etat>\n";;
+ecrire_action_etat list_action_etat fic_out;;
+fprintf fic_out "</liste_action_etat>";;
+fprintf fic_out "<liste_action_transition>";;
+ecrire_action_transition list_action_transition fic_out;;
+
+     
+close_out fic_out;;  
+

@@ -10,10 +10,10 @@ import org.newdawn.slick.SlickException;
 public class Map {
 
 	/* largeur de la map */
-	private static final int WIDTH = 100;
+	private static final int WIDTH = 32;
 	
 	/* longueur de la map */
-	private static final int HEIGHT = 100;
+	private static final int HEIGHT = 24;
 	
 	/** taille de la case */
 	private static final int TILE_SIZE = 20;
@@ -83,7 +83,7 @@ public class Map {
 				chargerImage(a,g,i,j);	
 			}		
 		g.drawRect(a.getPosX()*TILE_SIZE,a.getPosY()*TILE_SIZE, a.getTaille()*TILE_SIZE, a.getTaille()*TILE_SIZE);		
-		g.setColor(Color.orange);
+		g.setColor(couleurPerso);
 	}
 	
 	

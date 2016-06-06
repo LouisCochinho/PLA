@@ -16,7 +16,7 @@ public class TestFenetre {
 		// Ce conteneur s'instancie en passant un objet implémentant Game (dont BasicGame) comme notre fenetre, à son constructeur
 		app = new AppGameContainer( new Fenetre("PLA") );
 		// Spécifie le mode d'affichage : le deuxieme parametre est le mode plein ecran ou non
-		app.setDisplayMode( 640, 480, true);
+		app.setDisplayMode( 640, 480, false);
 		// Démarre le jeu
 		app.start();
 	}

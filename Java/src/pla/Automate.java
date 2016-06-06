@@ -12,21 +12,13 @@ public class Automate {
 		posX = 5;
 		posY = 6;
 		init_tab_actionTransition(4);
-<<<<<<< HEAD
-=======
-		init_tabCouleur();
 		init_tab_etatSuivant(getTaille());
->>>>>>> origin/master
 	}
 	public Automate(int posX,int posY){
 		this.posX = posX;
 		this.posY = posY;
 		init_tab_actionTransition(4);
-<<<<<<< HEAD
-=======
-		init_tabCouleur();
 		init_tab_etatSuivant(getTaille());
->>>>>>> origin/master
 	}
 	
 	private void init_tab_actionTransition(int taille){

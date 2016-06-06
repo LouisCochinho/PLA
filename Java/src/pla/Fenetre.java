@@ -1,6 +1,7 @@
 package pla;
 
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -33,8 +34,7 @@ public class Fenetre extends BasicGame{
 	    g.drawLine( 100, 150, 300, 350);
 		g.setColor( new Color( 128, 128, 128 ) );
 		g.drawString( "Basic font test", 0, 0);*/
-		this.map.paint(g);
-		this.map.placerAutomate(new Automate(), g);
+		this.map.paint(new Personnage(Color.red,2,3,"res/perso_bleu.gif"),g);
 		
 		//this.map.placerAutomate(new Automate(10,10), g);
 	}

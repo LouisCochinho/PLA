@@ -12,11 +12,21 @@ public class Automate {
 		posX = 5;
 		posY = 6;
 		init_tab_actionTransition(4);
+<<<<<<< HEAD
+=======
+		init_tabCouleur();
+		init_tab_etatSuivant(getTaille());
+>>>>>>> origin/master
 	}
 	public Automate(int posX,int posY){
 		this.posX = posX;
 		this.posY = posY;
 		init_tab_actionTransition(4);
+<<<<<<< HEAD
+=======
+		init_tabCouleur();
+		init_tab_etatSuivant(getTaille());
+>>>>>>> origin/master
 	}
 	
 	private void init_tab_actionTransition(int taille){
@@ -70,5 +80,13 @@ public class Automate {
 
 	public int getTaille() {
 		return tab_actionTransition[0].length;
+	}
+	
+	public void init_tab_etatSuivant(int taille){
+		tab_etatSuivant = new  int[taille][taille];
+		tab_etatSuivant[0][0] = 0; tab_etatSuivant[0][1] = 3; tab_etatSuivant[0][2] = 0; tab_etatSuivant[0][3] = 3;
+		tab_etatSuivant[1][0] = 0; tab_etatSuivant[1][1] = 1; tab_etatSuivant[1][2] = 2; tab_etatSuivant[1][3] = 3;
+		tab_etatSuivant[2][0] = 3; tab_etatSuivant[2][1] = 1; tab_etatSuivant[2][2] = 2; tab_etatSuivant[2][3] = 2;
+		tab_etatSuivant[3][0] = 1; tab_etatSuivant[3][1] = 2; tab_etatSuivant[3][2] = 0; tab_etatSuivant[3][3] = 3;
 	}
 }

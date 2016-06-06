@@ -41,7 +41,7 @@ public class Automate {
 		tab_couleur[0] = Color.gray;
 		tab_couleur[1] = Color.green;
 		tab_couleur[2] = Color.blue;
-		// Inutile puisqu'il correspond à un mur donc couleur grise par défaut
+		// Inutile puisqu'il correspond ï¿½ un mur donc couleur grise par dï¿½faut
 		tab_couleur[3] = Color.black;
 		tab_couleur[4] = Color.white;
 	}

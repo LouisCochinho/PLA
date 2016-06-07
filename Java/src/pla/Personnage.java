@@ -67,4 +67,11 @@ public class Personnage {
 	public void setImage(Image image) {
 		this.image = image;
 	}
+	
+	public void deplacerX(int moduloTore){
+		this.posX = (this.posX+1)%moduloTore;
+	}
+	public void deplacerY(int moduloTore){
+		posY = posY++%moduloTore;
+	}
 }

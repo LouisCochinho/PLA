@@ -16,7 +16,7 @@ import pla.ihm.Map;
 public class Jeu extends BasicGame {
 	private Map map; // carte du jeu
 	private List<Personnage> personnages; // Liste des personnages
-	private GameContainer gc; // Slick2D
+	private GameContainer gc; // conteneur
 
 	public Jeu(String titre) {
 		super(titre); // Nom du jeu
@@ -49,16 +49,14 @@ public class Jeu extends BasicGame {
 		// Création des personnages
 		ajouterPersonnage(new Personnage(Color.blue, 10, 10, "res/perso_bleu.gif"));
 		ajouterPersonnage(new Personnage(Color.green, 20, 20, "res/perso_vert.png", new Automate(10, 10)));
-		ajouterPersonnage(new Personnage(null, 15, 15, "res/cop.png", new Automate(1, 1)));
+		ajouterPersonnage(new Personnage(Color.black, 15, 15, "res/cop.png", new Automate(1, 1)));
 	}
 
 	// Affiche le contenu du jeu
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-
-		dessiner_carte(g);
-		dessiner_elements(g);// dessine les automates et les personnages sur la
-								// carte
+		dessinerCarte(g);
+		dessinerElements(g);// dessine les automates et les personnages sur la carte
 	}
 
 	// Met à jour les éléments de la scène en fonction du delta temps survenu.
@@ -67,7 +65,7 @@ public class Jeu extends BasicGame {
 	public void update(GameContainer gc, int delta) throws SlickException {
 		// TODO Auto-generated method stub
 		// Déplacement test du personnage bleu vers la droite
-		deplacerPersonnage(0,delta);
+		deplacerPersonnage(0, 100);
 	}
 
 	// Arreter correctement le jeu en appuyant sur ECHAP
@@ -76,13 +74,16 @@ public class Jeu extends BasicGame {
 		if (Input.KEY_ESCAPE == key) {
 			gc.exit();
 		}
+		if (Input.KEY_P == key) {
+			gc.setPaused(true);
+		}
 	}
 
-	public void dessiner_carte(Graphics g) {
+	public void dessinerCarte(Graphics g) {
 		this.map.paint(personnages, g);
 	}
 
-	public void dessiner_elements(Graphics g) {
+	public void dessinerElements(Graphics g) {
 		// Pour chaque persoonage de la liste de personnages, le dessiner et
 		// dessiner son automate
 		for (Personnage p : personnages) {
@@ -90,33 +91,39 @@ public class Jeu extends BasicGame {
 			map.placerAutomate(p.getAutomate(), p.getCouleur(), g);
 		}
 	}
-	public void deplacerPersonnage(int indexPerso, int delta){
-		
-		Personnage p = this.personnages.get(indexPerso);
-		int i = p.getPosX();
-		int j = p.getPosY();
-		this.map.modifierDecorCase(i, j, getImageParCouleur(p.getCouleur()));
-		this.personnages.get(indexPerso).setPosX((this.personnages.get(indexPerso).getPosX() + 1));
+
+	public void deplacerPersonnage(int indexPerso, int pause) {
+
+		// Chercher le personnage correspondant à l'indexPerso
+		Personnage p = personnages.get(indexPerso);
+		// Prendre sa couleur et ses coordonnées
+		Color c = p.getCouleur();
+		int coordI = p.getPosX();
+		int coordJ = p.getPosY();
+		// La case sur lequel le personnage était doit revenir à son etat d'origine
+		map.modifierDecorCase(coordI, coordJ, getImageParCouleur(c));
+		// On enleve le personnage p a la liste des personnages de la case que le personnage s'apprete à quitter 
+		map.getCases()[coordI][coordJ].supprimerPersonnage(p);
+		// On met à jour les coordonnées du personnage
+		personnages.get(indexPerso).deplacerX(map.getLargeur());
+		// Pause
 		try {
-			Thread.sleep(delta); // latence
+			Thread.sleep(pause); // latence
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	private Image getImageParCouleur(Color c){
-		try{
-			if (c == Color.blue){	
+
+	private Image getImageParCouleur(Color c) {
+		try {
+			if (c == Color.blue) {
 				return new Image("res/sol_bleu.jpg");
-			}		
-			else if(c == Color.green){
+			} else if (c == Color.green) {
 				return new Image("res/sol_vert.jpg");
-			}
-			else 
-			{
+			} else {
 				return null;
 			}
-		}catch(SlickException e){
+		} catch (SlickException e) {
 			System.out.println("Une image n'a pas pu être chargée");
 		}
 		return null;

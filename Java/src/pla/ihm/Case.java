@@ -12,8 +12,11 @@ public class Case {
 	private Decor decor; // Decor de la case
 	private int indexI; // Position sur la grille
 	private int indexJ;
+	private boolean bloque;
 
 	public Case(int i, int j) {
+		bloque = false;
+		personnages = new ArrayList<Personnage>();
 		indexI = i;
 		indexJ = j;
 		String str = "res/beton.jpg";
@@ -62,5 +65,12 @@ public class Case {
 
 	public void setIndexJ(int indexJ) {
 		this.indexJ = indexJ;
+	}
+	
+	public boolean estbloque(){
+		return bloque;
+	}
+	public void bloquer(){
+		this.bloque = true;
 	}
 }

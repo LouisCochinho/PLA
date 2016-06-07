@@ -12,11 +12,13 @@ public class Decor {
 	private Image image;
 
 	public Decor(Image img, int id) {
+		actions = new ArrayList<Action>();
 		this.image = img;
 		this.id = id;
 	}
 
 	public Decor(Image img) {
+		actions = new ArrayList<Action>();
 		if(img == null){
 			try {
 				this.image = new Image("res/beton.jpg");

@@ -14,10 +14,10 @@ import pla.Personnage;
 public class Map {
 
 	/* largeur de la map */
-	private static final int WIDTH = 32;
+	private int largeur = 32;
 
 	/* longueur de la map */
-	private static final int HEIGHT = 24;
+	private int longueur = 24;
 
 	/** taille de la case */
 	private static final int TILE_SIZE = 20;
@@ -26,10 +26,10 @@ public class Map {
 	private Case cases[][];
 
 	public Map() {
-		cases = new Case[WIDTH][HEIGHT];
+		cases = new Case[largeur][longueur];
 		// Création de la matrice des cases
-		for (int i = 0; i < WIDTH; i++) {
-			for (int j = 0; j < HEIGHT; j++) {
+		for (int i = 0; i < largeur; i++) {
+			for (int j = 0; j < longueur; j++) {
 				cases[i][j] = new Case(i, j);
 			}
 		}
@@ -37,8 +37,8 @@ public class Map {
 
 	public void paint(List<Personnage> persos, Graphics g) {
 
-		for (int i = 0; i < WIDTH; i++) {
-			for (int j = 0; j < HEIGHT; j++) {
+		for (int i = 0; i < largeur; i++) {
+			for (int j = 0; j < longueur; j++) {
 				// Fond gris
 				g.setColor(Color.lightGray);
 				g.fillRect(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -68,6 +68,8 @@ public class Map {
 	public void placerPersonnage(Personnage p, Graphics g) {
 		// La case du personnage contient un nouveau decor contenant une image
 		modifierDecorCase(p.getPosX(), p.getPosY(), p.getImage());
+		// Ajouter le personnage à la liste des personnages de la case
+		cases[p.getPosX()][p.getPosY()].ajouterPersonnage(p);
 		// dessiner l'image du personnage
 		dessinerImage(cases[p.getPosX()][p.getPosY()].getDecor().getImage(), p.getPosX() * TILE_SIZE,
 				p.getPosY() * TILE_SIZE, g);
@@ -78,8 +80,8 @@ public class Map {
 			for (int j = 0; j < a.getTabActionTransition().length; j++) {
 				// pour chaque valeur dans le tableau action-transition, charger
 				// l'image dans la case
-				chargerImage(a, g, i, j);
-			}
+					chargerImage(a, g, i, j);				
+			}				
 		// dessiner un rectangle autour de l'automate et le colorier de la
 		// couleur du personnage à qui appartient cet automate.
 		g.setColor(couleurPerso);
@@ -145,7 +147,7 @@ public class Map {
 	}
 
 	public void modifierDecorCase(int i, int j, Image img) {
-		if (i < WIDTH && j < HEIGHT) {
+		if (i < largeur && j < longueur) {
 			cases[i][j].setDecor(new Decor(img));
 		}
 
@@ -162,7 +164,7 @@ public class Map {
 	}
 
 	public void dessinerImage(Image img, float x, float y, Graphics g) {
-		if (x < WIDTH * TILE_SIZE && y < HEIGHT * TILE_SIZE) { // Si la position
+		if (x < largeur * TILE_SIZE && y < longueur * TILE_SIZE) { // Si la position
 																// voulue est
 																// bien dans la
 																// grille
@@ -197,8 +199,8 @@ public class Map {
 	public int nbDecor(Decor d, Graphics g) {
 		int res = 0;
 		if (d != null) {
-			for (int i = 0; i < WIDTH; i++)
-				for (int j = 0; j < HEIGHT; j++) {
+			for (int i = 0; i < largeur; i++)
+				for (int j = 0; j < longueur; j++) {
 					if (cases[i][j].getDecor() != null && cases[i][j].getDecor().getId() == d.getId()) {
 						res++;
 					}
@@ -206,4 +208,22 @@ public class Map {
 		}
 		return res;
 	}
+
+	public int getLargeur() {
+		return largeur;
+	}
+
+	public void setLargeur(int largeur) {
+		this.largeur = largeur;
+	}
+
+	public int getLongueur() {
+		return longueur;
+	}
+
+	public void setLongueur(int longueur) {
+		this.longueur = longueur;
+	}
+	
+	
 }

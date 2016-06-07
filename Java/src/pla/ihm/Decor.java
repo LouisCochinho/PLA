@@ -2,6 +2,8 @@ package pla.ihm;
 
 import java.util.ArrayList;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 import pla.Action;
 
 public class Decor {
@@ -15,7 +17,17 @@ public class Decor {
 	}
 
 	public Decor(Image img) {
-		this.image = img;
+		if(img == null){
+			try {
+				this.image = new Image("res/beton.jpg");
+			} catch (SlickException e) {
+				System.out.println("L'image du beton n'a pas pu être chargée");
+			}
+		}
+		else{
+			this.image = img;
+		}
+		
 	}
 
 	public int getId() {

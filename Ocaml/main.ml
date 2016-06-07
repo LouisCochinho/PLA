@@ -178,7 +178,7 @@ let list_cellule = [((cellule_to_int C),"Case");((cellule_to_int N), "Nord"); ((
   
 let list_action_etat = [(action_etat_to_int (Avancer(C)),"NePasBouger");(action_etat_to_int (Avancer(N)),"DeplacerHaut");(action_etat_to_int (Avancer(S)),"DeplacerBas");(action_etat_to_int (Avancer(E)),"DeplacerDroite");(action_etat_to_int (Avancer(O)),"DeplacerGauche")];;
 
-let list_action_transition = [(action_trans_to_int Admirer,"Admirer");(action_trans_to_int Poser_mur,"Poser_mur");(action_trans_to_int (Peindre(Ami)),"PeindreAmi");(action_trans_to_int (Peindre(Ennemi)),"PeindreEnnemi");(action_trans_to_int Casser,"Casser");];;
+let list_action_transition = [(action_trans_to_int Admirer,"Admirer");(action_trans_to_int Poser_mur,"PoserMur");(action_trans_to_int (Peindre(Ami)),"PeindreAmi");(action_trans_to_int (Peindre(Ennemi)),"PeindreEnnemi");(action_trans_to_int Casser,"Casser");];;
 
 let list_symbole = [(decor_to_int SolNormal,"SolNormal");(decor_to_int (Sol(Ami)),"SolAmi");(decor_to_int (Sol(Ennemi)),"SolEnnemi");(decor_to_int Mur,"Mur");(decor_to_int Vitre,"Vitre")];;
 
@@ -191,12 +191,12 @@ let rec (ecrire_action_etat: (int*string) list -> out_channel -> unit) = fun l f
 
 let rec (ecrire_action_transition: (int*string) list -> out_channel -> unit) = fun l fic_out -> match l with
   | [] -> fprintf fic_out ""
-  |(a,b)::r -> fprintf fic_out "<action_transition id=\"%d\">%s</action_transmission>\n"a b ; ecrire_action_etat r fic_out;;
+  |(a,b)::r -> fprintf fic_out "<action_transition id=\"%d\">%s</action_transition>\n"a b ; ecrire_action_transition r fic_out;;
 
   
 let rec (ecrire_decor: (int*string) list -> out_channel -> unit) = fun l fic_out -> match l with
   | [] -> fprintf fic_out ""
-  |(a,b)::r -> fprintf fic_out "<decor id=\"%d\">%s</decor>\n"a b ; ecrire_action_etat r fic_out;;
+  |(a,b)::r -> fprintf fic_out "<decor id=\"%d\">%s</decor>\n"a b ; ecrire_decor r fic_out;;
 
 
 let rec (ecrire_etat: etat list -> out_channel -> unit) = fun l fic_out -> match l with
@@ -210,30 +210,38 @@ let rec (ecrire_cellule: (int*string) list -> out_channel -> unit) = fun l fic_o
 
 let rec (ecrire_transition: (int*int*int*int) list -> out_channel -> unit) = fun l fic_out -> match l with
   | [] -> fprintf fic_out ""
-  |(a,b,c,d)::r -> fprintf fic_out "<etat_depart>%d</etat_depart>\n"a ;
-		   if (b mod 1000 = 999 then fprintf fic_out "<condition_simple>\n"
+  |(a,b,c,d)::r -> fprintf fic_out "<transition>\n" ;
+		   (if (b mod 1000) = 999 then (fprintf fic_out "<etat_depart>%d</etat_depart>\n<condition_simple>\n<decor id=\"0\">%d</decor>\n<cellule id=\"0\">%d</cellule>\n</condition_simple>\n<action_transition>%d</action_transition>\n<etat_arrivee>%d</etat_arrivee>\n" a (b/10000) (b/1000 mod 10) c d )
+		   else fprintf fic_out "<condition_simple>\n<decor id=\"0\">%d</decor>\n<cellule id=\"0\">%d</cellule>\n</condition_simple>\n<condition_simple>\n<decor id=\"1\">%d</decor>\n<cellule id=\"1\">%d</cellule>\n</condition_simple><action_transition>%d</action_transition>\n<etat_arrivee>%d<etat_arrivee>\n" (b/10000) (b/1000 mod 10) (b/10 mod 100) (b mod 10) c d); fprintf fic_out "</transition>\n" ; ecrire_transition r fic_out ;;
+		   
   
   
-let fic_out = open_out "test.txt";;
-fprintf fic_out "<root>\n";;
-fprintf fic_out "<header>\n";;
-fprintf fic_out "<liste_action_etat>\n";;
-ecrire_action_etat list_action_etat fic_out;;
-fprintf fic_out "</liste_action_etat>\n";;
-fprintf fic_out "<liste_action_transition>\n";;
-ecrire_action_transition list_action_transition fic_out;;
-fprintf fic_out "<liste_action_transition>\n";;
-fprintf fic_out "<liste_decor>\n";;
-ecrire_decor list_symbole fic_out;;  
-fprintf fic_out "</liste_decor>\n";;
-fprintf fic_out "<liste_cellule>\n";;
-ecrire_cellule list_cellule fic_out;;
-fprintf fic_out "</liste_cellule>\n";;   
-fprintf fic_out "</header>\n";;
-fprintf fic_out "<automate>\n";;
-fprintf fic_out "<liste_etat>\n";;    
-ecrire_etat list_etat fic_out;; 
-fprintf fic_out "</liste_etat>\n";;
-fprintf fic_out "<liste_transition>\n"
+let fic_out = open_out "test.xml";;
+fprintf fic_out "<root>\n";
+fprintf fic_out "<header>\n";
+fprintf fic_out "<liste_action_etat>\n";
+ecrire_action_etat list_action_etat fic_out;
+fprintf fic_out "</liste_action_etat>\n";
+fprintf fic_out "<liste_action_transition>\n";
+ecrire_action_transition list_action_transition fic_out;
+fprintf fic_out "</liste_action_transition>\n";
+fprintf fic_out "<liste_decor>\n";
+ecrire_decor list_symbole fic_out; 
+fprintf fic_out "</liste_decor>\n";
+fprintf fic_out "<liste_cellule>\n";
+ecrire_cellule list_cellule fic_out;
+fprintf fic_out "</liste_cellule>\n";  
+fprintf fic_out "</header>\n";
+fprintf fic_out "<automate>\n";
+fprintf fic_out "<liste_etat>\n";   
+ecrire_etat list_etat fic_out;
+fprintf fic_out "</liste_etat>\n";
+fprintf fic_out "<liste_transition>\n";
+ecrire_transition trad_autTest fic_out;
+fprintf fic_out "</liste_transition>\n";
+fprintf fic_out "</automate>";
+fprintf fic_out "</root>";
+   
 close_out fic_out;;
 
+  

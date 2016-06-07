@@ -10,9 +10,5 @@ package pla;
  * @author antoi
  */
 public enum Cellule {
-    Case,
-    Nord,
-    Sud,
-    Est,
-    Ouest
+	Case, Nord, Sud, Est, Ouest
 }

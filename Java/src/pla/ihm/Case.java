@@ -7,15 +7,13 @@ import org.newdawn.slick.SlickException;
 import pla.Personnage;
 
 public class Case {
-	private ArrayList<Personnage> personnages; // Liste des personnages présents
+	private ArrayList<Personnage> personnages; // Liste des personnages prï¿½sents
 												// sur la case
 	private Decor decor; // Decor de la case
 	private int indexI; // Position sur la grille
 	private int indexJ;
-	private boolean bloque;
 
 	public Case(int i, int j) {
-		bloque = false;
 		personnages = new ArrayList<Personnage>();
 		indexI = i;
 		indexJ = j;
@@ -23,7 +21,7 @@ public class Case {
 		try {
 			this.decor = new Decor(new Image(str));
 		} catch (SlickException e) {
-			System.out.println("L'image " + str + " n'a pas pu être chargée");
+			System.out.println("L'image " + str + " n'a pas pu ï¿½tre chargï¿½e");
 		}
 	}
 
@@ -66,11 +64,9 @@ public class Case {
 	public void setIndexJ(int indexJ) {
 		this.indexJ = indexJ;
 	}
-	
-	public boolean estbloque(){
-		return bloque;
-	}
-	public void bloquer(){
-		this.bloque = true;
+
+	public int getNbPersonnage() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

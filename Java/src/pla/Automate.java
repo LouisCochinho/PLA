@@ -1,14 +1,20 @@
 package pla;
 
+import java.util.ArrayList;
+
 public class Automate {
 	private int tabEtatSuivant[][]; // [Decor_id][etat_courant_id]
 	private int tabActionTransition[][]; // [Decor_id][etat_courant_id]
 	private int tabAction[];// [etat_courant_id]
 	private int posX; // position en abcisse sur la grille
-	private int posY; // position en ordonnées sur la grille
+	private int posY; // position en ordonnï¿½es sur la grille
+	private ArrayList<Etat> etats;
+	private ArrayList<Transition> transitions;
 
-	// automate par défaut
+	// automate par dï¿½faut
 	public Automate() {
+		etats = new ArrayList<Etat>();
+		transitions = new ArrayList<Transition>();
 		posX = 5;
 		posY = 6;
 		initTabActionTransition(4);
@@ -67,6 +73,10 @@ public class Automate {
 		return tabActionTransition[0].length;
 	}
 
+	public int getTailleColone(){
+		return tabActionTransition.length;
+	}
+
 	// initialisation du tableau des etats suivants
 	public void initTabEtatSuivant(int taille) {
 		tabEtatSuivant = new int[taille][taille];
@@ -95,4 +105,37 @@ public class Automate {
 	public int[] getTabAction() {
 		return tabAction;
 	}
+	
+	 public void addEtat(Etat e) {
+		 etats.add(e);
+	 }
+
+    public void setTransitions(ArrayList<Transition> transitions) {
+        this.transitions = transitions;
+    }
+    
+    public void afficher() {
+        System.out.println("Etats :");
+        for(int i=0; i<etats.size(); i++) {
+            System.out.println("Etat " + i + " : " + etats.get(i).getActionEtat());
+        }
+        System.out.println();
+        System.out.println();
+        System.out.println("Transitions :");
+        for(int i=0; i<transitions.size(); i++) {
+            Transition t = transitions.get(i);
+            System.out.println("Depart : " + t.getEtatDepart().getActionEtat());
+            Condition c = t.getCondition();
+            ConditionSimple c0 = c.getCondition(0);
+            System.out.print("Condition : " + c0.getDecor() + "(" + c0.getCellule() + ")");
+            for(int j=1; j<c.nombreConditions(); j++) {
+                ConditionSimple cs = c.getCondition(j);
+                System.out.print(" && " + cs.getDecor() + "(" + cs.getCellule() + ")");
+            }
+            System.out.println();
+            System.out.println("Action transition : " + t.getActionTransition());
+            System.out.println("Arrivee : " + t.getEtatArrivee().getActionEtat());
+            System.out.println();
+        }
+    }
 }

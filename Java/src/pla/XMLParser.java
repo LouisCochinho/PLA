@@ -11,7 +11,9 @@ public class XMLParser {
     static Element racine;
     static HashMap<Integer, Action_etat> actionsEtat;
     static HashMap<Integer, Action_transition> actionsTransition;
-    static HashMap<Integer, Decor> symboles;
+    static HashMap<Integer, Decor> decors;
+    static HashMap<Integer, Cellule> cellules;
+    static HashMap<Integer, Etat> etats;
     
     static void header() {
         try {
@@ -28,7 +30,7 @@ public class XMLParser {
             }
             
             // actionsTransition
-            actionsTransition = new HashMap<Integer, Action_transition>();
+            /*actionsTransition = new HashMap<Integer, Action_transition>();
             Element liste_action_transition = header.getChild("liste_action_transition");
             for(Element action_transition : liste_action_transition.getChildren()) {
                 int id = action_transition.getAttribute("id").getIntValue();
@@ -37,14 +39,23 @@ public class XMLParser {
                 actionsTransition.put(id, a);
             }
             
-            // actionsTransition
-            symboles = new HashMap<Integer, Decor>();
-            Element liste_symbole = header.getChild("liste_symbole");
-            for(Element symbole : liste_symbole.getChildren()) {
-                int id = symbole.getAttribute("id").getIntValue();
-                Class c = Class.forName("pla." + symbole.getText());
+            // decors
+            decors = new HashMap<Integer, Decor>();
+            Element liste_decor = header.getChild("liste_decor");
+            for(Element decor : liste_decor.getChildren()) {
+                int id = decor.getAttribute("id").getIntValue();
+                Class c = Class.forName("pla." + decor.getText());
                 Decor d = (Decor)c.newInstance();
-                symboles.put(id, d);
+                decors.put(id, d);
+            }*/
+            
+            // cellules
+            cellules = new HashMap<Integer, Cellule>();
+            Element liste_cellule = header.getChild("liste_cellule");
+            for(Element cellule : liste_cellule.getChildren()) {
+                int id = cellule.getAttribute("id").getIntValue();
+                Cellule c = Cellule.valueOf(cellule.getText());
+                cellules.put(id, c);
             }
         }
         catch (ClassNotFoundException e)
@@ -63,24 +74,50 @@ public class XMLParser {
             System.out.println(e.getMessage());
         }
     }
+    
+    static boolean isInitial(Element etat) {
+        return etat.getAttribute("type") != null && etat.getAttributeValue("type").equals("initial");
+    }
+    
+    static void etats(Element automate) {
+        try {
+            etats = new HashMap<Integer, Etat>();
+            Element liste_etat = automate.getChild("liste_etat");
+            for(Element etat : liste_etat.getChildren()) {
+                int id = etat.getAttribute("id").getIntValue();
+                //boolean type = isInitial(etat);
+                Action_etat ae = actionsEtat.get(Integer.parseInt(etat.getText()));
+                etats.put(id, new Etat(ae));
+            }
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    static void automate() {
+        Element automate = racine.getChild("automate");
+        etats(automate);
+    }
 
     public static void main(String[] args) {
         //On crée une instance de SAXBuilder
-      SAXBuilder sxb = new SAXBuilder();
-      try
-      {
-         //On crée un nouveau document JDOM avec en argument le fichier XML
-         //Le parsing est terminé ;)
-         document = sxb.build(new File("../exemple.xml"));
-      }
-      catch(Exception e){
-          System.out.println(e.getMessage());
-      }
+        SAXBuilder sxb = new SAXBuilder();
+        try
+        {
+           //On crée un nouveau document JDOM avec en argument le fichier XML
+           //Le parsing est terminé ;)
+           document = sxb.build(new File("../exemple.xml"));
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
 
-      //On initialise un nouvel élément racine avec l'élément racine du document.
-      racine = document.getRootElement();
+        //On initialise un nouvel élément racine avec l'élément racine du document.
+        racine = document.getRootElement();
 
-      header();
+        header();
+        automate();
     }
     
 }

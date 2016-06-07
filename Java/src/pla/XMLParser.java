@@ -6,6 +6,8 @@ import java.util.HashMap;
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
 
+import pla.ihm.Decor;
+
 public class XMLParser {
     
     private static Automate automate;

@@ -1,21 +1,25 @@
 package pla;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
 
+import pla.ihm.Decor;
+
 public class XMLParser {
     
-    static org.jdom2.Document document;
-    static Element racine;
-    static HashMap<Integer, Action_etat> actionsEtat;
-    static HashMap<Integer, Action_transition> actionsTransition;
-    static HashMap<Integer, Decor> decors;
-    static HashMap<Integer, Cellule> cellules;
-    static HashMap<Integer, Etat> etats;
+    private static Automate automate;
+    private static org.jdom2.Document document;
+    private static Element racine;
+    private static HashMap<Integer, Action_etat> actionsEtat;
+    private static HashMap<Integer, Action_transition> actionsTransition;
+    private static HashMap<Integer, Decor> decors;
+    private static HashMap<Integer, Cellule> cellules;
+    private static HashMap<Integer, Etat> etats;
     
-    static void header() {
+    private static void header() {
         try {
             Element header = racine.getChild("header");
 
@@ -75,11 +79,11 @@ public class XMLParser {
         }
     }
     
-    static boolean isInitial(Element etat) {
+    private static boolean isInitial(Element etat) {
         return etat.getAttribute("type") != null && etat.getAttributeValue("type").equals("initial");
     }
     
-    static void etats(Element automate) {
+    private static void getEtats(Element automate) {
         try {
             etats = new HashMap<Integer, Etat>();
             Element liste_etat = automate.getChild("liste_etat");
@@ -90,34 +94,59 @@ public class XMLParser {
                 etats.put(id, new Etat(ae));
             }
         }
-        catch(Exception e) {
+        catch(DataConversionException e) {
+            System.out.println(e.getMessage());
+        } catch (NumberFormatException e) {
             System.out.println(e.getMessage());
         }
     }
     
-    static void automate() {
-        Element automate = racine.getChild("automate");
-        etats(automate);
+    private static void getTransitions(Element automate) {
+        
+    }
+    
+    private static void setEtats() {
+        for(HashMap.Entry<Integer, Etat> entry : etats.entrySet()) {
+            
+        }
+    }
+    
+    private static void setTransitions() {
+        
     }
 
-    public static void main(String[] args) {
-        //On crée une instance de SAXBuilder
+    private static void automate() {
+        Element automate = racine.getChild("automate");
+        getEtats(automate);
+        getTransitions(automate);
+        setEtats();
+        setTransitions();
+    }
+
+    public static void parse(Automate automate, String fileName) {
+        XMLParser.automate = automate;
+        // Création d'une instance de SAXBuilder
         SAXBuilder sxb = new SAXBuilder();
         try
         {
-           //On crée un nouveau document JDOM avec en argument le fichier XML
-           //Le parsing est terminé ;)
-           document = sxb.build(new File("../exemple.xml"));
+           // Création d'un document JDOM avec en argument le fichier XML
+           document = sxb.build(new File(fileName));
         }
-        catch(Exception e){
+        catch(JDOMException e){
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
-        //On initialise un nouvel élément racine avec l'élément racine du document.
+        // Initialisation de la racine
         racine = document.getRootElement();
 
         header();
         automate();
+    }
+    
+    public static void main(String[] args) {
+        parse(null, "../exemple.xml");
     }
     
 }

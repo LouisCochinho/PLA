@@ -5,9 +5,9 @@ public class Automate {
 	private int tabActionTransition[][]; // [Decor_id][etat_courant_id]
 	private int tabAction[];// [etat_courant_id]
 	private int posX; // position en abcisse sur la grille
-	private int posY; // position en ordonnées sur la grille
+	private int posY; // position en ordonnï¿½es sur la grille
 
-	// automate par défaut
+	// automate par dï¿½faut
 	public Automate() {
 		posX = 5;
 		posY = 6;
@@ -65,6 +65,10 @@ public class Automate {
 
 	public int getTaille() {
 		return tabActionTransition[0].length;
+	}
+
+	public int getTailleColone(){
+		return tabActionTransition.length;
 	}
 
 	// initialisation du tableau des etats suivants

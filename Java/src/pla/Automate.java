@@ -7,8 +7,7 @@ public class Automate {
 	private int posX;
 	private int posY;
 	
-	public Automate(){
-		
+	public Automate(){		
 		posX = 5;
 		posY = 6;
 		init_tab_actionTransition(4);

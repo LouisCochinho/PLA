@@ -27,7 +27,7 @@ public class Map {
 		// Création de la matrice des cases
 		for(int i = 0;i<WIDTH;i++){
 			for(int j = 0;j<HEIGHT;j++){
-				cases[i][j] = new Case();
+				cases[i][j] = new Case(i,j);
 			}
 		}
 	}
@@ -44,6 +44,7 @@ public class Map {
 				}									
 			}
 		}
+		
 		for(Personnage p : persos){
 			placerPersonnage(p,g);		
 			placerAutomate(p.getAutomate(),p.getCouleur(),g);
@@ -81,9 +82,10 @@ public class Map {
 			for(int j = 0;j< a.getTab_actionTransition().length;j++){
 				// pour chaque valeur dans le tableau action-transition 
 				chargerImage(a,g,i,j);	
-			}		
-		g.drawRect(a.getPosX()*TILE_SIZE,a.getPosY()*TILE_SIZE, a.getTaille()*TILE_SIZE, a.getTaille()*TILE_SIZE);		
+			}	
+		//dessiner un rectangle autour de l'automate et le colorier de la couleur du personnage à qui appartient cet automate.	
 		g.setColor(couleurPerso);
+		g.drawRect(a.getPosX()*TILE_SIZE,a.getPosY()*TILE_SIZE, a.getTaille()*TILE_SIZE, a.getTaille()*TILE_SIZE);				
 	}
 	
 	
@@ -133,4 +135,17 @@ public class Map {
 		this.cases = cases;
 	}
 	
+	public Case getCase(Case caseCourante, Cellule cellule){		
+		try{
+			switch(cellule){
+				case Nord : return cases[caseCourante.getIndexI()][caseCourante.getIndexJ()-1]; 
+				case Sud : return cases[caseCourante.getIndexI()][caseCourante.getIndexJ()+1];
+				case Est : return cases[caseCourante.getIndexI()+1][caseCourante.getIndexJ()];
+				case Ouest : return cases[caseCourante.getIndexI()-1][caseCourante.getIndexJ()];
+				case Case : default : return caseCourante;
+			}		
+		}catch(ArrayIndexOutOfBoundsException e){
+			return caseCourante;
+		}
+	}
 }

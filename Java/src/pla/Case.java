@@ -7,9 +7,13 @@ import org.newdawn.slick.SlickException;
 public class Case{
 	private ArrayList<Personnage> personnages;
 	private Decor decor;
+	private int indexI;
+	private int indexJ;
 
 	
-	public Case(){
+	public Case(int i, int j){
+		indexI = i;
+		indexJ = j;
 		try {
 			this.decor = new Decor(new Image("res/beton.jpg"));
 		} catch (SlickException e) {
@@ -33,6 +37,20 @@ public class Case{
 	public Decor getDecor() {
 		return decor;
 	}
-	
-	
+
+	public int getIndexI() {
+		return indexI;
+	}
+
+	public void setIndexI(int indexI) {
+		this.indexI = indexI;
+	}
+
+	public int getIndexJ() {
+		return indexJ;
+	}
+
+	public void setIndexJ(int indexJ) {
+		this.indexJ = indexJ;
+	}
 }

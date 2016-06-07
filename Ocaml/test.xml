@@ -9,7 +9,7 @@
 </liste_action_etat>
 <liste_action_transition>
 <action_transition id="0">Admirer</action_transition>
-<action_transition id="1">Poser_mur</action_transition>
+<action_transition id="1">PoserMur</action_transition>
 <action_transition id="2">PeindreAmi</action_transition>
 <action_transition id="3">PeindreEnnemi</action_transition>
 <action_transition id="4">Casser</action_transition>
@@ -56,12 +56,14 @@
 <etat_arrivee>1</etat_arrivee>
 </transition>
 <transition>
-<etat_depart>1</etat_depart>
 <condition_simple>
 <decor id="0">2</decor>
 <cellule id="0">0</cellule>
 </condition_simple>
-<action_transition>2</action_transition>
+<condition_simple>
+<decor id="1">2</decor>
+<cellule id="1">1</cellule>
+</condition_simple><action_transition>2</action_transition>
 <etat_arrivee>3</etat_arrivee>
 </transition>
 <transition>

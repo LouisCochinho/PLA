@@ -2,9 +2,8 @@
 #load "camlp4o.cma"
 open Printf
 
-(*=========================================================================================================================================
-LES TYPES DU JEU
-========================================================================================================================================= *)
+(* LES TYPES *)
+
 type couleur =
   | Ami
   | Ennemi
@@ -21,10 +20,11 @@ type objetpeignable =
   | Sol of couleur
   | SolNormal
       
+
 type condition =   (* CECI SONT LES SYMBOLES *)
   | Cassable of (objetcassable * cellule)
   | Peignable of (objetpeignable * cellule)
-  (*| Amoi of couleur * cellule*)
+(*  | Amoi of couleur * cellule   *)
   
 type action_etat =
   | Avancer of cellule 
@@ -36,15 +36,19 @@ type action_trans =
   | Admirer
   | Regenerer
       
+
 type etat = int * action_etat  (* un état contient aussi une action d'état *)
 		    
 type transition = etat * condition * action_trans * etat
 						
 type automate = transition list;;
 
-(*=========================================================================================================================================
- EXEMPLE D'AUTOMATE
-========================================================================================================================================= *)
+
+
+
+
+(* EXEMPLE D'AUTOMATE *)
+
 let (e0: etat) = (0, Avancer(N));;
 let (e1: etat) = (1, Avancer(E));;
 let (e2: etat) = (2, Avancer(O));;
@@ -59,16 +63,40 @@ let autTest =
     (2, Cassable(Mur,C),Casser,3);
     (3, Peignable(Sol(Ennemi),C),Peindre(Ami),3);
     (3, Peignable(SolNormal,C), Poser_mur,2);
+  ] ;;
    
+(* ON PEUT GÉNÉRER CERTAINES PARTIES DE L'AUTOMATE *)
 
-(*=========================================================================================================================================
-GENERATION D'AUTOMATES
-========================================================================================================================================= *)
-  
+let (en_garde: etat -> etat -> automate) = fun src tgt ->
+      List.map  (fun direction -> (src, Ennemi(direction), Tourner_vers(direction), tgt) ) [N;S;E;O]
 
-(*=========================================================================================================================================
-TRADUCTION DES CONDITIONS COMPLEXES EN ENTIERS
-========================================================================================================================================= *)
+let aut2 =
+  (en_garde 1 2) 
+    @
+  [ (2, Ennemi(N), Frapper, 3) ;
+    (3, Vide, Avancer, 4) ;
+    (4, Amoi(C), Restaurer, 1)
+  ]
+;;
+
+
+    
+(* NON DETERMINISME 
+
+   Notez que cet automate est non-déterministe. 
+   Il se peut qu'il y ait un ennemi au nord et au sud ;
+   dans ce cas les deux premières transitions sont exécutables.
+
+   Dans le simulateur java :
+   Il faut en choisir par tirage au sort une parmi celles qui sont exécutables.
+*)
+
+
+   
+(* TRADUCTION DES CONDITIONS COMPLEXES EN ENTIER *)
+
+
+ 
 let (cellule_to_int: cellule -> int) = function
   | C -> 0
   | N -> 1
@@ -86,9 +114,10 @@ let (objetcassable_to_int: objetcassable -> int ) = function
   | Vitre -> 5 (* penser à espacer de 5 si on rajoute objet *)
 
 let (condition_to_int: condition -> int) =  function
+    
   | Peignable(objetpeignable,cellule) -> 0 + (objetpeignable_to_int objetpeignable) + (cellule_to_int cellule) (* 0..14 *)
   | Cassable(objetcassable,cellule) -> 15 + (objetcassable_to_int objetcassable) + (cellule_to_int cellule) (* 15..24 *)
-  (* rajouter amoi *)
+(* rajouter amoi *)
 
 let (action_trans_to_int: action_trans -> int) = function
    | Admirer -> 0
@@ -101,8 +130,9 @@ let (action_trans_to_int: action_trans -> int) = function
 let (action_etat_to_int: action_etat -> int) = function
   | Avancer(cellule) -> cellule_to_int cellule;;
 
+					      				
+				       
 let (etatA_to_int: etat -> int) = fun etat -> let (a,b) = etat in a
-
 let (etatB_to_int: etat -> int) = fun etat -> let (a,b) = etat in action_etat_to_int b
 				       
 let (traduction_transition: transition -> (int*int) * int * int * (int*int)) = fun (src,condition,action_trans,tgt) ->
@@ -129,9 +159,7 @@ let trad_autTest = traduction_automate autTest ;;
 
  *)
 
-(*=========================================================================================================================================
-TRADUCTION EN XML
-========================================================================================================================================= *)
+
 let autStream = Stream.of_list trad_autTest;;
   
 let test = parser
@@ -141,16 +169,14 @@ let test = parser
 
 let next = parser [< 'e >] -> e;;
 
-test autStream;;
 
+test autStream;;
 next autStream;;
 
 let fic_out = open_out "test.txt";;
-
 let fic_in = open_in "../exemple.xml";;
 
 input_line fic_in;;
-
 output_string fic_out a ;;
 
 close_out fic_out;;    
@@ -160,6 +186,8 @@ close_out fic_out;;
 let list_action_etat = [(0,"DeplacerHaut");(1,"DeplacerBas");(2,"DeplacerGauche");(3,"DeplacerBas");(4,"DeplacerDroite")];;
 
 let list_action_transition = [(0,"PendreAmi"),(1,"PeindreEnnemi"),(2,"Casser"),(3,"Poser_mur"),(4,"Admirer")];;
+
+  
 
 let rec (ecrire_action_etat: (int*string) list -> out_channel -> unit) = fun l fic_out -> match l with
   | [] -> fprintf fic_out ""

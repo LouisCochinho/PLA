@@ -21,7 +21,7 @@ public class Case {
 		try {
 			this.decor = new Decor(new Image(str));
 		} catch (SlickException e) {
-			System.out.println("L'image " + str + " n'a pas pu ï¿½tre chargï¿½e");
+			System.out.println("L'image " + str + " n'a pas pu être chargée");
 		}
 	}
 

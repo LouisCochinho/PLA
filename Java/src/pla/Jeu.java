@@ -17,6 +17,7 @@ public class Jeu extends BasicGame {
 	private Map map; // carte du jeu
 	private List<Personnage> personnages; // Liste des personnages
 	private GameContainer gc; // conteneur
+	private boolean dejaDessine;
 
 	public Jeu(String titre) {
 		super(titre); // Nom du jeu
@@ -47,7 +48,7 @@ public class Jeu extends BasicGame {
 		// Création de la carte
 		this.map = new Map();
 		// Création des personnages
-		ajouterPersonnage(new Personnage(Color.blue, 10, 10, "res/perso_bleu.gif"));
+		ajouterPersonnage(new Personnage(Color.blue, 1, 10, "res/perso_bleu.gif"));
 		ajouterPersonnage(new Personnage(Color.green, 20, 20, "res/perso_vert.png", new Automate(10, 10)));
 		ajouterPersonnage(new Personnage(Color.black, 15, 15, "res/cop.png", new Automate(1, 1)));
 	}
@@ -56,7 +57,11 @@ public class Jeu extends BasicGame {
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		dessinerCarte(g);
-		dessinerElements(g);// dessine les automates et les personnages sur la carte
+		if(!dejaDessine){
+			dessinerElements(g);// dessine les automates et les personnages sur la carte
+			dejaDessine=true;
+		}
+		dessinerPersonnages(g);
 	}
 
 	// Met à jour les éléments de la scène en fonction du delta temps survenu.
@@ -81,6 +86,13 @@ public class Jeu extends BasicGame {
 
 	public void dessinerCarte(Graphics g) {
 		this.map.paint(personnages, g);
+	}
+	public void dessinerPersonnages(Graphics g){
+		for (Personnage p : personnages) {
+			map.placerPersonnage(p, g);
+			//sale
+			map.dessinerContoursAutomate(p, g);
+		}
 	}
 
 	public void dessinerElements(Graphics g) {

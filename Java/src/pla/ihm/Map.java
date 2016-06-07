@@ -80,11 +80,15 @@ public class Map {
 			for (int j = 0; j < a.getTabActionTransition().length; j++) {
 				// pour chaque valeur dans le tableau action-transition, charger
 				// l'image dans la case
-					chargerImage(a, g, i, j);				
-			}				
+				chargerImage(a, g, i, j);
+			}
+	}
+	
+	public void dessinerContoursAutomate(Personnage p, Graphics g){
 		// dessiner un rectangle autour de l'automate et le colorier de la
 		// couleur du personnage à qui appartient cet automate.
-		g.setColor(couleurPerso);
+		Automate a = p.getAutomate();
+		g.setColor(p.getCouleur());
 		g.drawRect(a.getPosX() * TILE_SIZE, a.getPosY() * TILE_SIZE, a.getTaille() * TILE_SIZE,
 				a.getTaille() * TILE_SIZE);
 	}
@@ -164,10 +168,13 @@ public class Map {
 	}
 
 	public void dessinerImage(Image img, float x, float y, Graphics g) {
-		if (x < largeur * TILE_SIZE && y < longueur * TILE_SIZE) { // Si la position
-																// voulue est
-																// bien dans la
-																// grille
+		if (x < largeur * TILE_SIZE && y < longueur * TILE_SIZE) { // Si la
+																	// position
+																	// voulue
+																	// est
+																	// bien dans
+																	// la
+																	// grille
 			g.drawImage(img, x, y);
 		} else {
 			System.out.println("L'image" + img.getResourceReference() + "n'a pas pu être dessinée");
@@ -224,6 +231,5 @@ public class Map {
 	public void setLongueur(int longueur) {
 		this.longueur = longueur;
 	}
-	
-	
+
 }

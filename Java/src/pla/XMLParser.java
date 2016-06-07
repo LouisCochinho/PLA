@@ -2,6 +2,7 @@ package pla;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
@@ -18,6 +19,7 @@ public class XMLParser {
     private static HashMap<Integer, Decor> decors;
     private static HashMap<Integer, Cellule> cellules;
     private static HashMap<Integer, Etat> etats;
+    private static ArrayList<Transition> transitions;
     
     private static void header() {
         try {
@@ -34,7 +36,7 @@ public class XMLParser {
             }
             
             // actionsTransition
-            /*actionsTransition = new HashMap<Integer, Action_transition>();
+            actionsTransition = new HashMap<Integer, Action_transition>();
             Element liste_action_transition = header.getChild("liste_action_transition");
             for(Element action_transition : liste_action_transition.getChildren()) {
                 int id = action_transition.getAttribute("id").getIntValue();
@@ -48,10 +50,10 @@ public class XMLParser {
             Element liste_decor = header.getChild("liste_decor");
             for(Element decor : liste_decor.getChildren()) {
                 int id = decor.getAttribute("id").getIntValue();
-                Class c = Class.forName("pla." + decor.getText());
+                Class c = Class.forName("pla.ihm." + decor.getText());
                 Decor d = (Decor)c.newInstance();
                 decors.put(id, d);
-            }*/
+            }
             
             // cellules
             cellules = new HashMap<Integer, Cellule>();
@@ -102,17 +104,44 @@ public class XMLParser {
     }
     
     private static void getTransitions(Element automate) {
-        
+        try {
+            transitions = new ArrayList<Transition>();
+            Element liste_transition = automate.getChild("liste_transition");
+            for(Element transition : liste_transition.getChildren()) {
+                int idEtatDepart = Integer.parseInt(transition.getChild("etat_depart").getText());
+                Etat etatDepart = etats.get(idEtatDepart);
+                
+                Condition condition = new Condition();
+                Element liste_condition = transition.getChild("condition");
+                for(Element conditionSimple : liste_condition.getChildren()) {
+                    int idDecor = Integer.parseInt(conditionSimple.getChild("decor").getText());
+                    Decor decor = decors.get(idDecor);
+                    int idCellule = Integer.parseInt(conditionSimple.getChild("cellule").getText());
+                    Cellule cellule = cellules.get(idCellule);
+                    condition.addCondition(new ConditionSimple(decor, cellule));
+                }
+                
+                int idActionTransition = Integer.parseInt(transition.getChild("action_transition").getText());
+                Action_transition actionTransition = actionsTransition.get(idActionTransition);
+                int idEtatArrivee = Integer.parseInt(transition.getChild("etat_arrivee").getText());
+                Etat etatArrivee = etats.get(idEtatArrivee);
+                
+                transitions.add(new Transition(etatDepart, condition, actionTransition, etatArrivee));
+            }
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
     
     private static void setEtats() {
         for(HashMap.Entry<Integer, Etat> entry : etats.entrySet()) {
-            
+            automate.addEtat(entry.getValue());
         }
     }
     
     private static void setTransitions() {
-        
+        automate.setTransitions(transitions);
     }
 
     private static void automate() {
@@ -144,9 +173,4 @@ public class XMLParser {
         header();
         automate();
     }
-    
-    public static void main(String[] args) {
-        parse(null, "../exemple.xml");
-    }
-    
 }

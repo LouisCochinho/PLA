@@ -13,7 +13,7 @@ public class Admirer extends Action_transition {
 
     @Override
     public void executer() {
-        
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

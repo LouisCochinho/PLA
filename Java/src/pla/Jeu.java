@@ -2,6 +2,7 @@ package pla;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -17,10 +18,12 @@ public class Jeu extends BasicGame {
 	private Map map; // carte du jeu
 	private List<Personnage> personnages; // Liste des personnages
 	private GameContainer gc; // conteneur
-	private boolean dejaDessine;
+	private boolean dejaDessine; // boolean pour savoir si il faut dessiner les automates ou non
+	private static final int PAUSE = 10; // temps de latence
 
 	public Jeu(String titre) {
 		super(titre); // Nom du jeu
+		
 		personnages = new ArrayList<Personnage>();
 	}
 
@@ -48,18 +51,21 @@ public class Jeu extends BasicGame {
 		// Création de la carte
 		this.map = new Map();
 		// Création des personnages
-		ajouterPersonnage(new Personnage(Color.blue, 1, 10, "res/perso_bleu.gif"));
+		ajouterPersonnage(new Personnage(Color.blue, 20, 10, "res/perso_bleu.gif"));
 		ajouterPersonnage(new Personnage(Color.green, 20, 20, "res/perso_vert.png", new Automate(10, 10)));
 		ajouterPersonnage(new Personnage(Color.black, 15, 15, "res/cop.png", new Automate(1, 1)));
+		ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png",new Automate(1, 1)));
+		ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png", new Automate(1, 1)));
 	}
 
 	// Affiche le contenu du jeu
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		dessinerCarte(g);
-		if(!dejaDessine){
-			dessinerElements(g);// dessine les automates et les personnages sur la carte
-			dejaDessine=true;
+		if (!dejaDessine) {
+			dessinerElements(g);// dessine les automates et les personnages sur
+								// la carte
+			dejaDessine = true;
 		}
 		dessinerPersonnages(g);
 	}
@@ -69,28 +75,34 @@ public class Jeu extends BasicGame {
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		// TODO Auto-generated method stub
-		// Déplacement test du personnage bleu vers la droite
-		deplacerPersonnage(0, 100);
+		deplacerPersonnage(0);
+		deplacerPersonnage(1);
+		deplacerPersonnage(2);
+		deplacerPersonnage(3);
+		deplacerPersonnage(4);
 	}
 
 	// Arreter correctement le jeu en appuyant sur ECHAP
 	@Override
 	public void keyReleased(int key, char c) {
+
 		if (Input.KEY_ESCAPE == key) {
 			gc.exit();
 		}
-		if (Input.KEY_P == key) {
-			gc.setPaused(true);
-		}
+
+		/*
+		 * Marche pas if (Input.KEY_P == key) { gc.pause(); }
+		 */
 	}
 
 	public void dessinerCarte(Graphics g) {
 		this.map.paint(personnages, g);
 	}
-	public void dessinerPersonnages(Graphics g){
+
+	public void dessinerPersonnages(Graphics g) {
 		for (Personnage p : personnages) {
 			map.placerPersonnage(p, g);
-			//sale
+			// sale
 			map.dessinerContoursAutomate(p, g);
 		}
 	}
@@ -104,7 +116,7 @@ public class Jeu extends BasicGame {
 		}
 	}
 
-	public void deplacerPersonnage(int indexPerso, int pause) {
+	public void deplacerPersonnage(int indexPerso) {
 
 		// Chercher le personnage correspondant à l'indexPerso
 		Personnage p = personnages.get(indexPerso);
@@ -116,11 +128,28 @@ public class Jeu extends BasicGame {
 		map.modifierDecorCase(coordI, coordJ, getImageParCouleur(c));
 		// On enleve le personnage p a la liste des personnages de la case que le personnage s'apprete à quitter 
 		map.getCases()[coordI][coordJ].supprimerPersonnage(p);
-		// On met à jour les coordonnées du personnage
-		personnages.get(indexPerso).deplacerX(map.getLargeur());
+
+		
+		Random r = new Random();	
+		switch(r.nextInt(4)){
+			case 0 : 
+				 personnages.get(indexPerso).deplacerGauche(map.getLargeur());break;
+			
+			case 1 : 
+				 personnages.get(indexPerso).deplacerDroite(map.getLargeur());break;
+				 
+			case 2 : 
+				 personnages.get(indexPerso).deplacerHaut(map.getLongueur());break;
+				 
+			case 3 : 
+				 personnages.get(indexPerso).deplacerBas(map.getLongueur());break;
+		}
+		
+		
+		
 		// Pause
 		try {
-			Thread.sleep(pause); // latence
+			Thread.sleep(PAUSE); // latence
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

@@ -66,6 +66,7 @@ public class Map {
 	 * j ---> | i| | -
 	 */
 	public void placerPersonnage(Personnage p, Graphics g) {
+		
 		// La case du personnage contient un nouveau decor contenant une image
 		modifierDecorCase(p.getPosX(), p.getPosY(), p.getImage());
 		// Ajouter le personnage � la liste des personnages de la case

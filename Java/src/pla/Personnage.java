@@ -68,10 +68,22 @@ public class Personnage {
 		this.image = image;
 	}
 	
-	public void deplacerX(int moduloTore){
-		this.posX = (this.posX+1)%moduloTore;
+	public void deplacerDroite(int moduloTore){
+		posX = (posX+1)%moduloTore;
 	}
-	public void deplacerY(int moduloTore){
-		posY = posY++%moduloTore;
+	public void deplacerBas(int moduloTore){
+		posY = (posY+1)%moduloTore;
+	}
+	public void deplacerGauche(int moduloTore){
+		posX = (posX-1)%moduloTore;
+		if(posX < 0){
+			posX = moduloTore - 1;
+		}
+	}
+	public void deplacerHaut(int moduloTore){
+		posY = (posY-1)%moduloTore;
+		if(posY < 0){
+			posY = moduloTore - 1;
+		}
 	}
 }

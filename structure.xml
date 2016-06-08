@@ -29,21 +29,16 @@
 			...
 		</liste_etat>
 		
-		<liste_condition>
-			<condition id="X">
-				<condition_simple>
-					<decor>ID_DECOR</decor>
-					<cellule>ID_CELLULE</cellule>
-				</condition_simple>
-				...
-			</condition>
-			...
-		</liste_condition>
-		
 		<liste_transition>
 			<transition id="X">
 				<etat_depart>ID_ETAT</etat_depart>
-				<condition>ID_CONDITION</condition>
+				<condition>
+					<condition_simple>
+						<decor>ID_DECOR</decor>
+						<cellule>ID_CELLULE</cellule>
+					</condition_simple>
+					...
+				</condition>
 				<action_transition>ID_ACTION_TRANSITION</action_transition>
 				<etat_arrivee>ID_ETAT</etat_arrivee>
 			</transition>

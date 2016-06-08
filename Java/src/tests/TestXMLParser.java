@@ -6,7 +6,6 @@
 package tests;
 
 import pla.Automate;
-import static pla.XMLParser.parse;
 
 /**
  *
@@ -14,8 +13,7 @@ import static pla.XMLParser.parse;
  */
 public class TestXMLParser {
     public static void main(String[] args) {
-        Automate a = new Automate();
-        parse(a, "../OCaml/test.xml");
+        Automate a = new Automate("../OCaml/test.xml");
         a.afficher();
     }
 }

@@ -27,4 +27,9 @@ public class ConditionSimple {
     public Cellule getCellule() {
         return cellule;
     }
+    
+    @Override
+    public String toString() {
+        return decor + "(" + cellule + ")";
+    }
 }

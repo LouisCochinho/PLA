@@ -23,7 +23,7 @@ public class Decor {
 			try {
 				this.image = new Image("res/beton.jpg");
 			} catch (SlickException e) {
-				System.out.println("L'image du beton n'a pas pu être chargée");
+				System.out.println("L'image du beton n'a pas pu ï¿½tre chargï¿½e");
 			}
 		}
 		else{
@@ -67,4 +67,9 @@ public class Decor {
 	public void setImage(Image image) {
 		this.image = image;
 	}
+        
+        @Override
+        public String toString() {
+            return this.getClass().getSimpleName();
+        }
 }

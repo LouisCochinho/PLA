@@ -76,7 +76,7 @@ public class XMLParser {
         {
           System.out.println("La classe n'est pas accessible");
         }
-        catch(Exception e) {
+        catch(DataConversionException e) {
             System.out.println(e.getMessage());
         }
     }

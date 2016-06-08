@@ -27,7 +27,7 @@ public class Map {
 
 	public Map() {
 		cases = new Case[largeur][longueur];
-		// Création de la matrice des cases
+		// Crï¿½ation de la matrice des cases
 		for (int i = 0; i < largeur; i++) {
 			for (int j = 0; j < longueur; j++) {
 				cases[i][j] = new Case(i, j);
@@ -43,13 +43,13 @@ public class Map {
 				g.setColor(Color.lightGray);
 				g.fillRect(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 				try {
-					// Pour chaque case, dessiner le décor correspondant
+					// Pour chaque case, dessiner le dï¿½cor correspondant
 					dessinerImage(cases[i][j].getDecor().getImage(), i * TILE_SIZE, j * TILE_SIZE, g);
 				} catch (ArrayIndexOutOfBoundsException e1) {
 					System.out.println("La case [" + i + "][" + j + "] est inacessible");
 				} catch (NullPointerException e2) {
 					System.out.println("La case [" + i + "][" + j
-							+ "] ne contient pas de décor ou l'image associée est inacessible\n");
+							+ "] ne contient pas de dï¿½cor ou l'image associï¿½e est inacessible\n");
 					e2.printStackTrace();
 				}
 			}
@@ -68,7 +68,7 @@ public class Map {
 	public void placerPersonnage(Personnage p, Graphics g) {
 		// La case du personnage contient un nouveau decor contenant une image
 		modifierDecorCase(p.getPosX(), p.getPosY(), p.getImage());
-		// Ajouter le personnage à la liste des personnages de la case
+		// Ajouter le personnage ï¿½ la liste des personnages de la case
 		cases[p.getPosX()][p.getPosY()].ajouterPersonnage(p);
 		// dessiner l'image du personnage
 		dessinerImage(cases[p.getPosX()][p.getPosY()].getDecor().getImage(), p.getPosX() * TILE_SIZE,
@@ -86,22 +86,22 @@ public class Map {
 	
 	public void dessinerContoursAutomate(Personnage p, Graphics g){
 		// dessiner un rectangle autour de l'automate et le colorier de la
-		// couleur du personnage à qui appartient cet automate.
+		// couleur du personnage ï¿½ qui appartient cet automate.
 		Automate a = p.getAutomate();
 		g.setColor(p.getCouleur());
-		g.drawRect(a.getPosX() * TILE_SIZE, a.getPosY() * TILE_SIZE, a.getTaille() * TILE_SIZE,
-				a.getTaille() * TILE_SIZE);
+		g.drawRect(a.getPosX() * TILE_SIZE, a.getPosY() * TILE_SIZE, a.getNbLignes()* TILE_SIZE,
+				a.getNbColonnes()* TILE_SIZE);
 	}
 
 	public void chargerImage(Automate a, Graphics g, int i, int j) {
 		int val = a.getTabActionTransition()[i][j];
 		Image img = null;
-		switch (val) { // Selon la valeur, charger le décor correspondant
+		switch (val) { // Selon la valeur, charger le dï¿½cor correspondant
 		case 0:
 			try {
 				img = new Image("res/beton.jpg");
 			} catch (SlickException e) {
-				g.drawString("Erreur : L'image du sol n'a pas pu être chargée", 50, 0);
+				g.drawString("Erreur : L'image du sol n'a pas pu ï¿½tre chargï¿½e", 50, 0);
 				g.setColor(Color.red);
 			}
 			break;
@@ -110,7 +110,7 @@ public class Map {
 			try {
 				img = new Image("res/sol_vert.jpg");
 			} catch (SlickException e) {
-				g.drawString("Erreur : L'image du sol vert n'a pas pu être chargée", 50, 0);
+				g.drawString("Erreur : L'image du sol vert n'a pas pu ï¿½tre chargï¿½e", 50, 0);
 				g.setColor(Color.red);
 			}
 			break;
@@ -120,7 +120,7 @@ public class Map {
 			try {
 				img = new Image("res/sol_bleu.jpg");
 			} catch (SlickException e) {
-				g.drawString("Erreur : L'image du sol bleu n'a pas pu être chargée", 50, 0);
+				g.drawString("Erreur : L'image du sol bleu n'a pas pu ï¿½tre chargï¿½e", 50, 0);
 				g.setColor(Color.red);
 			}
 			break;
@@ -129,7 +129,7 @@ public class Map {
 			try {
 				img = new Image("res/wall.png");
 			} catch (SlickException e) {
-				g.drawString("Erreur : L'image du mur n'a pas pu être chargée", 50, 0);
+				g.drawString("Erreur : L'image du mur n'a pas pu ï¿½tre chargï¿½e", 50, 0);
 				g.setColor(Color.red);
 			}
 			break;
@@ -138,7 +138,7 @@ public class Map {
 			img = null;
 		}
 		// Attention inversion des indices entre les cases et la map
-		// Modification du décor de la case
+		// Modification du dï¿½cor de la case
 		modifierDecorCase(j + a.getPosX(), i + a.getPosY(), img);
 	}
 
@@ -163,7 +163,7 @@ public class Map {
 																	// l'image
 																	// de base
 		} catch (SlickException e) {
-			System.out.println("L'image du béton n'a pas pu être trouvée lors de la réinitialisation d'une case");
+			System.out.println("L'image du bï¿½ton n'a pas pu ï¿½tre trouvï¿½e lors de la rï¿½initialisation d'une case");
 		}
 	}
 
@@ -177,7 +177,7 @@ public class Map {
 																	// grille
 			g.drawImage(img, x, y);
 		} else {
-			System.out.println("L'image" + img.getResourceReference() + "n'a pas pu être dessinée");
+			System.out.println("L'image" + img.getResourceReference() + "n'a pas pu ï¿½tre dessinï¿½e");
 		}
 	}
 

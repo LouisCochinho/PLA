@@ -29,4 +29,16 @@ public class Condition {
     public ConditionSimple getCondition(int i) {
         return conditions.get(i);
     }
+    
+    @Override
+    public String toString() {
+        String s = "";
+        if(conditions.size() > 0) {
+            s = conditions.get(0).toString();
+            for(int i=1; i<conditions.size(); i++) {
+                s += " && " + conditions.get(i);
+            }
+        }
+        return s;
+    }
 }

@@ -252,4 +252,14 @@ public class Automate {
 	public Etat getEtatSuivant(int i, int j){
 		return tabEtatSuivant[i][j];
 	}
+
+	public Etat getEtatInitial() {
+		return etatInitial;
+	}
+
+	public void setEtatInitial(Etat etatInitial) {
+		this.etatInitial = etatInitial;
+	}
+	
+	
 }

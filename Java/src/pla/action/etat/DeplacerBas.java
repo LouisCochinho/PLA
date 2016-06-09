@@ -11,7 +11,7 @@ public class DeplacerBas extends Action_etat {
 
 	@Override
 	public void executer(Personnage p) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		p.setPosY((p.getPosY()+1)%MODULO_TORE_Y);
 	}
 
 }

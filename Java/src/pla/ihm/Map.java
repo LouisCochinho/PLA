@@ -3,8 +3,6 @@ package pla.ihm;
 import pla.decor.Decor;
 
 import java.util.List;
-import java.util.Random;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -72,11 +70,16 @@ public class Map {
 	 * j ---> | i| | -
 	 */
 	public void placerPersonnage(Personnage p, Graphics g) {
-		
+
 		// La case du personnage contient un nouveau decor contenant une image
 		modifierDecorCase(p.getPosX(), p.getPosY(), new DecorPersonnage(p.getImage()));
+
 		// Ajouter le personnage � la liste des personnages de la case
-		cases[p.getPosX()][p.getPosY()].ajouterPersonnage(p);
+		try {
+			cases[p.getPosX()][p.getPosY()].ajouterPersonnage(p);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("Erreur : Sortie tableau : X = " + p.getPosX() + " Y = " + p.getPosY());
+		}
 		// dessiner l'image du personnage
 		dessinerImage(cases[p.getPosX()][p.getPosY()].getDecor().getImage(), p.getPosX() * TILE_SIZE,
 				p.getPosY() * TILE_SIZE, g);
@@ -90,20 +93,21 @@ public class Map {
 				chargerDecor(a, g, i, j);
 			}
 	}
-	
-	public void dessinerContoursAutomate(Personnage p, Graphics g){
+
+	public void dessinerContoursAutomate(Personnage p, Graphics g) {
 		// dessiner un rectangle autour de l'automate et le colorier de la
 		// couleur du personnage � qui appartient cet automate.
 		Automate a = p.getAutomate();
 		g.setColor(p.getCouleur());
-		g.drawRect(a.getPosX() * TILE_SIZE, a.getPosY() * TILE_SIZE, a.getNbColonnes()* TILE_SIZE,a.getNbLignes()* TILE_SIZE);
-		//g.drawRect(a.getPosX() * TILE_SIZE, a.getPosY() * TILE_SIZE, 4* TILE_SIZE,4* TILE_SIZE);
+		g.drawRect(a.getPosX() * TILE_SIZE, a.getPosY() * TILE_SIZE, a.getNbColonnes() * TILE_SIZE,
+				a.getNbLignes() * TILE_SIZE);
+
 	}
 
 	public void chargerDecor(Automate a, Graphics g, int i, int j) {
-            Action_transition at = a.getTabActionTransition()[i][j];
-            Decor decor = Association.getDecor(at);
-            modifierDecorCase(j + a.getPosX(), i + a.getPosY(), decor);
+		Action_transition at = a.getTabActionTransition()[i][j];
+		Decor decor = Association.getDecor(at);
+		modifierDecorCase(j + a.getPosX(), i + a.getPosY(), decor);
 	}
 
 	public Case[][] getCases() {
@@ -122,7 +126,7 @@ public class Map {
 	}
 
 	public void effacerDecorCase(int i, int j) {
-            modifierDecorCase(i, j, new SolNormal());
+		modifierDecorCase(i, j, new SolNormal());
 	}
 
 	public void dessinerImage(Image img, float x, float y, Graphics g) {
@@ -158,8 +162,8 @@ public class Map {
 			return caseCourante;
 		}
 	}
-	
-	public Case getCase(int i, int j){
+
+	public Case getCase(int i, int j) {
 		return cases[i][j];
 	}
 
@@ -193,99 +197,73 @@ public class Map {
 	public void setLongueur(int longueur) {
 		this.longueur = longueur;
 	}
-	
-	private static final int CERCLE = 360;
-	private static final int DISTANCE = 2;
-	
-	public void placerAutoRandom(List<Personnage> lPersonnage){
-		Random rand =  new Random();
-		rand.setSeed(5);
-		int nbAutomate = lPersonnage.size();
-		int rayonCercle, centreCercleX, centreCercleY, anglePersonnage, firstAngle, hmax, lmax;
-		
-		hmax = hauteurMax(lPersonnage);
-		lmax = largeurMax(lPersonnage);
-		
-		if(hmax < lmax){
-			rayonCercle = lmax*(nbAutomate)/2 + nbAutomate;
-		}
-		else{
-			rayonCercle = hmax*(nbAutomate)/2 + nbAutomate;
-		}
-		centreCercleX = rayonCercle;//+varx
-		centreCercleY = rayonCercle;//+vary
-		
-		anglePersonnage = CERCLE/nbAutomate;
-		firstAngle = rand.nextInt()*(CERCLE+1);
-		
-		lPersonnage.get(0).getAutomate().setPosX(rayonCercle*(int)Math.cos(firstAngle)+centreCercleX);
-		lPersonnage.get(0).getAutomate().setPosX(rayonCercle*(int)Math.sin(firstAngle)+centreCercleY);
-		
-		for(int i=1; i<nbAutomate; i++){
-			rayonCercle += anglePersonnage;
-			lPersonnage.get(i).getAutomate().setPosX(rayonCercle*(int)Math.cos(firstAngle));
-			lPersonnage.get(i).getAutomate().setPosX(rayonCercle*(int)Math.sin(firstAngle));
-		}
-	}
-	
-	private int hauteurMax(List<Personnage> lPersonnage){
-		int hmax=0;
-		for(int i=0; i<lPersonnage.size(); i++){
-			if(lPersonnage.get(i).getAutomate().getNbLignes() > hmax){
-				hmax = lPersonnage.get(i).getAutomate().getNbColonnes();
-			}
-		}
-		return hmax;
-	}
-	
-	private int largeurMax(List<Personnage> lPersonnage){
-		int lmax=0;
-		for(int i=0; i<lPersonnage.size(); i++){
-			if(lPersonnage.get(i).getAutomate().getNbColonnes() > lmax){
-				lmax = lPersonnage.get(i).getAutomate().getNbLignes();
-			}
-		}
-		return lmax;
-	}
-	
-	public void placerPersonnageRandom( List<Personnage> lPersonnage){
-		Random rand =  new Random();
-		rand.setSeed(5);
-		
-		int posX, posY;
-		int w = getCases().length;
-		int h = getCases()[0].length;
-		
-		do{
-			posX = rand.nextInt(1)*w;
-			posY = rand.nextInt(1)*h;
-		}while(getCases()[posX][posY].getNbPersonnage() != 0);
-		
-		lPersonnage.get(0).setPosX(posX);
-		lPersonnage.get(0).setPosY(posY);
-		
-		for(int i=1; i<lPersonnage.size(); i++){
-			do{
-				posX = rand.nextInt(1)*w;
-				posY = rand.nextInt(1)*h;				
-			}while(getCases()[posX][posY].getNbPersonnage() != 0 || personnagePresent(lPersonnage, posX, posY, i));
 
-			lPersonnage.get(i).setPosX(posX);
-			lPersonnage.get(i).setPosY(posY);			
-		}
-		
-	}
 
-	private boolean personnagePresent(List<Personnage> lPersonnage, int posX, int posY, int i) {
-		boolean present = false;
-		for(int j=0; j<i; j++){
-			if((lPersonnage.get(j).getPosX() - posX)+ (lPersonnage.get(j).getPosY() - posY) <= DISTANCE ||
-					(lPersonnage.get(j).getPosX() - posX)+ (lPersonnage.get(j).getPosY() - posY) <= DISTANCE){
-				present = true;
-			}
-		}
-		
-		return present;
-	}
+	/*
+	 * private static final int CERCLE = 360; private static final int DISTANCE
+	 * = 2;
+	 * 
+	 * public void placerAutoRandom(List<Personnage> lPersonnage){ Random rand =
+	 * new Random(); rand.setSeed(5); int nbAutomate = lPersonnage.size(); int
+	 * rayonCercle, centreCercleX, centreCercleY, anglePersonnage, firstAngle,
+	 * hmax, lmax;
+	 * 
+	 * hmax = hauteurMax(lPersonnage); lmax = largeurMax(lPersonnage);
+	 * 
+	 * if(hmax < lmax){ rayonCercle = lmax*(nbAutomate)/2 + nbAutomate; } else{
+	 * rayonCercle = hmax*(nbAutomate)/2 + nbAutomate; } centreCercleX =
+	 * rayonCercle;//+varx centreCercleY = rayonCercle;//+vary
+	 * 
+	 * anglePersonnage = CERCLE/nbAutomate; firstAngle =
+	 * rand.nextInt()*(CERCLE+1);
+	 * 
+	 * lPersonnage.get(0).getAutomate().setPosX(rayonCercle*(int)Math.cos(
+	 * firstAngle)+centreCercleX);
+	 * lPersonnage.get(0).getAutomate().setPosX(rayonCercle*(int)Math.sin(
+	 * firstAngle)+centreCercleY);
+	 * 
+	 * for(int i=1; i<nbAutomate; i++){ rayonCercle += anglePersonnage;
+	 * lPersonnage.get(i).getAutomate().setPosX(rayonCercle*(int)Math.cos(
+	 * firstAngle));
+	 * lPersonnage.get(i).getAutomate().setPosX(rayonCercle*(int)Math.sin(
+	 * firstAngle)); } }
+	 * 
+	 * private int hauteurMax(List<Personnage> lPersonnage){ int hmax=0; for(int
+	 * i=0; i<lPersonnage.size(); i++){
+	 * if(lPersonnage.get(i).getAutomate().getNbLignes() > hmax){ hmax =
+	 * lPersonnage.get(i).getAutomate().getNbColonnes(); } } return hmax; }
+	 * 
+	 * private int largeurMax(List<Personnage> lPersonnage){ int lmax=0; for(int
+	 * i=0; i<lPersonnage.size(); i++){
+	 * if(lPersonnage.get(i).getAutomate().getNbColonnes() > lmax){ lmax =
+	 * lPersonnage.get(i).getAutomate().getNbLignes(); } } return lmax; }
+	 * 
+	 * public void placerPersonnageRandom( List<Personnage> lPersonnage){ Random
+	 * rand = new Random(); rand.setSeed(5);
+	 * 
+	 * int posX, posY; int w = getCases().length; int h = getCases()[0].length;
+	 * 
+	 * do{ posX = rand.nextInt(1)*w; posY = rand.nextInt(1)*h;
+	 * }while(getCases()[posX][posY].getNbPersonnage() != 0);
+	 * 
+	 * lPersonnage.get(0).setPosX(posX); lPersonnage.get(0).setPosY(posY);
+	 * 
+	 * for(int i=1; i<lPersonnage.size(); i++){ do{ posX = rand.nextInt(1)*w;
+	 * posY = rand.nextInt(1)*h; }while(getCases()[posX][posY].getNbPersonnage()
+	 * != 0 || personnagePresent(lPersonnage, posX, posY, i));
+	 * 
+	 * lPersonnage.get(i).setPosX(posX); lPersonnage.get(i).setPosY(posY); }
+	 * 
+	 * }
+	 * 
+	 * private boolean personnagePresent(List<Personnage> lPersonnage, int posX,
+	 * int posY, int i) { boolean present = false; for(int j=0; j<i; j++){
+	 * if((lPersonnage.get(j).getPosX() - posX)+ (lPersonnage.get(j).getPosY() -
+	 * posY) <= DISTANCE || (lPersonnage.get(j).getPosX() - posX)+
+	 * (lPersonnage.get(j).getPosY() - posY) <= DISTANCE){ present = true; } }
+	 * 
+	 * return present; }
+	 */
+
 
 }

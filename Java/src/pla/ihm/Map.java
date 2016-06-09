@@ -194,7 +194,7 @@ public class Map {
 		this.longueur = longueur;
 	}
 	
-	/*private static final int CERCLE = 360;
+	private static final int CERCLE = 360;
 	private static final int DISTANCE = 2;
 	
 	public void placerAutoRandom(List<Personnage> lPersonnage){
@@ -286,6 +286,6 @@ public class Map {
 		}
 		
 		return present;
-	}*/
+	}
 
 }

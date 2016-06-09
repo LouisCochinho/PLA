@@ -13,10 +13,17 @@ type cellule =
   | N (* nord *) | S | E | O
 
 type decor =
-  | Mur
-  | Vitre
-  | Sol of couleur
   | SolNormal
+  | Sol of couleur
+  | Muret
+  | Mur
+  | Gendarmerie
+  | Skatepark
+  | BatimentDesaffecte
+  | BoucheEgout
+  | Velo
+  | BombePeinture
+  | BombeEau
       
 type conditionBis =
   | Decor of (decor * cellule)
@@ -30,11 +37,17 @@ type action_etat =
   | Avancer of cellule 
 
 type action_trans =
-  | Poser_mur
+  | PeindreNeutre
   | Peindre of couleur
-  | Casser
+  | Construire
+  | Demolir
   | Admirer
-  | Regenerer
+  | Voyager
+  | Prendre
+  | Voler
+  | LaisserTomber
+  | Combattre
+  | Dupliquer
       
 
 		    
@@ -61,14 +74,16 @@ let (list_etat:etat list) =
   ];;
 
 let autTest =
-  [ (0, Decor(Mur,C), Casser, 0) ;
+  [ (0, Decor(Mur,C), Demolir, 0) ;
     (0, Decor(SolNormal,C), Peindre(Ami),1);
-    (1, Decor(Sol(Ennemi),C),Peindre(Ami),3);
+    (1, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),N)),Peindre(Ami),3);
     (1, Decor(SolNormal,C),Peindre(Ami),2);
     (2, Decor(Sol(Ennemi),C),Peindre(Ami),0);
-    (2, Decor(Mur,C),Casser,3);
+    (2, Decor(Mur,C), Demolir,3);
+    (2, Decor(Velo,C), Prendre, 2);
     (3, Decor(Sol(Ennemi),C),Peindre(Ami),3);
-    (3, Decor(SolNormal,C), Poser_mur,2);
+    (3, Decor(SolNormal,C), Construire,2);
+    (3, Et( Decor(Sol(Ami),N), Decor(Sol(Ami),O)), Admirer, 3);
   ] ;;
    
 (* ON PEUT GÉNÉRER CERTAINES PARTIES DE L'AUTOMATE *)
@@ -114,8 +129,15 @@ let (decor_to_int: decor -> int) = function
   | SolNormal -> 0
   | Sol(Ami) -> 1
   | Sol(Ennemi) -> 2
-  | Mur -> 3
-  | Vitre -> 4
+  | Muret -> 3
+  | Mur -> 4
+  | Gendarmerie -> 5
+  | Skatepark -> 6
+  | BatimentDesaffecte -> 7
+  | BoucheEgout -> 8
+  | Velo -> 9
+  | BombePeinture -> 10
+  | BombeEau -> 11
 
 
 let (condition_to_int: condition -> int) =  function
@@ -124,12 +146,17 @@ let (condition_to_int: condition -> int) =  function
   | Et(Decor(decor1,cellule1),Decor(decor2,cellule2)) ->  ((((decor_to_int decor1 *10)+cellule_to_int cellule1)*100) + decor_to_int decor2)*10 + cellule_to_int cellule2 
 
 let (action_trans_to_int: action_trans -> int) = function
-   | Admirer -> 0
-   | Poser_mur -> 1
-   | Peindre(couleur) -> if couleur == Ami then 2 else 3
-   | Casser -> 4
-   (* | Regenerer -> 4 *)
-   | _ -> 0
+   | PeindreNeutre -> 0
+   | Peindre(couleur) -> if couleur == Ami then 1 else 2
+   | Construire -> 3
+   | Demolir -> 4
+   | Admirer -> 5
+   | Voyager -> 6
+   | Prendre -> 7
+   | Voler -> 8
+   | LaisserTomber -> 9
+   | Combattre -> 10
+   | Repliquer -> 11
 
 let (action_etat_to_int: action_etat -> int) = function
   | Avancer(cellule) -> cellule_to_int cellule;;
@@ -174,13 +201,55 @@ let trad_autTest = traduction_automate autTest ;;
 
 (* ----------------------------------------------------------------------- *)
 
-let list_cellule = [((cellule_to_int C),"Case");((cellule_to_int N), "Nord"); ((cellule_to_int S), "Sud"); ((cellule_to_int E),"Est");((cellule_to_int O), "Ouest")];;
+let list_cellule =
+  [
+    ((cellule_to_int C), "Case");
+    ((cellule_to_int N), "Nord");
+    ((cellule_to_int S), "Sud");
+    ((cellule_to_int E), "Est");
+    ((cellule_to_int O), "Ouest");
+  ];;
   
-let list_action_etat = [(action_etat_to_int (Avancer(C)),"NePasBouger");(action_etat_to_int (Avancer(N)),"DeplacerHaut");(action_etat_to_int (Avancer(S)),"DeplacerBas");(action_etat_to_int (Avancer(E)),"DeplacerDroite");(action_etat_to_int (Avancer(O)),"DeplacerGauche")];;
+let list_action_etat =
+  [
+    (action_etat_to_int (Avancer(C)),"NePasBouger");
+    (action_etat_to_int (Avancer(N)),"DeplacerHaut");
+    (action_etat_to_int (Avancer(S)),"DeplacerBas");
+    (action_etat_to_int (Avancer(E)),"DeplacerDroite");
+    (action_etat_to_int (Avancer(O)),"DeplacerGauche");
+  ];;
 
-let list_action_transition = [(action_trans_to_int Admirer,"Admirer");(action_trans_to_int Poser_mur,"PoserMur");(action_trans_to_int (Peindre(Ami)),"PeindreAmi");(action_trans_to_int (Peindre(Ennemi)),"PeindreEnnemi");(action_trans_to_int Casser,"Casser");];;
+let list_action_transition =
+  [
+    (action_trans_to_int PeindreNeutre,"PeindreNeutre");
+    (action_trans_to_int (Peindre(Ami)),"PeindreAmi");
+    (action_trans_to_int (Peindre(Ennemi)),"PeindreEnnemi");
+    (action_trans_to_int Construire,"Construire");
+    (action_trans_to_int Demolir,"Demolir");
+    (action_trans_to_int Admirer,"Admirer");
+    (action_trans_to_int Voyager,"Voyager");
+    (action_trans_to_int Prendre,"Prendre");
+    (action_trans_to_int Voler,"Voler");
+    (action_trans_to_int LaisserTomber,"LaisserTomber");
+    (action_trans_to_int Combattre,"Combattre");
+    (action_trans_to_int Repliquer,"Repliquer");
+    ];;
 
-let list_symbole = [(decor_to_int SolNormal,"SolNormal");(decor_to_int (Sol(Ami)),"SolAmi");(decor_to_int (Sol(Ennemi)),"SolEnnemi");(decor_to_int Mur,"Mur");(decor_to_int Vitre,"Vitre")];;
+let list_symbole =
+  [
+    (decor_to_int SolNormal,"SolNormal");
+    (decor_to_int (Sol(Ami)),"SolAmi");
+    (decor_to_int (Sol(Ennemi)),"SolEnnemi");
+    (decor_to_int Muret,"Muret");
+    (decor_to_int Mur,"Mur");
+    (decor_to_int Gendarmerie,"Gendarmerie");
+    (decor_to_int Skatepark,"Skatepark");
+    (decor_to_int BatimentDesaffecte,"BatimentNeutre");
+    (decor_to_int BoucheEgout,"BoucheEgout");
+    (decor_to_int Velo,"Velo");
+    (decor_to_int BombePeinture,"BombePeinture");
+    (decor_to_int BombeEau,"BombeEau");
+  ];;
 
   
 
@@ -211,8 +280,8 @@ let rec (ecrire_cellule: (int*string) list -> out_channel -> unit) = fun l fic_o
 let rec (ecrire_transition: (int*int*int*int) list -> out_channel -> unit) = fun l fic_out -> match l with
   | [] -> fprintf fic_out ""
   |(a,b,c,d)::r -> fprintf fic_out "<transition>\n" ;
-		   (if (b mod 1000) = 999 then (fprintf fic_out "<etat_depart>%d</etat_depart>\n<condition_simple>\n<decor id=\"0\">%d</decor>\n<cellule id=\"0\">%d</cellule>\n</condition_simple>\n<action_transition>%d</action_transition>\n<etat_arrivee>%d</etat_arrivee>\n" a (b/10000) (b/1000 mod 10) c d )
-		   else fprintf fic_out "<condition_simple>\n<decor id=\"0\">%d</decor>\n<cellule id=\"0\">%d</cellule>\n</condition_simple>\n<condition_simple>\n<decor id=\"1\">%d</decor>\n<cellule id=\"1\">%d</cellule>\n</condition_simple><action_transition>%d</action_transition>\n<etat_arrivee>%d<etat_arrivee>\n" (b/10000) (b/1000 mod 10) (b/10 mod 100) (b mod 10) c d); fprintf fic_out "</transition>\n" ; ecrire_transition r fic_out ;;
+		   (if (b mod 1000) = 999 then (fprintf fic_out "<etat_depart>%d</etat_depart>\n<condition>\n<condition_simple>\n<decor id=\"0\">%d</decor>\n<cellule id=\"0\">%d</cellule>\n</condition_simple>\n</condition>\n<action_transition>%d</action_transition>\n<etat_arrivee>%d</etat_arrivee>\n" a (b/10000) (b/1000 mod 10) c d )
+		   else fprintf fic_out "<etat_depart>%d</etat_depart>\n<condition>\n<condition_simple>\n<decor id=\"0\">%d</decor>\n<cellule id=\"0\">%d</cellule>\n</condition_simple>\n<condition_simple>\n<decor id=\"1\">%d</decor>\n<cellule id=\"1\">%d</cellule>\n</condition_simple>\n</condition>\n<action_transition>%d</action_transition>\n<etat_arrivee>%d</etat_arrivee>\n" a (b/10000) (b/1000 mod 10) (b/10 mod 100) (b mod 10) c d); fprintf fic_out "</transition>\n" ; ecrire_transition r fic_out ;;
 		   
   
   

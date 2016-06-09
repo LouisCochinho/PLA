@@ -1,10 +1,10 @@
-package pla.ihm;
+package pla.decor;
 
 import java.util.ArrayList;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import pla.Action;
+import pla.action.Action;
 
 public class Decor {
 	private int id;

@@ -1,13 +1,17 @@
-package pla;
+package pla.action.etat;
+
+import pla.Personnage;
+import pla.action.etat.Action_etat;
 
 /**
  *
  * @author antoi
  */
-public class DeplacerGauche extends Action_etat {
+public class DeplacerHaut extends Action_etat {
 
 	@Override
 	public void executer(Personnage p) {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
+
 }

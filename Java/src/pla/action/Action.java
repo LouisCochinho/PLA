@@ -1,4 +1,6 @@
-package pla;
+package pla.action;
+
+import pla.Personnage;
 
 
 public abstract class Action {

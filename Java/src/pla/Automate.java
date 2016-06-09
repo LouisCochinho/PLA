@@ -1,5 +1,7 @@
 package pla;
 
+import pla.action.transition.Admirer;
+import pla.action.transition.Action_transition;
 import java.util.ArrayList;
 import java.util.Arrays;
 

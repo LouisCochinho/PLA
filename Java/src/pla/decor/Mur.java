@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pla.ihm;
+package pla.decor;
 
 /**
  *
  * @author antoi
  */
-public class SolNormal extends Decor {
+public class Mur extends Decor {
     
-    public SolNormal() {
+    public Mur() {
         super(null, 0);
     }
     

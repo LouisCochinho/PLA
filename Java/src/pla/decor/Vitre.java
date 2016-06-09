@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pla.ihm;
+package pla.decor;
 
 /**
  *
  * @author antoi
  */
-public class Mur extends Decor {
+public class Vitre extends Decor {
     
-    public Mur() {
+    public Vitre() {
         super(null, 0);
     }
     

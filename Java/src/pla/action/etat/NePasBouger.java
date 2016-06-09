@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pla;
+package pla.action.etat;
+
+import pla.Personnage;
+import pla.action.etat.Action_etat;
 
 /**
  *

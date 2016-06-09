@@ -5,7 +5,7 @@
  */
 package pla;
 
-import pla.ihm.Decor;
+import pla.decor.Decor;
 
 /**
  *

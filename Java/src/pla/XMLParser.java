@@ -1,5 +1,7 @@
 package pla;
 
+import pla.action.transition.Action_transition;
+import pla.action.etat.Action_etat;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,7 +9,7 @@ import java.util.HashMap;
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
 
-import pla.ihm.Decor;
+import pla.decor.Decor;
 
 public class XMLParser {
     
@@ -30,7 +32,7 @@ public class XMLParser {
             Element liste_action_etat = header.getChild("liste_action_etat");
             for(Element action_etat : liste_action_etat.getChildren()) {
                 int id = action_etat.getAttribute("id").getIntValue();
-                Class c = Class.forName("pla." + action_etat.getText());
+                Class c = Class.forName("pla.action.etat." + action_etat.getText());
                 Action_etat a = (Action_etat)c.newInstance();
                 actionsEtat.put(id, a);
             }
@@ -40,7 +42,7 @@ public class XMLParser {
             Element liste_action_transition = header.getChild("liste_action_transition");
             for(Element action_transition : liste_action_transition.getChildren()) {
                 int id = action_transition.getAttribute("id").getIntValue();
-                Class c = Class.forName("pla." + action_transition.getText());
+                Class c = Class.forName("pla.action.transition." + action_transition.getText());
                 Action_transition a = (Action_transition)c.newInstance();
                 actionsTransition.put(id, a);
             }
@@ -50,7 +52,7 @@ public class XMLParser {
             Element liste_decor = header.getChild("liste_decor");
             for(Element decor : liste_decor.getChildren()) {
                 int id = decor.getAttribute("id").getIntValue();
-                Class c = Class.forName("pla.ihm." + decor.getText());
+                Class c = Class.forName("pla.decor." + decor.getText());
                 Decor d = (Decor)c.newInstance();
                 decors.put(id, d);
             }

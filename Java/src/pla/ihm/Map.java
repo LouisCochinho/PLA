@@ -1,5 +1,6 @@
 package pla.ihm;
 
+import pla.decor.Decor;
 import java.util.List;
 
 import org.newdawn.slick.Color;

@@ -1,5 +1,6 @@
 package pla.ihm;
 
+import pla.decor.Decor;
 import java.util.ArrayList;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -21,7 +22,7 @@ public class Case {
 		try {
 			this.decor = new Decor(new Image(str));
 		} catch (SlickException e) {
-			System.out.println("L'image " + str + " n'a pas pu être chargée");
+			System.out.println("L'image " + str + " n'a pas pu ï¿½tre chargï¿½e");
 		}
 	}
 

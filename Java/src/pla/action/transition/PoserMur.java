@@ -3,13 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pla;
+package pla.action.transition;
+
+import pla.Personnage;
+import pla.action.transition.Action_transition;
 
 /**
  *
  * @author antoi
  */
-public class Admirer extends Action_transition {
+public class PoserMur extends Action_transition {
 
     @Override
     public void executer(Personnage p) {

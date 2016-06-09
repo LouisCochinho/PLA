@@ -5,6 +5,9 @@
  */
 package pla.decor;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 /**
  *
  * @author antoi
@@ -12,7 +15,12 @@ package pla.decor;
 public class BatimentNeutre extends Decor {
     
     public BatimentNeutre() {
-        super(null, 0);
+        super(0);
+        try {
+            this.image = new Image("res/beton.jpg");
+        } catch (SlickException e) {
+            System.out.println("L'image n'a pas pu etre chargee");
+        }
     }
     
 }

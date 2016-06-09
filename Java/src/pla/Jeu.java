@@ -11,6 +11,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import pla.decor.*;
 
 import pla.ihm.Map;
 
@@ -53,9 +54,9 @@ public class Jeu extends BasicGame {
 		// Cr�ation des personnages
 		ajouterPersonnage(new Personnage(Color.blue, 20, 10, "res/perso_bleu.gif"));
 		ajouterPersonnage(new Personnage(Color.green, 20, 20, "res/perso_vert.png", new Automate(10, 10)));
-		ajouterPersonnage(new Personnage(Color.black, 15, 15, "res/cop.png", new Automate(1, 1)));
-		ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png",new Automate(1, 1)));
-		ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png", new Automate(1, 1)));
+		//ajouterPersonnage(new Personnage(Color.black, 15, 15, "res/cop.png", new Automate(1, 1)));
+		//ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png",new Automate(1, 1)));
+		//ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png", new Automate(1, 1)));
 	}
 
 	// Affiche le contenu du jeu
@@ -77,9 +78,9 @@ public class Jeu extends BasicGame {
 		// TODO Auto-generated method stub
 		deplacerPersonnage(0);
 		deplacerPersonnage(1);
-		deplacerPersonnage(2);
-		deplacerPersonnage(3);
-		deplacerPersonnage(4);
+		//deplacerPersonnage(2);
+		//deplacerPersonnage(3);
+		//deplacerPersonnage(4);
 	}
 
 	// Arreter correctement le jeu en appuyant sur ECHAP
@@ -125,7 +126,7 @@ public class Jeu extends BasicGame {
 		int coordI = p.getPosX();
 		int coordJ = p.getPosY();
 		// La case sur lequel le personnage �tait doit revenir � son etat d'origine
-		map.modifierDecorCase(coordI, coordJ, getImageParCouleur(c));
+		map.modifierDecorCase(coordI, coordJ, getDecorParCouleur(c));
 		// On enleve le personnage p a la liste des personnages de la case que le personnage s'apprete � quitter 
 		map.getCases()[coordI][coordJ].supprimerPersonnage(p);
 
@@ -164,18 +165,13 @@ public class Jeu extends BasicGame {
 		}
 	}
 
-	private Image getImageParCouleur(Color c) {
-		try {
-			if (c == Color.blue) {
-				return new Image("res/sol_bleu.jpg");
-			} else if (c == Color.green) {
-				return new Image("res/sol_vert.jpg");
-			} else {
-				return null;
-			}
-		} catch (SlickException e) {
-			System.out.println("Une image n'a pas pu �tre charg�e");
-		}
-		return null;
+	private Decor getDecorParCouleur(Color c) {
+                if (c == Color.blue) {
+                    return new SolEnnemi();
+                } else if (c == Color.green) {
+                    return new SolAmi();
+                } else {
+                    return null;
+                }
 	}
 }

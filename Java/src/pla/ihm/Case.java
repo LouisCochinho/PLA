@@ -2,10 +2,9 @@ package pla.ihm;
 
 import pla.decor.Decor;
 import java.util.ArrayList;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 import pla.Personnage;
+import pla.decor.*;
 
 public class Case {
 	private ArrayList<Personnage> personnages; // Liste des personnages pr�sents
@@ -15,15 +14,10 @@ public class Case {
 	private int indexJ;
 
 	public Case(int i, int j) {
-		personnages = new ArrayList<Personnage>();
-		indexI = i;
-		indexJ = j;
-		String str = "res/beton.jpg";
-		try {
-			this.decor = new Decor(new Image(str));
-		} catch (SlickException e) {
-			System.out.println("L'image " + str + " n'a pas pu �tre charg�e");
-		}
+            personnages = new ArrayList<Personnage>();
+            indexI = i;
+            indexJ = j;
+            this.decor = new SolNormal();
 	}
 
 	public void ajouterPersonnage(Personnage p) {

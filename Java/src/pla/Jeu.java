@@ -13,6 +13,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
+import pla.decor.Decor;
+import pla.ihm.Case;
 import pla.ihm.Map;
 
 public class Jeu extends BasicGame {
@@ -23,7 +25,13 @@ public class Jeu extends BasicGame {
 									// automates ou non
 	private static final int PAUSE = 50; // temps de latence
 
+
 	Music sound;
+
+	/*
+	 * private float z1 = 0.01f; private float z2 = 0.01f;
+	 */
+
 
 	public Jeu(String titre) {
 		super(titre); // Nom du jeu
@@ -57,6 +65,7 @@ public class Jeu extends BasicGame {
 		// Cr�ation de la carte
 		this.map = new Map();
 		// Cr�ation des personnages
+
 		ajouterPersonnage(new Personnage(Color.blue, 20, 10,
 				"res/perso_bleu.png"));
 		ajouterPersonnage(new Personnage(Color.green, 20, 20,
@@ -84,16 +93,18 @@ public class Jeu extends BasicGame {
 		dessinerPersonnages(g);
 	}
 
-	// Met � jour les �l�ments de la sc�ne en fonction du delta temps survenu.
+	// Met � jour les �l�ments de la sc�ne en fonction du delta temps
+	// survenu.
 	// C'est ici que la logique du jeu est enferm�.
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		// TODO Auto-generated method stub
 		deplacerPersonnage(0);
-		// deplacerPersonnage(1);
-		// deplacerPersonnage(2);
-		// deplacerPersonnage(3);
-		// deplacerPersonnage(4);
+		deplacerPersonnage(1);
+		deplacerPersonnage(2);
+		deplacerPersonnage(3);
+		deplacerPersonnage(4);
+
 		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn()) {
 			sound.resume();
 		}
@@ -103,6 +114,14 @@ public class Jeu extends BasicGame {
 		if (gc.getInput().isKeyPressed(Input.KEY_P)) {
 			sound.pause();
 		}
+
+		
+
+		/*
+		 * if(gc.getInput().isKeyDown(Input.KEY_DOWN)){ z1+=0.5f; z2+=0.5f;
+		 * gc.getGraphics().scale(z1,z2); }
+		 */
+
 	}
 
 	// Arreter correctement le jeu en appuyant sur ECHAP
@@ -112,10 +131,6 @@ public class Jeu extends BasicGame {
 		if (Input.KEY_ESCAPE == key) {
 			gc.exit();
 		}
-
-		/*
-		 * Marche pas if (Input.KEY_P == key) { gc.pause(); }
-		 */
 	}
 
 	public void dessinerCarte(Graphics g) {
@@ -144,7 +159,6 @@ public class Jeu extends BasicGame {
 
 	public void deplacerPersonnage(int indexPerso) {
 
-		// Chercher le personnage correspondant � l'indexPerso
 		Personnage p = personnages.get(indexPerso);
 		// Prendre sa couleur et ses coordonn�es
 		Color couleur = p.getCouleur();
@@ -177,6 +191,20 @@ public class Jeu extends BasicGame {
 				// conditionSimple est verifi�e
 				if (!(map.getCase(map.getCase(coordI, coordJ), cs.getCellule())
 						.getDecor() == cs.getDecor())) {
+
+
+				// contient le decor contenu dans condition simple alors la
+				// conditionSimple est verifi�e
+				Case caseCourante = map.getCase(coordI, coordJ);
+				Cellule cell = cs.getCellule();
+				Case caseOrientee = map.getCase(caseCourante, cell);
+				Decor decorCaseOrientee = caseOrientee.getDecor();
+				Decor decorCondition = cs.getDecor();
+				if (map.getCase(map.getCase(coordI, coordJ), cs.getCellule()).getDecor() != cs.getDecor()) {
+
+					// contient le decor contenu dans condition simple alors la
+					// conditionSimple est verifi�e
+
 					conditionVerifiee = false;
 				}
 			}
@@ -190,7 +218,6 @@ public class Jeu extends BasicGame {
 			indexJ++;
 		}
 
-		//
 		Random r = new Random();
 		int indexJChoisie = 0;
 		if (!indexJPossibles.isEmpty()) {
@@ -208,25 +235,13 @@ public class Jeu extends BasicGame {
 						p.getAutomate().getTabEtatSuivant()[etatCourantId][indexJChoisie]);
 		personnages.get(indexPerso).deplacer();
 
-		/*
-		 * Random r = new Random(); switch(r.nextInt(4)){ case 0 :
-		 * personnages.get(indexPerso).deplacerGauche(map.getLargeur());break;
-		 * 
-		 * case 1 :
-		 * personnages.get(indexPerso).deplacerDroite(map.getLargeur());break;
-		 * 
-		 * case 2 :
-		 * personnages.get(indexPerso).deplacerHaut(map.getLongueur());break;
-		 * 
-		 * case 3 :
-		 * personnages.get(indexPerso).deplacerBas(map.getLongueur());break; }
-		 */
-
+		
 		// Pause
 		try {
 			Thread.sleep(PAUSE); // latence
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		}
 		}
 	}
 

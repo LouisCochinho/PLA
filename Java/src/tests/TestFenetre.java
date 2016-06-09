@@ -11,14 +11,15 @@ public class TestFenetre {
 	static private AppGameContainer app;
 
 	public static void main(String[] args) throws SlickException {
-		// Ce conteneur s'instancie en passant un objet implï¿½mentant Game (dont
+		// Ce conteneur s'instancie en passant un objet implï¿½mentant Game
+		// (dont
 		// BasicGame) comme notre fenetre, ï¿½ son constructeur
 		app = new AppGameContainer(new Jeu("Thug tag"));
 		// Spï¿½cifie le mode d'affichage : le deuxieme parametre est le mode
 		// plein ecran ou non
 		app.setDisplayMode(640, 480, false);
-                app.setIcon("res/logo.png");
-		// Dï¿½marre le jeu
+		// Démarre le jeu
+		app.setIcon("res/logo.png");
 		app.start();
 	}
 }

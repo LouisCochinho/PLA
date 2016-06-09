@@ -11,6 +11,9 @@ public class DeplacerGauche extends Action_etat {
 
 	@Override
 	public void executer(Personnage p) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		p.setPosX((p.getPosX()-1)%MODULO_TORE_X);
+		if(p.getPosX() < 0){
+			p.setPosX(MODULO_TORE_X - 1);
+		}
 	}
 }

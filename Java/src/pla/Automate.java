@@ -14,7 +14,7 @@ public class Automate {
 	private int nbLignes = 0;
 	private int nbColonnes = 0;
 	private int posX; // position en abcisse sur la grille
-	private int posY; // position en ordonnï¿½es sur la grille
+	private int posY; // position en ordonnée sur la grille
 	private ArrayList<Etat> etats;
 	private ArrayList<Transition> transitions;
 	private Transition transitionParDefaut;
@@ -23,14 +23,15 @@ public class Automate {
 	private Condition conditionParDefaut;
 	private Etat etatCourant;
 
-	// automate par dï¿½faut
+	// automate par defaut
 	public Automate() {
-		this(5, 6);
+		this(0, 0);
 	}
 
 	public Automate(int posX, int posY) {
 		this("../OCaml/test.xml", posX, posY);
 	}
+	
 
 	public Automate(String fileName) {
 		this(fileName, 5, 6);
@@ -261,5 +262,8 @@ public class Automate {
 		this.etatInitial = etatInitial;
 	}
 	
+	public int getNbEtats(){
+		return this.etats.size();
+	}
 	
 }

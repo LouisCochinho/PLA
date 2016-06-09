@@ -10,8 +10,10 @@ import pla.action.etat.Action_etat;
 public class DeplacerBas extends Action_etat {
 
 	@Override
-	public void executer(Personnage p) {
-		p.setPosY((p.getPosY()+1)%MODULO_TORE_Y);
+	public void executer(Personnage p, int delta) {
+		p.setDirection(2);
+		p.setY((p.getY()+0.1f*delta)%MODULO_TORE_Y);
+		
 	}
 
 }

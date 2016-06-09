@@ -14,7 +14,7 @@ import pla.Personnage;
 public class Demolir extends Action_transition {
 
     @Override
-    public void executer(Personnage p) {
+    public void executer(Personnage p, int delta) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

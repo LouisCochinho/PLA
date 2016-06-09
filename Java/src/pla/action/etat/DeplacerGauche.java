@@ -10,10 +10,11 @@ import pla.action.etat.Action_etat;
 public class DeplacerGauche extends Action_etat {
 
 	@Override
-	public void executer(Personnage p) {
-		p.setPosX((p.getPosX()-1)%MODULO_TORE_X);
-		if(p.getPosX() < 0){
-			p.setPosX(MODULO_TORE_X - 1);
+	public void executer(Personnage p, int delta) {
+		p.setDirection(1);
+		p.setX((p.getX()-0.1f*delta)%MODULO_TORE_X);
+		if(p.getX() < 0){
+			p.setX(MODULO_TORE_X - 1);
 		}
 	}
 }

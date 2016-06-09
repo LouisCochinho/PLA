@@ -17,7 +17,7 @@ public class TestFenetre {
 		app = new AppGameContainer(new Jeu("Thug tag"));
 		// Spï¿½cifie le mode d'affichage : le deuxieme parametre est le mode
 		// plein ecran ou non
-		app.setDisplayMode(640, 480, false);
+		app.setDisplayMode(640, 512, false);
 		// Démarre le jeu
 		app.setIcon("res/logo.png");
 		app.start();

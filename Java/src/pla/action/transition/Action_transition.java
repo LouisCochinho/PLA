@@ -7,5 +7,5 @@ import pla.action.Action;
 
 public abstract class Action_transition extends Action{
 
-	public abstract void executer(Personnage p);
+	public abstract void executer(Personnage p, int delta);
 }

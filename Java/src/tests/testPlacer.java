@@ -74,8 +74,8 @@ public class testPlacer {
 			posY = rand.nextInt()*h;
 		}while(m.getCases()[posX][posY].getNbPersonnage() != 0);
 		
-		lPersonnage.get(0).setPosX(posX);
-		lPersonnage.get(0).setPosY(posY);
+		lPersonnage.get(0).setX(posX);
+		lPersonnage.get(0).setY(posY);
 		
 		for(int i=1; i<lPersonnage.size(); i++){
 			do{
@@ -83,8 +83,8 @@ public class testPlacer {
 				posY = rand.nextInt()*h;				
 			}while(m.getCases()[posX][posY].getNbPersonnage() != 0 || personnagePresent(lPersonnage, posX, posY, i));
 
-			lPersonnage.get(i).setPosX(posX);
-			lPersonnage.get(i).setPosY(posY);			
+			lPersonnage.get(i).setX(posX);
+			lPersonnage.get(i).setY(posY);			
 		}
 		
 	}
@@ -92,8 +92,8 @@ public class testPlacer {
 	private boolean personnagePresent(List<Personnage> lPersonnage, int posX, int posY, int i) {
 		boolean present = false;
 		for(int j=0; j<i; j++){
-			if((lPersonnage.get(j).getPosX() - posX)+ (lPersonnage.get(j).getPosY() - posY) <= DISTANCE ||
-					(lPersonnage.get(j).getPosX() - posX)+ (lPersonnage.get(j).getPosY() - posY) <= DISTANCE){
+			if((lPersonnage.get(j).getX() - posX)+ (lPersonnage.get(j).getY() - posY) <= DISTANCE ||
+					(lPersonnage.get(j).getX() - posX)+ (lPersonnage.get(j).getY() - posY) <= DISTANCE){
 				present = true;
 			}
 		}

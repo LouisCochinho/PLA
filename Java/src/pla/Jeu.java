@@ -48,9 +48,9 @@ public class Jeu extends BasicGame {
 	public void init(GameContainer gc) throws SlickException {
 		// TODO Auto-generated method stub
 		this.gc = gc;
-		// Création de la carte
+		// Crï¿½ation de la carte
 		this.map = new Map();
-		// Création des personnages
+		// Crï¿½ation des personnages
 		ajouterPersonnage(new Personnage(Color.blue, 20, 10, "res/perso_bleu.gif"));
 		ajouterPersonnage(new Personnage(Color.green, 20, 20, "res/perso_vert.png", new Automate(10, 10)));
 		ajouterPersonnage(new Personnage(Color.black, 15, 15, "res/cop.png", new Automate(1, 1)));
@@ -70,8 +70,8 @@ public class Jeu extends BasicGame {
 		dessinerPersonnages(g);
 	}
 
-	// Met à jour les éléments de la scène en fonction du delta temps survenu.
-	// C'est ici que la logique du jeu est enfermé.
+	// Met ï¿½ jour les ï¿½lï¿½ments de la scï¿½ne en fonction du delta temps survenu.
+	// C'est ici que la logique du jeu est enfermï¿½.
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		// TODO Auto-generated method stub
@@ -118,18 +118,18 @@ public class Jeu extends BasicGame {
 
 	public void deplacerPersonnage(int indexPerso) {
 
-		// Chercher le personnage correspondant à l'indexPerso
+		// Chercher le personnage correspondant ï¿½ l'indexPerso
 		Personnage p = personnages.get(indexPerso);
-		// Prendre sa couleur et ses coordonnées
+		// Prendre sa couleur et ses coordonnï¿½es
 		Color c = p.getCouleur();
 		int coordI = p.getPosX();
 		int coordJ = p.getPosY();
-		// La case sur lequel le personnage était doit revenir à son etat d'origine
+		// La case sur lequel le personnage ï¿½tait doit revenir ï¿½ son etat d'origine
 		map.modifierDecorCase(coordI, coordJ, getImageParCouleur(c));
-		// On enleve le personnage p a la liste des personnages de la case que le personnage s'apprete à quitter 
+		// On enleve le personnage p a la liste des personnages de la case que le personnage s'apprete ï¿½ quitter 
 		map.getCases()[coordI][coordJ].supprimerPersonnage(p);
 
-		// déplacement du personnage =>
+		// dï¿½placement du personnage =>
 		// Allez chercher dans tabEtatSuivant l'etat Suivant de l'automate
 			// => Decor_id 
 			// => etat_courant_id
@@ -174,7 +174,7 @@ public class Jeu extends BasicGame {
 				return null;
 			}
 		} catch (SlickException e) {
-			System.out.println("Une image n'a pas pu être chargée");
+			System.out.println("Une image n'a pas pu ï¿½tre chargï¿½e");
 		}
 		return null;
 	}

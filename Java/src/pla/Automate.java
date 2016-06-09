@@ -73,10 +73,13 @@ public class Automate {
 	private int max(int tab[]) {
 		int max = tab[0];
 		for (int i = 1; i < tab.length; i++) {
-			max = Integer.max(max, tab[i]);
+			if(tab[i] > max){
+				max = tab[i];
+			}
 		}
 		return max;
 	}
+	
 
 	private void initTabTransition() {
 		tabTransition = new Transition[nbLignes][nbColonnes];

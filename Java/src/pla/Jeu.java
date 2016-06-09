@@ -10,6 +10,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
 import pla.ihm.Map;
@@ -20,6 +21,8 @@ public class Jeu extends BasicGame {
 	private GameContainer gc; // conteneur
 	private boolean dejaDessine; // boolean pour savoir si il faut dessiner les automates ou non
 	private static final int PAUSE = 50; // temps de latence
+	
+	Music sound;
 
 	public Jeu(String titre) {
 		super(titre); // Nom du jeu
@@ -48,14 +51,16 @@ public class Jeu extends BasicGame {
 	public void init(GameContainer gc) throws SlickException {
 		// TODO Auto-generated method stub
 		this.gc = gc;
-		// Création de la carte
+		// Crï¿½ation de la carte
 		this.map = new Map();
-		// Création des personnages
+		// Crï¿½ation des personnages
 		ajouterPersonnage(new Personnage(Color.blue, 20, 10, "res/perso_bleu.png"));
 		ajouterPersonnage(new Personnage(Color.green, 20, 20, "res/perso_vert.png", new Automate(10, 10)));
 		ajouterPersonnage(new Personnage(Color.black, 15, 15, "res/cop.png", new Automate(1, 1)));
 		ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png",new Automate(1, 1)));
 		ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png", new Automate(1, 1)));
+		sound = new Music ("res/thug.ogg");
+		sound.loop();
 	}
 
 	// Affiche le contenu du jeu
@@ -70,8 +75,8 @@ public class Jeu extends BasicGame {
 		dessinerPersonnages(g);
 	}
 
-	// Met à jour les éléments de la scène en fonction du delta temps survenu.
-	// C'est ici que la logique du jeu est enfermé.
+	// Met ï¿½ jour les ï¿½lï¿½ments de la scï¿½ne en fonction du delta temps survenu.
+	// C'est ici que la logique du jeu est enfermï¿½.
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		// TODO Auto-generated method stub
@@ -80,8 +85,19 @@ public class Jeu extends BasicGame {
 		//deplacerPersonnage(2);
 		//deplacerPersonnage(3);
 		//deplacerPersonnage(4);
-	}
-
+		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn())
+		{
+				sound.resume();
+		}
+		if (gc.getInput().isKeyPressed(Input.KEY_S))
+		{
+			sound.stop();
+		}
+		if (gc.getInput().isKeyPressed(Input.KEY_P))
+		{
+			sound.pause();
+		}
+	} 
 	// Arreter correctement le jeu en appuyant sur ECHAP
 	@Override
 	public void keyReleased(int key, char c) {
@@ -118,24 +134,24 @@ public class Jeu extends BasicGame {
 
 	public void deplacerPersonnage(int indexPerso) {
 
-		// Chercher le personnage correspondant à l'indexPerso
+		// Chercher le personnage correspondant ï¿½ l'indexPerso
 		Personnage p = personnages.get(indexPerso);
-		// Prendre sa couleur et ses coordonnées
+		// Prendre sa couleur et ses coordonnï¿½es
 		Color couleur = p.getCouleur();
 		int coordI = p.getPosX();
 		int coordJ = p.getPosY();
-		// La case sur lequel le personnage était doit revenir à son etat d'origine
+		// La case sur lequel le personnage ï¿½tait doit revenir ï¿½ son etat d'origine
 		//map.modifierDecorCase(coordI, coordJ, getImageParCouleur(couleur));
-		// On enleve le personnage p a la liste des personnages de la case que le personnage s'apprete à quitter 
+		// On enleve le personnage p a la liste des personnages de la case que le personnage s'apprete ï¿½ quitter 
 		map.getCase(coordI,coordJ).supprimerPersonnage(p);
 	
 		// Liste des indices en J possibles : indexJ d'une condition possible dans le tableau tabCondition de l'automate du joueur p
 		ArrayList<Integer> indexJPossibles = new ArrayList<Integer>();
-		// id de l'état courant du joueur p
+		// id de l'ï¿½tat courant du joueur p
 		int etatCourantId = p.getAutomate().getEtatCourant().getId();
-		// boolean pour savoir si une condition simple est vérifiée 
+		// boolean pour savoir si une condition simple est vï¿½rifiï¿½e 
 		boolean conditionVerifiee;
-		// indice j de la condition a vérifier
+		// indice j de la condition a vï¿½rifier
 		int indexJ = 0;
 		// Pour chaque condition disponible pour l'etat courant 
 		for(Condition c : p.getAutomate().getTabCondition()[etatCourantId]){
@@ -143,17 +159,17 @@ public class Jeu extends BasicGame {
 			// Verifier si chaque condition simple est vraie
 			for(ConditionSimple cs : c.getConditions()){
 				// si la case au NORD|SUD|EST|OUEST|CASE de la case sur laquelle se trouve le personnage 
-				// contient le decor contenu dans condition simple alors la conditionSimple est verifiée
+				// contient le decor contenu dans condition simple alors la conditionSimple est verifiï¿½e
 				if(!(map.getCase(map.getCase(coordI, coordJ),cs.getCellule()).getDecor() == cs.getDecor())){
 					conditionVerifiee = false;
 				}
 			}
-			// Si toutes les conditions simples de la condition complexe sont verifiées alors ajouter l'indice indexJ
+			// Si toutes les conditions simples de la condition complexe sont verifiï¿½es alors ajouter l'indice indexJ
 			// a la liste des indicesJ possibles
 			if(conditionVerifiee){
 				indexJPossibles.add(indexJ);
 			}
-			// On s'apprete à changer de condition
+			// On s'apprete ï¿½ changer de condition
 			indexJ++;
 		}
 		
@@ -203,7 +219,7 @@ public class Jeu extends BasicGame {
 				return null;
 			}
 		} catch (SlickException e) {
-			System.out.println("Une image n'a pas pu être chargée");
+			System.out.println("Une image n'a pas pu ï¿½tre chargï¿½e");
 		}
 		return null;
 	}

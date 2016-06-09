@@ -19,14 +19,15 @@ public class Jeu extends BasicGame {
 	private Map map; // carte du jeu
 	private List<Personnage> personnages; // Liste des personnages
 	private GameContainer gc; // conteneur
-	private boolean dejaDessine; // boolean pour savoir si il faut dessiner les automates ou non
+	private boolean dejaDessine; // boolean pour savoir si il faut dessiner les
+									// automates ou non
 	private static final int PAUSE = 50; // temps de latence
-	
+
 	Music sound;
 
 	public Jeu(String titre) {
 		super(titre); // Nom du jeu
-		
+
 		personnages = new ArrayList<Personnage>();
 	}
 
@@ -34,7 +35,8 @@ public class Jeu extends BasicGame {
 		if (p != null) {
 			this.personnages.add(p);
 		} else {
-			System.out.println("Le personnage que vous voulez ajouter dans la liste des personnages est vide");
+			System.out
+					.println("Le personnage que vous voulez ajouter dans la liste des personnages est vide");
 		}
 	}
 
@@ -42,7 +44,8 @@ public class Jeu extends BasicGame {
 		if (p != null && this.personnages.contains(p)) {
 			this.personnages.remove(p);
 		} else {
-			System.out.println("Le personnage que vous voulez supprimer n'est pas dans la liste ou est nul");
+			System.out
+					.println("Le personnage que vous voulez supprimer n'est pas dans la liste ou est nul");
 		}
 	}
 
@@ -54,12 +57,17 @@ public class Jeu extends BasicGame {
 		// Cr�ation de la carte
 		this.map = new Map();
 		// Cr�ation des personnages
-		ajouterPersonnage(new Personnage(Color.blue, 20, 10, "res/perso_bleu.png"));
-		ajouterPersonnage(new Personnage(Color.green, 20, 20, "res/perso_vert.png", new Automate(10, 10)));
-		ajouterPersonnage(new Personnage(Color.black, 15, 15, "res/cop.png", new Automate(1, 1)));
-		ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png",new Automate(1, 1)));
-		ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png", new Automate(1, 1)));
-		sound = new Music ("res/thug.ogg");
+		ajouterPersonnage(new Personnage(Color.blue, 20, 10,
+				"res/perso_bleu.png"));
+		ajouterPersonnage(new Personnage(Color.green, 20, 20,
+				"res/perso_vert.png", new Automate(10, 10)));
+		ajouterPersonnage(new Personnage(Color.black, 15, 15, "res/cop.png",
+				new Automate(1, 1)));
+		ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png",
+				new Automate(1, 1)));
+		ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png",
+				new Automate(1, 1)));
+		sound = new Music("res/thug.ogg");
 		sound.loop();
 	}
 
@@ -68,6 +76,7 @@ public class Jeu extends BasicGame {
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		dessinerCarte(g);
 		if (!dejaDessine) {
+
 			dessinerElements(g);// dessine les automates et les personnages sur
 								// la carte
 			dejaDessine = true;
@@ -81,23 +90,21 @@ public class Jeu extends BasicGame {
 	public void update(GameContainer gc, int delta) throws SlickException {
 		// TODO Auto-generated method stub
 		deplacerPersonnage(0);
-		//deplacerPersonnage(1);
-		//deplacerPersonnage(2);
-		//deplacerPersonnage(3);
-		//deplacerPersonnage(4);
-		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn())
-		{
-				sound.resume();
+		// deplacerPersonnage(1);
+		// deplacerPersonnage(2);
+		// deplacerPersonnage(3);
+		// deplacerPersonnage(4);
+		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn()) {
+			sound.resume();
 		}
-		if (gc.getInput().isKeyPressed(Input.KEY_S))
-		{
+		if (gc.getInput().isKeyPressed(Input.KEY_S)) {
 			sound.stop();
 		}
-		if (gc.getInput().isKeyPressed(Input.KEY_P))
-		{
+		if (gc.getInput().isKeyPressed(Input.KEY_P)) {
 			sound.pause();
 		}
-	} 
+	}
+
 	// Arreter correctement le jeu en appuyant sur ECHAP
 	@Override
 	public void keyReleased(int key, char c) {
@@ -127,8 +134,11 @@ public class Jeu extends BasicGame {
 		// Pour chaque persoonage de la liste de personnages, le dessiner et
 		// dessiner son automate
 		for (Personnage p : personnages) {
-			map.placerPersonnage(p, g);
+			// map.placerAutoRandom(personnages);
 			map.placerAutomate(p.getAutomate(), p.getCouleur(), g);
+			// map.placerPersonnageRandom( personnages);
+			map.placerPersonnage(p, g);
+
 		}
 	}
 
@@ -140,67 +150,78 @@ public class Jeu extends BasicGame {
 		Color couleur = p.getCouleur();
 		int coordI = p.getPosX();
 		int coordJ = p.getPosY();
-		// La case sur lequel le personnage �tait doit revenir � son etat d'origine
-		//map.modifierDecorCase(coordI, coordJ, getImageParCouleur(couleur));
-		// On enleve le personnage p a la liste des personnages de la case que le personnage s'apprete � quitter 
-		map.getCase(coordI,coordJ).supprimerPersonnage(p);
-	
-		// Liste des indices en J possibles : indexJ d'une condition possible dans le tableau tabCondition de l'automate du joueur p
+		// La case sur lequel le personnage �tait doit revenir � son etat
+		// d'origine
+		// map.modifierDecorCase(coordI, coordJ, getImageParCouleur(couleur));
+		// On enleve le personnage p a la liste des personnages de la case que
+		// le personnage s'apprete � quitter
+		map.getCase(coordI, coordJ).supprimerPersonnage(p);
+
+		// Liste des indices en J possibles : indexJ d'une condition possible
+		// dans le tableau tabCondition de l'automate du joueur p
 		ArrayList<Integer> indexJPossibles = new ArrayList<Integer>();
 		// id de l'�tat courant du joueur p
 		int etatCourantId = p.getAutomate().getEtatCourant().getId();
-		// boolean pour savoir si une condition simple est v�rifi�e 
+		// boolean pour savoir si une condition simple est v�rifi�e
 		boolean conditionVerifiee;
 		// indice j de la condition a v�rifier
 		int indexJ = 0;
-		// Pour chaque condition disponible pour l'etat courant 
-		for(Condition c : p.getAutomate().getTabCondition()[etatCourantId]){
+		// Pour chaque condition disponible pour l'etat courant
+		for (Condition c : p.getAutomate().getTabCondition()[etatCourantId]) {
 			conditionVerifiee = true;
 			// Verifier si chaque condition simple est vraie
-			for(ConditionSimple cs : c.getConditions()){
-				// si la case au NORD|SUD|EST|OUEST|CASE de la case sur laquelle se trouve le personnage 
-				// contient le decor contenu dans condition simple alors la conditionSimple est verifi�e
-				if(!(map.getCase(map.getCase(coordI, coordJ),cs.getCellule()).getDecor() == cs.getDecor())){
+			for (ConditionSimple cs : c.getConditions()) {
+				// si la case au NORD|SUD|EST|OUEST|CASE de la case sur laquelle
+				// se trouve le personnage
+				// contient le decor contenu dans condition simple alors la
+				// conditionSimple est verifi�e
+				if (!(map.getCase(map.getCase(coordI, coordJ), cs.getCellule())
+						.getDecor() == cs.getDecor())) {
 					conditionVerifiee = false;
 				}
 			}
-			// Si toutes les conditions simples de la condition complexe sont verifi�es alors ajouter l'indice indexJ
+			// Si toutes les conditions simples de la condition complexe sont
+			// verifi�es alors ajouter l'indice indexJ
 			// a la liste des indicesJ possibles
-			if(conditionVerifiee){
+			if (conditionVerifiee) {
 				indexJPossibles.add(indexJ);
 			}
 			// On s'apprete � changer de condition
 			indexJ++;
 		}
-		
-		// 
+
+		//
 		Random r = new Random();
 		int indexJChoisie = 0;
-		if(!indexJPossibles.isEmpty()){
+		if (!indexJPossibles.isEmpty()) {
 			// Prendre un indexJ au hasard dans la liste
-			 indexJChoisie = indexJPossibles.get(r.nextInt(indexJPossibles.size()));		
+			indexJChoisie = indexJPossibles.get(r.nextInt(indexJPossibles
+					.size()));
 		}
-		
-		//nouvel etat courant du personnage = tabEtatSuivant[etatCourantId][indexJChoisie]
-		personnages.get(indexPerso).getAutomate().setEtatCourant(p.getAutomate().getTabEtatSuivant()[etatCourantId][indexJChoisie]);
+
+		// nouvel etat courant du personnage =
+		// tabEtatSuivant[etatCourantId][indexJChoisie]
+		personnages
+				.get(indexPerso)
+				.getAutomate()
+				.setEtatCourant(
+						p.getAutomate().getTabEtatSuivant()[etatCourantId][indexJChoisie]);
 		personnages.get(indexPerso).deplacer();
-		/*Random r = new Random();	
-		switch(r.nextInt(4)){
-			case 0 : 
-				 personnages.get(indexPerso).deplacerGauche(map.getLargeur());break;
-			
-			case 1 : 
-				 personnages.get(indexPerso).deplacerDroite(map.getLargeur());break;
-				 
-			case 2 : 
-				 personnages.get(indexPerso).deplacerHaut(map.getLongueur());break;
-				 
-			case 3 : 
-				 personnages.get(indexPerso).deplacerBas(map.getLongueur());break;
-		}*/
-		
-		
-		
+
+		/*
+		 * Random r = new Random(); switch(r.nextInt(4)){ case 0 :
+		 * personnages.get(indexPerso).deplacerGauche(map.getLargeur());break;
+		 * 
+		 * case 1 :
+		 * personnages.get(indexPerso).deplacerDroite(map.getLargeur());break;
+		 * 
+		 * case 2 :
+		 * personnages.get(indexPerso).deplacerHaut(map.getLongueur());break;
+		 * 
+		 * case 3 :
+		 * personnages.get(indexPerso).deplacerBas(map.getLongueur());break; }
+		 */
+
 		// Pause
 		try {
 			Thread.sleep(PAUSE); // latence
@@ -223,4 +244,5 @@ public class Jeu extends BasicGame {
 		}
 		return null;
 	}
+
 }

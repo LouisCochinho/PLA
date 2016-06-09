@@ -54,7 +54,7 @@ public class Automate {
                 etatCourant = etatInitial;
 		conditionParDefaut = new Condition();
 		transitionParDefaut = new Transition(etatInitial, conditionParDefaut, actionParDefaut, etatInitial);
-
+	
 		initTabTransition();
 		initTabActionTransition();
 		initTabEtatSuivant();
@@ -74,10 +74,13 @@ public class Automate {
 	private int max(int tab[]) {
 		int max = tab[0];
 		for (int i = 1; i < tab.length; i++) {
-			max = Integer.max(max, tab[i]);
+			if(tab[i] > max){
+				max = tab[i];
+			}
 		}
 		return max;
 	}
+	
 
 	private void initTabTransition() {
 		tabTransition = new Transition[nbLignes][nbColonnes];
@@ -110,6 +113,7 @@ public class Automate {
 				}
 			}
 		}
+		
 		/*tabActionTransition[0][0] = 0;
 		tabActionTransition[0][1] = 1;
 		tabActionTransition[0][2] = 3;
@@ -125,8 +129,8 @@ public class Automate {
 		tabActionTransition[3][0] = 4;
 		tabActionTransition[3][1] = 4;
 		tabActionTransition[3][2] = 4;
-		tabActionTransition[3][3] = 0;
-		*/
+		tabActionTransition[3][3] = 0;*/
+		
 	}
 
 	private void initTabCondition() {

@@ -113,9 +113,9 @@ public class Jeu extends BasicGame {
 		// Pour chaque persoonage de la liste de personnages, le dessiner et
 		// dessiner son automate
 		for (Personnage p : personnages) {
-			map.placerAutoRandom(personnages);
+			//map.placerAutoRandom(personnages);
 			map.placerAutomate(p.getAutomate(), p.getCouleur(), g);
-			map.placerPersonnageRandom( personnages);
+			//map.placerPersonnageRandom( personnages);
 			map.placerPersonnage(p, g);
 			
 		}

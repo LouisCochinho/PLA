@@ -8,8 +8,8 @@ import java.util.Arrays;
 public class Automate {
 	private Transition tabTransition[][];
 	private Etat tabEtatSuivant[][]; // [Decor_id][etat_courant_id]
-	//private Action_transition tabActionTransition[][]; // [Decor_id][etat_courant_id]
-	private int tabActionTransition[][];
+	private Action_transition tabActionTransition[][]; // [Decor_id][etat_courant_id]
+	//private int tabActionTransition[][];
 	private Condition tabCondition[][];
 	private int nbLignes = 0;
 	private int nbColonnes = 0;
@@ -44,7 +44,7 @@ public class Automate {
 		etats = new ArrayList<Etat>();
 		transitions = new ArrayList<Transition>();
 
-	/*	XMLParser.parse(this, fileName);
+		XMLParser.parse(this, fileName);
 
 		nbLignes = getNbTransitionsMax();
 		nbColonnes = etats.size();
@@ -54,11 +54,11 @@ public class Automate {
                 etatCourant = etatInitial;
 		conditionParDefaut = new Condition();
 		transitionParDefaut = new Transition(etatInitial, conditionParDefaut, actionParDefaut, etatInitial);
-	*/
-		//initTabTransition();
+	
+		initTabTransition();
 		initTabActionTransition();
-		//initTabEtatSuivant();
-		//initTabCondition();
+		initTabEtatSuivant();
+		initTabCondition();
 	}
 
 	private int getNbTransitionsMax() {
@@ -99,9 +99,9 @@ public class Automate {
 	// remplissage du tableau des actions transitions en dur => a changer
 	private void initTabActionTransition() {
 		
-		tabActionTransition = new int[4][4];
-		//tabActionTransition = new Action_transition[nbLignes][nbColonnes];
-		/*for (Action_transition[] row : tabActionTransition) {
+		//tabActionTransition = new int[4][4];
+		tabActionTransition = new Action_transition[nbLignes][nbColonnes];
+		for (Action_transition[] row : tabActionTransition) {
 			Arrays.fill(row, actionParDefaut);
 		}
 		for (int i = 0; i < nbLignes; i++) {
@@ -112,9 +112,9 @@ public class Automate {
 					tabActionTransition[i][j] = tabTransition[i][j].getActionTransition();
 				}
 			}
-		}*/
+		}
 		
-		tabActionTransition[0][0] = 0;
+		/*tabActionTransition[0][0] = 0;
 		tabActionTransition[0][1] = 1;
 		tabActionTransition[0][2] = 3;
 		tabActionTransition[0][3] = 1;
@@ -129,7 +129,7 @@ public class Automate {
 		tabActionTransition[3][0] = 4;
 		tabActionTransition[3][1] = 4;
 		tabActionTransition[3][2] = 4;
-		tabActionTransition[3][3] = 0;
+		tabActionTransition[3][3] = 0;*/
 		
 	}
 
@@ -149,12 +149,12 @@ public class Automate {
 		}
 	}
 
-	/*public Action_transition[][] getTabActionTransition() {
-		return tabActionTransition;
-	}*/
-	public int[][] getTabActionTransition(){
+	public Action_transition[][] getTabActionTransition() {
 		return tabActionTransition;
 	}
+	/*public int[][] getTabActionTransition(){
+		return tabActionTransition;
+	}*/
 
         public Etat[][] getTabEtatSuivant() {
             return tabEtatSuivant;

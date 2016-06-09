@@ -18,6 +18,7 @@ public class Case {
             indexI = i;
             indexJ = j;
             this.decor = new SolNormal();
+
 	}
 
 	public void ajouterPersonnage(Personnage p) {

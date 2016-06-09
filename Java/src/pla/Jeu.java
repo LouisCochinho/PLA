@@ -11,7 +11,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import pla.decor.*;
 
 import pla.ihm.Map;
 
@@ -49,14 +48,14 @@ public class Jeu extends BasicGame {
 	public void init(GameContainer gc) throws SlickException {
 		// TODO Auto-generated method stub
 		this.gc = gc;
-		// Crï¿½ation de la carte
+		// Création de la carte
 		this.map = new Map();
-		// Crï¿½ation des personnages
-		ajouterPersonnage(new Personnage(Color.blue, 4, 4, "res/perso_bleu.png"));
+		// Création des personnages
+		ajouterPersonnage(new Personnage(Color.blue, 20, 10, "res/perso_bleu.png"));
 		ajouterPersonnage(new Personnage(Color.green, 20, 20, "res/perso_vert.png", new Automate(10, 10)));
-		//ajouterPersonnage(new Personnage(Color.black, 15, 15, "res/cop.png", new Automate(1, 1)));
-		//ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png",new Automate(1, 1)));
-		//ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png", new Automate(1, 1)));
+		ajouterPersonnage(new Personnage(Color.black, 15, 15, "res/cop.png", new Automate(1, 1)));
+		ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png",new Automate(1, 1)));
+		ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png", new Automate(1, 1)));
 	}
 
 	// Affiche le contenu du jeu
@@ -71,13 +70,13 @@ public class Jeu extends BasicGame {
 		dessinerPersonnages(g);
 	}
 
-	// Met ï¿½ jour les ï¿½lï¿½ments de la scï¿½ne en fonction du delta temps survenu.
-	// C'est ici que la logique du jeu est enfermï¿½.
+	// Met à jour les éléments de la scène en fonction du delta temps survenu.
+	// C'est ici que la logique du jeu est enfermé.
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		// TODO Auto-generated method stub
 		deplacerPersonnage(0);
-		deplacerPersonnage(1);
+		//deplacerPersonnage(1);
 		//deplacerPersonnage(2);
 		//deplacerPersonnage(3);
 		//deplacerPersonnage(4);
@@ -119,27 +118,56 @@ public class Jeu extends BasicGame {
 
 	public void deplacerPersonnage(int indexPerso) {
 
-		// Chercher le personnage correspondant ï¿½ l'indexPerso
+		// Chercher le personnage correspondant à l'indexPerso
 		Personnage p = personnages.get(indexPerso);
-		// Prendre sa couleur et ses coordonnï¿½es
-		Color c = p.getCouleur();
+		// Prendre sa couleur et ses coordonnées
+		Color couleur = p.getCouleur();
 		int coordI = p.getPosX();
 		int coordJ = p.getPosY();
-		// La case sur lequel le personnage ï¿½tait doit revenir ï¿½ son etat d'origine
-		map.modifierDecorCase(coordI, coordJ, getDecorParCouleur(c));
-		// On enleve le personnage p a la liste des personnages de la case que le personnage s'apprete ï¿½ quitter 
-		map.getCases()[coordI][coordJ].supprimerPersonnage(p);
-
-		// dï¿½placement du personnage =>
-		// Allez chercher dans tabEtatSuivant l'etat Suivant de l'automate
-			// => Decor_id 
-			// => etat_courant_id
-		// Modifier l'etat Courant de l'automate
-		int decor_id = map.getCase(coordI, coordJ).getDecor().getId();
-		int etat_courant_id = p.getAutomate().getEtatCourant().getId();
-		Etat etatSuivant = p.getAutomate().getEtatSuivant(decor_id, etat_courant_id);
-		p.getAutomate().setEtatCourant(etatSuivant);
-		p.deplacer();
+		// La case sur lequel le personnage était doit revenir à son etat d'origine
+		//map.modifierDecorCase(coordI, coordJ, getImageParCouleur(couleur));
+		// On enleve le personnage p a la liste des personnages de la case que le personnage s'apprete à quitter 
+		map.getCase(coordI,coordJ).supprimerPersonnage(p);
+	
+		// Liste des indices en J possibles : indexJ d'une condition possible dans le tableau tabCondition de l'automate du joueur p
+		ArrayList<Integer> indexJPossibles = new ArrayList<Integer>();
+		// id de l'état courant du joueur p
+		int etatCourantId = p.getAutomate().getEtatCourant().getId();
+		// boolean pour savoir si une condition simple est vérifiée 
+		boolean conditionVerifiee;
+		// indice j de la condition a vérifier
+		int indexJ = 0;
+		// Pour chaque condition disponible pour l'etat courant 
+		for(Condition c : p.getAutomate().getTabCondition()[etatCourantId]){
+			conditionVerifiee = true;
+			// Verifier si chaque condition simple est vraie
+			for(ConditionSimple cs : c.getConditions()){
+				// si la case au NORD|SUD|EST|OUEST|CASE de la case sur laquelle se trouve le personnage 
+				// contient le decor contenu dans condition simple alors la conditionSimple est verifiée
+				if(!(map.getCase(map.getCase(coordI, coordJ),cs.getCellule()).getDecor() == cs.getDecor())){
+					conditionVerifiee = false;
+				}
+			}
+			// Si toutes les conditions simples de la condition complexe sont verifiées alors ajouter l'indice indexJ
+			// a la liste des indicesJ possibles
+			if(conditionVerifiee){
+				indexJPossibles.add(indexJ);
+			}
+			// On s'apprete à changer de condition
+			indexJ++;
+		}
+		
+		// 
+		Random r = new Random();
+		int indexJChoisie = 0;
+		if(!indexJPossibles.isEmpty()){
+			// Prendre un indexJ au hasard dans la liste
+			 indexJChoisie = indexJPossibles.get(r.nextInt(indexJPossibles.size()));		
+		}
+		
+		//nouvel etat courant du personnage = tabEtatSuivant[etatCourantId][indexJChoisie]
+		personnages.get(indexPerso).getAutomate().setEtatCourant(p.getAutomate().getTabEtatSuivant()[etatCourantId][indexJChoisie]);
+		personnages.get(indexPerso).deplacer();
 		/*Random r = new Random();	
 		switch(r.nextInt(4)){
 			case 0 : 
@@ -165,13 +193,18 @@ public class Jeu extends BasicGame {
 		}
 	}
 
-	private Decor getDecorParCouleur(Color c) {
-                if (c == Color.blue) {
-                    return new SolEnnemi();
-                } else if (c == Color.green) {
-                    return new SolAmi();
-                } else {
-                    return null;
-                }
+	private Image getImageParCouleur(Color c) {
+		try {
+			if (c == Color.blue) {
+				return new Image("res/sol_bleu.jpg");
+			} else if (c == Color.green) {
+				return new Image("res/sol_vert.jpg");
+			} else {
+				return null;
+			}
+		} catch (SlickException e) {
+			System.out.println("Une image n'a pas pu être chargée");
+		}
+		return null;
 	}
 }

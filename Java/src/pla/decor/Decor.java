@@ -2,34 +2,21 @@ package pla.decor;
 
 import java.util.ArrayList;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 import pla.action.Action;
 
-public class Decor {
+public abstract class Decor {
 	private int id;
 	private ArrayList<Action> actions;
-	private Image image;
+	protected Image image;
 
-	public Decor(Image img, int id) {
+	public Decor(int id) {
 		actions = new ArrayList<Action>();
-		this.image = img;
 		this.id = id;
 	}
 
-	public Decor(Image img) {
+	public Decor() {
 		actions = new ArrayList<Action>();
-		if(img == null){
-			try {
-				this.image = new Image("res/beton.jpg");
-			} catch (SlickException e) {
-				System.out.println("L'image du beton n'a pas pu �tre charg�e");
-			}
-		}
-		else{
-			this.image = img;
-		}
-		
 	}
 
 	public int getId() {
@@ -62,10 +49,6 @@ public class Decor {
 
 	public Image getImage() {
 		return image;
-	}
-
-	public void setImage(Image image) {
-		this.image = image;
 	}
         
         @Override

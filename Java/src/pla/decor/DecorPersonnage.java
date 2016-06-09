@@ -6,21 +6,16 @@
 package pla.decor;
 
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 /**
  *
  * @author antoi
  */
-public class SolEnnemi extends Decor {
-    
-    public SolEnnemi() {
+public class DecorPersonnage extends Decor {
+
+    public DecorPersonnage(Image img) {
         super(0);
-        try {
-            this.image = new Image("res/sol_bleu.jpg");
-        } catch (SlickException e) {
-            System.out.println("L'image n'a pas pu etre chargee");
-        }
+        this.image = img;
     }
     
 }

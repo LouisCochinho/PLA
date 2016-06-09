@@ -149,6 +149,14 @@ public class Automate {
 		return tabActionTransition;
 	}*/
 
+        public Etat[][] getTabEtatSuivant() {
+            return tabEtatSuivant;
+        }
+
+        public Condition[][] getTabCondition() {
+            return tabCondition;
+        }
+
 	public int getPosX() {
 		return posX;
 	}

@@ -17,7 +17,7 @@ public class SolEnnemi extends Decor {
     public SolEnnemi() {
         super(0);
         try {
-            this.image = new Image("res/sol_bleu.jpg");
+            this.image = new Image("res/sol_bleu.png");
         } catch (SlickException e) {
             System.out.println("L'image n'a pas pu etre chargee");
         }

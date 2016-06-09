@@ -52,7 +52,7 @@ public class Jeu extends BasicGame {
 		// Cr�ation de la carte
 		this.map = new Map();
 		// Cr�ation des personnages
-		ajouterPersonnage(new Personnage(Color.blue, 20, 10, "res/perso_bleu.gif"));
+		ajouterPersonnage(new Personnage(Color.blue, 4, 4, "res/perso_bleu.png"));
 		ajouterPersonnage(new Personnage(Color.green, 20, 20, "res/perso_vert.png", new Automate(10, 10)));
 		//ajouterPersonnage(new Personnage(Color.black, 15, 15, "res/cop.png", new Automate(1, 1)));
 		//ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png",new Automate(1, 1)));

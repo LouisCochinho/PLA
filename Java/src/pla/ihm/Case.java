@@ -23,6 +23,8 @@ public class Case {
 			this.decor = new Decor(new Image(str));
 		} catch (SlickException e) {
 			System.out.println("L'image " + str + " n'a pas pu �tre charg�e");
+		} catch (RuntimeException r){
+			System.out.println("L'image " + str + " n'a pas pu �tre charg�e");
 		}
 	}
 

@@ -19,7 +19,7 @@
 <action_transition id="8">Voler</action_transition>
 <action_transition id="9">LaisserTomber</action_transition>
 <action_transition id="10">Combattre</action_transition>
-<action_transition id="11">Repliquer</action_transition>
+<action_transition id="11">Dupliquer</action_transition>
 </liste_action_transition>
 <liste_decor>
 <decor id="0">SolNormal</decor>

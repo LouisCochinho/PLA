@@ -8,18 +8,32 @@
 <action_etat id="4">DeplacerGauche</action_etat>
 </liste_action_etat>
 <liste_action_transition>
-<action_transition id="0">Admirer</action_transition>
-<action_transition id="1">PoserMur</action_transition>
-<action_transition id="2">PeindreAmi</action_transition>
-<action_transition id="3">PeindreEnnemi</action_transition>
-<action_transition id="4">Casser</action_transition>
+<action_transition id="0">PeindreNeutre</action_transition>
+<action_transition id="1">PeindreAmi</action_transition>
+<action_transition id="2">PeindreEnnemi</action_transition>
+<action_transition id="3">Construire</action_transition>
+<action_transition id="4">Demolir</action_transition>
+<action_transition id="5">Admirer</action_transition>
+<action_transition id="6">Voyager</action_transition>
+<action_transition id="7">Prendre</action_transition>
+<action_transition id="8">Voler</action_transition>
+<action_transition id="9">LaisserTomber</action_transition>
+<action_transition id="10">Combattre</action_transition>
+<action_transition id="11">Dupliquer</action_transition>
 </liste_action_transition>
 <liste_decor>
 <decor id="0">SolNormal</decor>
 <decor id="1">SolAmi</decor>
 <decor id="2">SolEnnemi</decor>
-<decor id="3">Mur</decor>
-<decor id="4">Vitre</decor>
+<decor id="3">Muret</decor>
+<decor id="4">Mur</decor>
+<decor id="5">Gendarmerie</decor>
+<decor id="6">Skatepark</decor>
+<decor id="7">BatimentNeutre</decor>
+<decor id="8">BoucheEgout</decor>
+<decor id="9">Velo</decor>
+<decor id="10">BombePeinture</decor>
+<decor id="11">BombeEau</decor>
 </liste_decor>
 <liste_cellule>
 <cellule id="0">Case</cellule>
@@ -41,7 +55,7 @@
 <etat_depart>0</etat_depart>
 <condition>
 <condition_simple>
-<decor id="0">3</decor>
+<decor id="0">4</decor>
 <cellule id="0">0</cellule>
 </condition_simple>
 </condition>
@@ -56,7 +70,7 @@
 <cellule id="0">0</cellule>
 </condition_simple>
 </condition>
-<action_transition>2</action_transition>
+<action_transition>1</action_transition>
 <etat_arrivee>1</etat_arrivee>
 </transition>
 <transition>
@@ -71,7 +85,7 @@
 <cellule id="1">1</cellule>
 </condition_simple>
 </condition>
-<action_transition>2</action_transition>
+<action_transition>1</action_transition>
 <etat_arrivee>3</etat_arrivee>
 </transition>
 <transition>
@@ -82,7 +96,7 @@
 <cellule id="0">0</cellule>
 </condition_simple>
 </condition>
-<action_transition>2</action_transition>
+<action_transition>1</action_transition>
 <etat_arrivee>2</etat_arrivee>
 </transition>
 <transition>
@@ -93,19 +107,30 @@
 <cellule id="0">0</cellule>
 </condition_simple>
 </condition>
-<action_transition>2</action_transition>
+<action_transition>1</action_transition>
 <etat_arrivee>0</etat_arrivee>
 </transition>
 <transition>
 <etat_depart>2</etat_depart>
 <condition>
 <condition_simple>
-<decor id="0">3</decor>
+<decor id="0">4</decor>
 <cellule id="0">0</cellule>
 </condition_simple>
 </condition>
 <action_transition>4</action_transition>
 <etat_arrivee>3</etat_arrivee>
+</transition>
+<transition>
+<etat_depart>2</etat_depart>
+<condition>
+<condition_simple>
+<decor id="0">9</decor>
+<cellule id="0">0</cellule>
+</condition_simple>
+</condition>
+<action_transition>7</action_transition>
+<etat_arrivee>2</etat_arrivee>
 </transition>
 <transition>
 <etat_depart>3</etat_depart>
@@ -115,7 +140,7 @@
 <cellule id="0">0</cellule>
 </condition_simple>
 </condition>
-<action_transition>2</action_transition>
+<action_transition>1</action_transition>
 <etat_arrivee>3</etat_arrivee>
 </transition>
 <transition>
@@ -126,8 +151,23 @@
 <cellule id="0">0</cellule>
 </condition_simple>
 </condition>
-<action_transition>1</action_transition>
+<action_transition>3</action_transition>
 <etat_arrivee>2</etat_arrivee>
+</transition>
+<transition>
+<etat_depart>3</etat_depart>
+<condition>
+<condition_simple>
+<decor id="0">1</decor>
+<cellule id="0">1</cellule>
+</condition_simple>
+<condition_simple>
+<decor id="1">1</decor>
+<cellule id="1">4</cellule>
+</condition_simple>
+</condition>
+<action_transition>5</action_transition>
+<etat_arrivee>3</etat_arrivee>
 </transition>
 </liste_transition>
 </automate></root>

@@ -41,4 +41,8 @@ public class Condition {
         }
         return s;
     }
+    
+	public ArrayList<ConditionSimple> getConditions() {
+		return conditions;
+	}
 }

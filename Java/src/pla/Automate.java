@@ -51,6 +51,7 @@ public class Automate {
 
 		actionParDefaut = new Admirer();
 		etatInitial = etats.get(0);
+                etatCourant = etatInitial;
 		conditionParDefaut = new Condition();
 		transitionParDefaut = new Transition(etatInitial, conditionParDefaut, actionParDefaut, etatInitial);
 	*/

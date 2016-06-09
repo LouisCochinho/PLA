@@ -50,8 +50,9 @@ public class Jeu extends BasicGame {
 		this.gc = gc;
 		// Cr�ation de la carte
 		this.map = new Map();
+
 		// Cr�ation des personnages
-		ajouterPersonnage(new Personnage(Color.blue, 20, 10, "res/perso_bleu.gif"));
+		ajouterPersonnage(new Personnage(Color.blue, 20, 10, "res/perso_bleu.png"));
 		ajouterPersonnage(new Personnage(Color.green, 20, 20, "res/perso_vert.png", new Automate(10, 10)));
 		ajouterPersonnage(new Personnage(Color.black, 15, 15, "res/cop.png", new Automate(1, 1)));
 		ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png",new Automate(1, 1)));
@@ -77,10 +78,10 @@ public class Jeu extends BasicGame {
 	public void update(GameContainer gc, int delta) throws SlickException {
 		// TODO Auto-generated method stub
 		deplacerPersonnage(0);
-		deplacerPersonnage(1);
-		deplacerPersonnage(2);
-		deplacerPersonnage(3);
-		deplacerPersonnage(4);
+		//deplacerPersonnage(1);
+		//deplacerPersonnage(2);
+		//deplacerPersonnage(3);
+		//deplacerPersonnage(4);
 	}
 
 	// Arreter correctement le jeu en appuyant sur ECHAP
@@ -124,25 +125,56 @@ public class Jeu extends BasicGame {
 
 		// Chercher le personnage correspondant � l'indexPerso
 		Personnage p = personnages.get(indexPerso);
+
 		// Prendre sa couleur et ses coordonn�es
-		Color c = p.getCouleur();
+		Color couleur = p.getCouleur();
 		int coordI = p.getPosX();
 		int coordJ = p.getPosY();
 		// La case sur lequel le personnage �tait doit revenir � son etat d'origine
-		map.modifierDecorCase(coordI, coordJ, getImageParCouleur(c));
+		//map.modifierDecorCase(coordI, coordJ, getImageParCouleur(couleur));
 		// On enleve le personnage p a la liste des personnages de la case que le personnage s'apprete � quitter 
-		map.getCases()[coordI][coordJ].supprimerPersonnage(p);
+		map.getCase(coordI,coordJ).supprimerPersonnage(p);
+	
+		// Liste des indices en J possibles : indexJ d'une condition possible dans le tableau tabCondition de l'automate du joueur p
+		ArrayList<Integer> indexJPossibles = new ArrayList<Integer>();
+		// id de l'�tat courant du joueur p
+		int etatCourantId = p.getAutomate().getEtatCourant().getId();
+		// boolean pour savoir si une condition simple est v�rifi�e 
+		boolean conditionVerifiee;
+		// indice j de la condition a v�rifier
+		int indexJ = 0;
+		// Pour chaque condition disponible pour l'etat courant 
+		for(Condition c : p.getAutomate().getTabCondition()[etatCourantId]){
+			conditionVerifiee = true;
+			// Verifier si chaque condition simple est vraie
+			for(ConditionSimple cs : c.getConditions()){
+				// si la case au NORD|SUD|EST|OUEST|CASE de la case sur laquelle se trouve le personnage 
+				// contient le decor contenu dans condition simple alors la conditionSimple est verifi�e
+				if(!(map.getCase(map.getCase(coordI, coordJ),cs.getCellule()).getDecor() == cs.getDecor())){
+					conditionVerifiee = false;
+				}
+			}
+			// Si toutes les conditions simples de la condition complexe sont verifi�es alors ajouter l'indice indexJ
+			// a la liste des indicesJ possibles
+			if(conditionVerifiee){
+				indexJPossibles.add(indexJ);
+			}
+			// On s'apprete � changer de condition
+			indexJ++;
+		}
+		
+		// 
+		Random r = new Random();
+		int indexJChoisie = 0;
+		if(!indexJPossibles.isEmpty()){
+			// Prendre un indexJ au hasard dans la liste
+			 indexJChoisie = indexJPossibles.get(r.nextInt(indexJPossibles.size()));		
+		}
+		
+		//nouvel etat courant du personnage = tabEtatSuivant[etatCourantId][indexJChoisie]
+		personnages.get(indexPerso).getAutomate().setEtatCourant(p.getAutomate().getTabEtatSuivant()[etatCourantId][indexJChoisie]);
+		personnages.get(indexPerso).deplacer();
 
-		// d�placement du personnage =>
-		// Allez chercher dans tabEtatSuivant l'etat Suivant de l'automate
-			// => Decor_id 
-			// => etat_courant_id
-		// Modifier l'etat Courant de l'automate
-		int decor_id = map.getCase(coordI, coordJ).getDecor().getId();
-		int etat_courant_id = p.getAutomate().getEtatCourant().getId();
-		Etat etatSuivant = p.getAutomate().getEtatSuivant(decor_id, etat_courant_id);
-		p.getAutomate().setEtatCourant(etatSuivant);
-		p.deplacer();
 		/*Random r = new Random();	
 		switch(r.nextInt(4)){
 			case 0 : 

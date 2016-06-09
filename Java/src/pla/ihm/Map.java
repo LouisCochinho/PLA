@@ -8,11 +8,14 @@ import java.util.Random;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
+import pla.Association;
 
 import pla.Automate;
 import pla.Cellule;
 import pla.Personnage;
+import pla.action.transition.Action_transition;
+import pla.decor.DecorPersonnage;
+import pla.decor.SolNormal;
 
 public class Map {
 
@@ -71,7 +74,7 @@ public class Map {
 	public void placerPersonnage(Personnage p, Graphics g) {
 		
 		// La case du personnage contient un nouveau decor contenant une image
-		modifierDecorCase(p.getPosX(), p.getPosY(), p.getImage());
+		modifierDecorCase(p.getPosX(), p.getPosY(), new DecorPersonnage(p.getImage()));
 		// Ajouter le personnage � la liste des personnages de la case
 		cases[p.getPosX()][p.getPosY()].ajouterPersonnage(p);
 		// dessiner l'image du personnage
@@ -84,7 +87,7 @@ public class Map {
 			for (int j = 0; j < a.getTabActionTransition().length; j++) {
 				// pour chaque valeur dans le tableau action-transition, charger
 				// l'image dans la case
-				chargerImage(a, g, i, j);
+				chargerDecor(a, g, i, j);
 			}
 	}
 	
@@ -97,53 +100,10 @@ public class Map {
 		g.drawRect(a.getPosX() * TILE_SIZE, a.getPosY() * TILE_SIZE, 4* TILE_SIZE,4* TILE_SIZE);
 	}
 
-	public void chargerImage(Automate a, Graphics g, int i, int j) {
-		int val = a.getTabActionTransition()[i][j];
-		Image img = null;
-		switch (val) { // Selon la valeur, charger le d�cor correspondant
-		case 0:
-			try {
-				img = new Image("res/beton.jpg");
-			} catch (SlickException e) {
-				g.drawString("Erreur : L'image du sol n'a pas pu �tre charg�e", 50, 0);
-				g.setColor(Color.red);
-			}
-			break;
-
-		case 1:
-			try {
-				img = new Image("res/sol_vert.jpg");
-			} catch (SlickException e) {
-				g.drawString("Erreur : L'image du sol vert n'a pas pu �tre charg�e", 50, 0);
-				g.setColor(Color.red);
-			}
-			break;
-
-		case 2:
-		case 4:
-			try {
-				img = new Image("res/sol_bleu.jpg");
-			} catch (SlickException e) {
-				g.drawString("Erreur : L'image du sol bleu n'a pas pu �tre charg�e", 50, 0);
-				g.setColor(Color.red);
-			}
-			break;
-
-		case 3:
-			try {
-				img = new Image("res/wall.png");
-			} catch (SlickException e) {
-				g.drawString("Erreur : L'image du mur n'a pas pu �tre charg�e", 50, 0);
-				g.setColor(Color.red);
-			}
-			break;
-
-		default:
-			img = null;
-		}
-		// Attention inversion des indices entre les cases et la map
-		// Modification du d�cor de la case
-		modifierDecorCase(j + a.getPosX(), i + a.getPosY(), img);
+	public void chargerDecor(Automate a, Graphics g, int i, int j) {
+            Action_transition at = a.getTabActionTransition()[i][j];
+            Decor decor = Association.getDecor(at);
+            modifierDecorCase(j + a.getPosX(), i + a.getPosY(), decor);
 	}
 
 	public Case[][] getCases() {
@@ -154,21 +114,15 @@ public class Map {
 		this.cases = cases;
 	}
 
-	public void modifierDecorCase(int i, int j, Image img) {
+	public void modifierDecorCase(int i, int j, Decor decor) {
 		if (i < largeur && j < longueur) {
-			cases[i][j].setDecor(new Decor(img));
+			cases[i][j].setDecor(decor);
 		}
 
 	}
 
 	public void effacerDecorCase(int i, int j) {
-		try {
-			modifierDecorCase(i, j, new Image("res/beton.jpg")); // Le beton est
-																	// l'image
-																	// de base
-		} catch (SlickException e) {
-			System.out.println("L'image du b�ton n'a pas pu �tre trouv�e lors de la r�initialisation d'une case");
-		}
+            modifierDecorCase(i, j, new SolNormal());
 	}
 
 	public void dessinerImage(Image img, float x, float y, Graphics g) {

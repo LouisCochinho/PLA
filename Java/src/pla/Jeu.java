@@ -12,6 +12,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+import pla.decor.Decor;
+import pla.ihm.Case;
 import pla.ihm.Map;
 
 public class Jeu extends BasicGame {
@@ -20,6 +22,9 @@ public class Jeu extends BasicGame {
 	private GameContainer gc; // conteneur
 	private boolean dejaDessine; // boolean pour savoir si il faut dessiner les automates ou non
 	private static final int PAUSE = 50; // temps de latence
+	
+	/*private float z1 = 0.01f;
+	  private float z2 = 0.01f;*/
 
 	public Jeu(String titre) {
 		super(titre); // Nom du jeu
@@ -51,11 +56,11 @@ public class Jeu extends BasicGame {
 		// Création de la carte
 		this.map = new Map();
 		// Création des personnages
-		ajouterPersonnage(new Personnage(Color.blue, 20, 10, "res/perso_bleu.png"));
+		ajouterPersonnage(new Personnage(Color.blue, 17, 17, "res/perso_bleu.png"));
 		ajouterPersonnage(new Personnage(Color.green, 20, 20, "res/perso_vert.png", new Automate(10, 10)));
 		ajouterPersonnage(new Personnage(Color.black, 15, 15, "res/cop.png", new Automate(1, 1)));
 		ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png",new Automate(1, 1)));
-		ajouterPersonnage(new Personnage(Color.black, 5, 5, "res/cop.png", new Automate(1, 1)));
+		ajouterPersonnage(new Personnage(Color.black, 10, 10, "res/cop.png", new Automate(1, 1)));
 	}
 
 	// Affiche le contenu du jeu
@@ -63,8 +68,7 @@ public class Jeu extends BasicGame {
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		dessinerCarte(g);
 		if (!dejaDessine) {
-			dessinerElements(g);// dessine les automates et les personnages sur
-								// la carte
+			dessinerElements(g);// dessine les automates et les personnages sur								// la carte
 			dejaDessine = true;
 		}
 		dessinerPersonnages(g);
@@ -76,10 +80,16 @@ public class Jeu extends BasicGame {
 	public void update(GameContainer gc, int delta) throws SlickException {
 		// TODO Auto-generated method stub
 		deplacerPersonnage(0);
-		//deplacerPersonnage(1);
-		//deplacerPersonnage(2);
-		//deplacerPersonnage(3);
-		//deplacerPersonnage(4);
+		deplacerPersonnage(1);
+		deplacerPersonnage(2);
+		deplacerPersonnage(3);
+		deplacerPersonnage(4);
+		
+		/*if(gc.getInput().isKeyDown(Input.KEY_DOWN)){
+			z1+=0.5f;
+			z2+=0.5f;
+			gc.getGraphics().scale(z1,z2);			
+		}*/		
 	}
 
 	// Arreter correctement le jeu en appuyant sur ECHAP
@@ -89,10 +99,6 @@ public class Jeu extends BasicGame {
 		if (Input.KEY_ESCAPE == key) {
 			gc.exit();
 		}
-
-		/*
-		 * Marche pas if (Input.KEY_P == key) { gc.pause(); }
-		 */
 	}
 
 	public void dessinerCarte(Graphics g) {
@@ -118,6 +124,7 @@ public class Jeu extends BasicGame {
 
 	public void deplacerPersonnage(int indexPerso) {
 
+		
 		// Chercher le personnage correspondant à l'indexPerso
 		Personnage p = personnages.get(indexPerso);
 		// Prendre sa couleur et ses coordonnées
@@ -143,8 +150,13 @@ public class Jeu extends BasicGame {
 			// Verifier si chaque condition simple est vraie
 			for(ConditionSimple cs : c.getConditions()){
 				// si la case au NORD|SUD|EST|OUEST|CASE de la case sur laquelle se trouve le personnage 
-				// contient le decor contenu dans condition simple alors la conditionSimple est verifiée
-				if(!(map.getCase(map.getCase(coordI, coordJ),cs.getCellule()).getDecor() == cs.getDecor())){
+				// contient le decor contenu dans condition simple alors la conditionSimple est verifiée				
+				Case caseCourante = map.getCase(coordI, coordJ);
+				Cellule cell = cs.getCellule();
+				Case caseOrientee = map.getCase(caseCourante, cell);
+				Decor decorCaseOrientee = caseOrientee.getDecor();
+				Decor decorCondition = cs.getDecor();
+				if(map.getCase(map.getCase(coordI, coordJ),cs.getCellule()).getDecor() != cs.getDecor()){
 					conditionVerifiee = false;
 				}
 			}
@@ -156,19 +168,24 @@ public class Jeu extends BasicGame {
 			// On s'apprete à changer de condition
 			indexJ++;
 		}
-		
-		// 
+				
 		Random r = new Random();
 		int indexJChoisie = 0;
 		if(!indexJPossibles.isEmpty()){
 			// Prendre un indexJ au hasard dans la liste
-			 indexJChoisie = indexJPossibles.get(r.nextInt(indexJPossibles.size()));		
+			 indexJChoisie = indexJPossibles.get(r.nextInt(indexJPossibles.size()));
+			 personnages.get(indexPerso).getAutomate().setEtatCourant(p.getAutomate().getTabEtatSuivant()[etatCourantId][indexJChoisie]);
+		}
+		else{
+			// Si aucune transition n'est possible alors on revient à l'état initial de l'automate
+			personnages.get(indexPerso).getAutomate().setEtatCourant(p.getAutomate().getEtatInitial());
 		}
 		
-		//nouvel etat courant du personnage = tabEtatSuivant[etatCourantId][indexJChoisie]
-		personnages.get(indexPerso).getAutomate().setEtatCourant(p.getAutomate().getTabEtatSuivant()[etatCourantId][indexJChoisie]);
+		//nouvel etat courant du personnage = tabEtatSuivant[etatCourantId][indexJChoisie] ou etatInitial si rien n'est possible	
 		personnages.get(indexPerso).deplacer();
-		/*Random r = new Random();	
+		
+		/*
+		Random r = new Random();	
 		switch(r.nextInt(4)){
 			case 0 : 
 				 personnages.get(indexPerso).deplacerGauche(map.getLargeur());break;
@@ -181,8 +198,8 @@ public class Jeu extends BasicGame {
 				 
 			case 3 : 
 				 personnages.get(indexPerso).deplacerBas(map.getLongueur());break;
-		}*/
-		
+		}
+		*/
 		
 		
 		// Pause

@@ -70,11 +70,16 @@ public class Map {
 	 * j ---> | i| | -
 	 */
 	public void placerPersonnage(Personnage p, Graphics g) {
-		
+
 		// La case du personnage contient un nouveau decor contenant une image
 		modifierDecorCase(p.getPosX(), p.getPosY(), new DecorPersonnage(p.getImage()));
+
 		// Ajouter le personnage � la liste des personnages de la case
-		cases[p.getPosX()][p.getPosY()].ajouterPersonnage(p);
+		try {
+			cases[p.getPosX()][p.getPosY()].ajouterPersonnage(p);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("Erreur : Sortie tableau : X = " + p.getPosX() + " Y = " + p.getPosY());
+		}
 		// dessiner l'image du personnage
 		dessinerImage(cases[p.getPosX()][p.getPosY()].getDecor().getImage(), p.getPosX() * TILE_SIZE,
 				p.getPosY() * TILE_SIZE, g);
@@ -88,20 +93,21 @@ public class Map {
 				chargerDecor(a, g, i, j);
 			}
 	}
-	
-	public void dessinerContoursAutomate(Personnage p, Graphics g){
+
+	public void dessinerContoursAutomate(Personnage p, Graphics g) {
 		// dessiner un rectangle autour de l'automate et le colorier de la
 		// couleur du personnage � qui appartient cet automate.
 		Automate a = p.getAutomate();
 		g.setColor(p.getCouleur());
-		//g.drawRect(a.getPosX() * TILE_SIZE, a.getPosY() * TILE_SIZE, a.getNbLignes()* TILE_SIZE,a.getNbColonnes()* TILE_SIZE);
-		g.drawRect(a.getPosX() * TILE_SIZE, a.getPosY() * TILE_SIZE, 4* TILE_SIZE,4* TILE_SIZE);
+		// g.drawRect(a.getPosX() * TILE_SIZE, a.getPosY() * TILE_SIZE,
+		// a.getNbLignes()* TILE_SIZE,a.getNbColonnes()* TILE_SIZE);
+		g.drawRect(a.getPosX() * TILE_SIZE, a.getPosY() * TILE_SIZE, 4 * TILE_SIZE, 4 * TILE_SIZE);
 	}
 
 	public void chargerDecor(Automate a, Graphics g, int i, int j) {
-            Action_transition at = a.getTabActionTransition()[i][j];
-            Decor decor = Association.getDecor(at);
-            modifierDecorCase(j + a.getPosX(), i + a.getPosY(), decor);
+		Action_transition at = a.getTabActionTransition()[i][j];
+		Decor decor = Association.getDecor(at);
+		modifierDecorCase(j + a.getPosX(), i + a.getPosY(), decor);
 	}
 
 	public Case[][] getCases() {
@@ -120,7 +126,7 @@ public class Map {
 	}
 
 	public void effacerDecorCase(int i, int j) {
-            modifierDecorCase(i, j, new SolNormal());
+		modifierDecorCase(i, j, new SolNormal());
 	}
 
 	public void dessinerImage(Image img, float x, float y, Graphics g) {
@@ -156,8 +162,8 @@ public class Map {
 			return caseCourante;
 		}
 	}
-	
-	public Case getCase(int i, int j){
+
+	public Case getCase(int i, int j) {
 		return cases[i][j];
 	}
 

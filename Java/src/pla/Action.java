@@ -5,7 +5,7 @@ public abstract class Action {
 	private int id;
 	
 	
-	protected abstract void executer();
+	protected abstract void executer(Personnage p);
 
 	public int getId() {
 		return id;

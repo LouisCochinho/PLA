@@ -90,8 +90,8 @@ public class Map {
 		// couleur du personnage � qui appartient cet automate.
 		Automate a = p.getAutomate();
 		g.setColor(p.getCouleur());
-		g.drawRect(a.getPosX() * TILE_SIZE, a.getPosY() * TILE_SIZE, a.getNbLignes()* TILE_SIZE,
-				a.getNbColonnes()* TILE_SIZE);
+		//g.drawRect(a.getPosX() * TILE_SIZE, a.getPosY() * TILE_SIZE, a.getNbLignes()* TILE_SIZE,a.getNbColonnes()* TILE_SIZE);
+		g.drawRect(a.getPosX() * TILE_SIZE, a.getPosY() * TILE_SIZE, 4* TILE_SIZE,4* TILE_SIZE);
 	}
 
 	public void chargerImage(Automate a, Graphics g, int i, int j) {
@@ -200,6 +200,10 @@ public class Map {
 		} catch (ArrayIndexOutOfBoundsException e) { // Si on sort de la map
 			return caseCourante;
 		}
+	}
+	
+	public Case getCase(int i, int j){
+		return cases[i][j];
 	}
 
 	// Compteur qui retourne un entier correspondant aux nombres de cases dans

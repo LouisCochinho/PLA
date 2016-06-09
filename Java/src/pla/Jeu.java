@@ -19,7 +19,7 @@ public class Jeu extends BasicGame {
 	private List<Personnage> personnages; // Liste des personnages
 	private GameContainer gc; // conteneur
 	private boolean dejaDessine; // boolean pour savoir si il faut dessiner les automates ou non
-	private static final int PAUSE = 10; // temps de latence
+	private static final int PAUSE = 50; // temps de latence
 
 	public Jeu(String titre) {
 		super(titre); // Nom du jeu
@@ -129,8 +129,17 @@ public class Jeu extends BasicGame {
 		// On enleve le personnage p a la liste des personnages de la case que le personnage s'apprete à quitter 
 		map.getCases()[coordI][coordJ].supprimerPersonnage(p);
 
-		
-		Random r = new Random();	
+		// déplacement du personnage =>
+		// Allez chercher dans tabEtatSuivant l'etat Suivant de l'automate
+			// => Decor_id 
+			// => etat_courant_id
+		// Modifier l'etat Courant de l'automate
+		int decor_id = map.getCase(coordI, coordJ).getDecor().getId();
+		int etat_courant_id = p.getAutomate().getEtatCourant().getId();
+		Etat etatSuivant = p.getAutomate().getEtatSuivant(decor_id, etat_courant_id);
+		p.getAutomate().setEtatCourant(etatSuivant);
+		p.deplacer();
+		/*Random r = new Random();	
 		switch(r.nextInt(4)){
 			case 0 : 
 				 personnages.get(indexPerso).deplacerGauche(map.getLargeur());break;
@@ -143,7 +152,7 @@ public class Jeu extends BasicGame {
 				 
 			case 3 : 
 				 personnages.get(indexPerso).deplacerBas(map.getLongueur());break;
-		}
+		}*/
 		
 		
 		

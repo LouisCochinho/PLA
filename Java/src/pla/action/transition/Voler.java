@@ -11,7 +11,7 @@ import pla.Personnage;
  *
  * @author antoi
  */
-public class PeindreEnnemi extends Action_transition {
+public class Voler extends Action_transition {
 
     @Override
     public void executer(Personnage p) {

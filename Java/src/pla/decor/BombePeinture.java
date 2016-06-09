@@ -9,9 +9,9 @@ package pla.decor;
  *
  * @author antoi
  */
-public class Vitre extends Decor {
+public class BombePeinture extends Decor {
     
-    public Vitre() {
+    public BombePeinture() {
         super(null, 0);
     }
     

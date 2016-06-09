@@ -6,13 +6,12 @@
 package pla.action.transition;
 
 import pla.Personnage;
-import pla.action.transition.Action_transition;
 
 /**
  *
  * @author antoi
  */
-public class Casser extends Action_transition {
+public class Dupliquer extends Action_transition {
 
     @Override
     public void executer(Personnage p) {

@@ -6,7 +6,6 @@
 package pla.action.transition;
 
 import pla.Personnage;
-import pla.action.transition.Action_transition;
 
 /**
  *

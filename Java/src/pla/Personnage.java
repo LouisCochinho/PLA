@@ -14,7 +14,6 @@ public class Personnage {
 	private boolean bouge = true;
 	private Animation[] animations = new Animation[8];
 	private SpriteSheet sperso;
-	private DecorPersonnage dp;
 	private int typePerso;
 	private Automate automate;
 	private Color couleur;
@@ -85,6 +84,12 @@ public class Personnage {
 
 	public void deplacer(int delta) {
 		automate.getEtatCourant().getActionEtat().executer(this,delta);
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public float getX() {

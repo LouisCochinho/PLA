@@ -16,7 +16,6 @@ public class NePasBouger extends Action_etat {
 
     @Override
     public void executer(Personnage p, int delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+ 
     }
-    
 }

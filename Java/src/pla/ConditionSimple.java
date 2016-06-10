@@ -32,4 +32,8 @@ public class ConditionSimple {
     public String toString() {
         return decor + "(" + cellule + ")";
     }
+    
+    public boolean estVerifiee(Decor d){
+    	return decor.toString().equals(d.toString());
+    }
 }

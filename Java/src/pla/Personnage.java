@@ -6,12 +6,15 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
+import pla.decor.DecorPersonnage;
+
 public class Personnage {
 	private float x,y;
 	private int direction;
 	private boolean bouge = true;
 	private Animation[] animations = new Animation[8];
 	private SpriteSheet sperso;
+	private DecorPersonnage dp;
 	private int typePerso;
 	private Automate automate;
 	private Color couleur;

@@ -24,7 +24,7 @@ public class Jeu extends BasicGame {
 	private GameContainer gc; // conteneur
 	// private static final int PAUSE = 25; // temps de latence
 
-	private float zoom = 0.1f;
+	//private float zoom = 0.1f;
 	Music sound;
 
 	/*

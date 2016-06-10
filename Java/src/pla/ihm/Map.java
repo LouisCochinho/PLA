@@ -18,36 +18,36 @@ import pla.decor.Decor;
 public class Map {
 
 	private SpriteSheet ssmap;
-	private static final int TILE_SIZE = 96;
+	private static final int TILE_SIZE = 64;
 
 	/* largeur de la map */
 	private int largeur = 10;
 
 	/* longueur de la map */
-	private int longueur = 8;
+	private int hauteur =8;
 
 	// Matrice des Cases
 	private Case cases[][];
 
 	public Map() {
-		cases = new Case[largeur][longueur];
+		cases = new Case[hauteur][largeur];
 		// Création de la matrice des cases
-		for (int i = 0; i < largeur; i++) {
-			for (int j = 0; j < longueur; j++) {
+		for (int i = 0; i < hauteur; i++) {
+			for (int j = 0; j < largeur; j++) {
 				cases[i][j] = new Case(i, j);
 			}
 		}
 	}
 
 	public void init() throws SlickException {
-		this.ssmap = new SpriteSheet("res/beton.jpg", 96, 96);
+		this.ssmap = new SpriteSheet("res/beton.jpg", TILE_SIZE, TILE_SIZE);
 
 	}
 
 	public void afficher() {
 		ssmap.startUse();
-		for (int i = 0; i < longueur; i++) {
-			for (int j = 0; j < largeur; j++) {
+		for (int i = 0; i < largeur; i++) {
+			for (int j = 0; j < hauteur; j++) {
 				ssmap.renderInUse(i * TILE_SIZE, j * TILE_SIZE, 0, 0);
 			}
 		}
@@ -103,7 +103,7 @@ public class Map {
 	 * public void setCases(Case[][] cases) { this.cases = cases; }
 	 */
 	public void modifierDecorCase(int i, int j, Decor decor) {
-		if (i < largeur && j < longueur) {
+		if (i < largeur && j < hauteur) {
 			cases[i][j].setDecor(decor);
 		}
 

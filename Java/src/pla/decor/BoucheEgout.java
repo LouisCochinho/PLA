@@ -15,12 +15,7 @@ import org.newdawn.slick.SlickException;
 public class BoucheEgout extends Decor {
     
     public BoucheEgout() {
-        super(0);
-        try {
-            this.image = new Image("res/beton.png");
-        } catch (SlickException e) {
-            System.out.println("L'image n'a pas pu etre chargee");
-        }
+    	super("res/plaque_egout.png",64,64);
     }
     
 }

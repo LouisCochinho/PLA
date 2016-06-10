@@ -10,7 +10,7 @@ public class testPlacer {
 	private static final int CERCLE = 360;
 	private static final int DISTANCE = 2;
 	
-	public void placerAutoRandom(Map m, List<Personnage> lPersonnage){
+	public void placerAutoRandom(List<Personnage> lPersonnage){
 		Random rand =  new Random();
 		rand.setSeed(5);
 		int nbAutomate = lPersonnage.size();

@@ -173,22 +173,23 @@ public class Map {
 		lmax = largeurMax(lPersonnage);
 
 		if (hmax <= lmax) {
-			rayonCercle = (lmax * (nbAutomate) / 2 )*TILE_SIZE;
+			rayonCercle = (lmax * (nbAutomate) / 2 );
 		} else {
-			rayonCercle = (hmax * (nbAutomate) / 2 )*TILE_SIZE;
+			rayonCercle = (hmax * (nbAutomate) / 2 );
 		}
 		centreCercleX = rayonCercle;
 		centreCercleY = rayonCercle;
 		
 		anglePersonnage = CERCLE / nbAutomate;
 		firstAngle = rand.nextInt(CERCLE + 1);
-		lPersonnage.get(0).getAutomate().setPosX((int)(rayonCercle * Math.cos(firstAngle*2*Math.PI/360)+ centreCercleX));
-		lPersonnage.get(0).getAutomate().setPosY((int)(rayonCercle * Math.sin(firstAngle*2*Math.PI/360)+ centreCercleY));
+		lPersonnage.get(0).getAutomate().setPosX((int)(rayonCercle * Math.cos(firstAngle*2*Math.PI/360)+ centreCercleX)*TILE_SIZE);
+		lPersonnage.get(0).getAutomate().setPosY((int)(rayonCercle * Math.sin(firstAngle*2*Math.PI/360)+ centreCercleY)*TILE_SIZE);
+	
 
 		for (int i = 1; i < nbAutomate; i++) {
 			firstAngle = (anglePersonnage +firstAngle)%CERCLE;
-			lPersonnage.get(i).getAutomate().setPosX((int)(rayonCercle * Math.cos(firstAngle*2*Math.PI/360) + centreCercleX));
-			lPersonnage.get(i).getAutomate().setPosY((int)(rayonCercle * Math.sin(firstAngle*2*Math.PI/360) + centreCercleY));
+			lPersonnage.get(i).getAutomate().setPosX((int)(rayonCercle * Math.cos(firstAngle*2*Math.PI/360) + centreCercleX)*TILE_SIZE);
+			lPersonnage.get(i).getAutomate().setPosY((int)(rayonCercle * Math.sin(firstAngle*2*Math.PI/360) + centreCercleY)*TILE_SIZE);
 		}
 	}
 

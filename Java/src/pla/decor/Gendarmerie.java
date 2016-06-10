@@ -14,13 +14,8 @@ import org.newdawn.slick.SlickException;
  */
 public class Gendarmerie extends Decor {
     
-    public Gendarmerie() {
-        super(0);
-        try {
-            this.image = new Image("res/beton.png");
-        } catch (SlickException e) {
-            System.out.println("L'image n'a pas pu etre chargee");
-        }
+    public Gendarmerie() { 
+    	
     }
     
 }

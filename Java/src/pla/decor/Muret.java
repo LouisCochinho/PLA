@@ -15,12 +15,7 @@ import org.newdawn.slick.SlickException;
 public class Muret extends Decor {
     
     public Muret() {
-        super(0);
-        try {
-            this.image = new Image("res/beton.png");
-        } catch (SlickException e) {
-            System.out.println("L'image n'a pas pu etre chargee");
-        }
+    	super("res/Muret.png",64,64);
     }
     
 }

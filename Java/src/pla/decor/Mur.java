@@ -7,6 +7,7 @@ package pla.decor;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 
 /**
  *
@@ -15,12 +16,6 @@ import org.newdawn.slick.SlickException;
 public class Mur extends Decor {
     
     public Mur() {
-        super(0);
-        try {
-            this.image = new Image("res/wall.png");
-        } catch (SlickException e) {
-            System.out.println("L'image n'a pas pu etre chargee");
-        }
-    }
-    
+    	super("res/wall.png",64,64);
+    } 
 }

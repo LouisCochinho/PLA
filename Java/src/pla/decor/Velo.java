@@ -15,12 +15,7 @@ import org.newdawn.slick.SlickException;
 public class Velo extends Decor {
     
     public Velo() {
-        super(0);
-        try {
-            this.image = new Image("res/beton.png");
-        } catch (SlickException e) {
-            System.out.println("L'image n'a pas pu etre chargee");
-        }
+       
     }
     
 }

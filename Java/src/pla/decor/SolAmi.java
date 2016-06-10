@@ -15,12 +15,7 @@ import org.newdawn.slick.SlickException;
 public class SolAmi extends Decor {
     
     public SolAmi() {
-        super(0);
-        try {
-            this.image = new Image("res/sol_vert.png");
-        } catch (SlickException e) {
-            System.out.println("L'image n'a pas pu etre chargee");
-        }
+        
     }
     
 }

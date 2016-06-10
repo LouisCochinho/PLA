@@ -158,10 +158,12 @@ public class XMLParser {
         XMLParser.automate = automate;
         // Création d'une instance de SAXBuilder
         SAXBuilder sxb = new SAXBuilder();
+        System.out.println("nom du fichier :"+fileName);
         try
         {
            // Création d'un document JDOM avec en argument le fichier XML
            document = sxb.build(new File(fileName));
+          
         }
         catch(JDOMException e){
             System.out.println(e.getMessage());

@@ -15,6 +15,7 @@ import pla.Cellule;
 import pla.Personnage;
 import pla.action.transition.Action_transition;
 import pla.decor.Decor;
+import pla.decor.DecorSprite;
 
 public class Map {
 
@@ -49,6 +50,7 @@ public class Map {
 		for (int i = 0; i < hauteur; i++) {
 			for (int j = 0; j < largeur; j++) {
                                 Decor d = cases[i][j].getDecor();
+                                ssmap.renderInUse(j * TILE_SIZE, i * TILE_SIZE, DecorSprite.SOL_NORMAL.getX(), DecorSprite.SOL_NORMAL.getY());
 				ssmap.renderInUse(j * TILE_SIZE, i * TILE_SIZE, d.getX(), d.getY());
 			}
 		}
@@ -163,7 +165,7 @@ public class Map {
 	 */
 
 	private static final int CERCLE = 360;
-	private static final int DISTANCE = 2;
+	private static final int DISTANCE = 0;
 
 	public void placerAutoRandom(List<Personnage> lPersonnage) {
 		Random rand = new Random();
@@ -175,22 +177,23 @@ public class Map {
 		lmax = largeurMax(lPersonnage);
 
 		if (hmax <= lmax) {
-			rayonCercle = (lmax * (nbAutomate) / 2 )*TILE_SIZE;
+			rayonCercle = (lmax * (nbAutomate) / 2 );
 		} else {
-			rayonCercle = (hmax * (nbAutomate) / 2 )*TILE_SIZE;
+			rayonCercle = (hmax * (nbAutomate) / 2 );
 		}
 		centreCercleX = rayonCercle;
 		centreCercleY = rayonCercle;
 		
 		anglePersonnage = CERCLE / nbAutomate;
 		firstAngle = rand.nextInt(CERCLE + 1);
-		lPersonnage.get(0).getAutomate().setPosX((int)(rayonCercle * Math.cos(firstAngle*2*Math.PI/360)+ centreCercleX));
-		lPersonnage.get(0).getAutomate().setPosY((int)(rayonCercle * Math.sin(firstAngle*2*Math.PI/360)+ centreCercleY));
+		lPersonnage.get(0).getAutomate().setPosX((int)(rayonCercle * Math.cos(firstAngle*2*Math.PI/360)+ centreCercleX)*TILE_SIZE);
+		lPersonnage.get(0).getAutomate().setPosY((int)(rayonCercle * Math.sin(firstAngle*2*Math.PI/360)+ centreCercleY)*TILE_SIZE);
+	
 
 		for (int i = 1; i < nbAutomate; i++) {
 			firstAngle = (anglePersonnage +firstAngle)%CERCLE;
-			lPersonnage.get(i).getAutomate().setPosX((int)(rayonCercle * Math.cos(firstAngle*2*Math.PI/360) + centreCercleX));
-			lPersonnage.get(i).getAutomate().setPosY((int)(rayonCercle * Math.sin(firstAngle*2*Math.PI/360) + centreCercleY));
+			lPersonnage.get(i).getAutomate().setPosX((int)(rayonCercle * Math.cos(firstAngle*2*Math.PI/360) + centreCercleX)*TILE_SIZE);
+			lPersonnage.get(i).getAutomate().setPosY((int)(rayonCercle * Math.sin(firstAngle*2*Math.PI/360) + centreCercleY)*TILE_SIZE);
 		}
 	}
 
@@ -221,36 +224,46 @@ public class Map {
 		int w = getCases().length;
 		int h = getCases()[0].length;
 
-		do {
-			posX = rand.nextInt(w)*TILE_SIZE;
-			posY = rand.nextInt(w)*TILE_SIZE;
-		} while (getCases()[posX/TILE_SIZE][posY/TILE_SIZE].getNbPersonnage() != 0);
 
-		lPersonnage.get(0).setX(posX);
-		lPersonnage.get(0).setY(posY);
-
-		for (int i = 1; i < lPersonnage.size(); i++) {
+		for (int i = 0; i < lPersonnage.size(); i++) {
 			do {
-				posX = rand.nextInt(w)*TILE_SIZE;
-				posY = rand.nextInt(h)*TILE_SIZE;
-			} while (getCases()[posX/TILE_SIZE][posY/TILE_SIZE].getNbPersonnage() != 0 || personnagePresent(lPersonnage, posX, posY, i));
-
-			lPersonnage.get(i).setX(posX);
-			lPersonnage.get(i).setY(posY);
+				posX = rand.nextInt(w)*TILE_SIZE+TILE_SIZE/2;
+				posY = rand.nextInt(h)*TILE_SIZE+TILE_SIZE/2;
+			} while ( personnagePresent(lPersonnage, posX, posY, i) || automatePresent(lPersonnage, posX, posY, 0));
+			/*System.out.println("perso "+i+" posX" + posX);
+			System.out.println("perso "+i+" posY" + posY);*/
+			lPersonnage.get(i).setX(posX%(w*TILE_SIZE));
+			lPersonnage.get(i).setY(posY%(h*TILE_SIZE));
 		}
 
+	}
+	
+	private boolean automatePresent(List<Personnage> lPersonnage, int posX, int posY, int i) {
+		boolean present = false;
+		int intiAPosX, intiAPosY, endAPosX, endAPosY;
+		for (int j = 0; j < i; j++) {
+			intiAPosX  = lPersonnage.get(j).getAutomate().getPosX();
+			intiAPosY  = lPersonnage.get(j).getAutomate().getPosX();
+			endAPosX  = lPersonnage.get(j).getAutomate().getNbColonnes() + intiAPosX;
+			endAPosY  = lPersonnage.get(j).getAutomate().getNbLignes() + intiAPosY;
+			if (intiAPosX<posX && endAPosX>posX && intiAPosY<posY && endAPosY>posY) {
+				present = true;
+			}
+		}
+		
+		return false;
 	}
 
 	private boolean personnagePresent(List<Personnage> lPersonnage, int posX, int posY, int i) {
 		boolean present = false;
 		for (int j = 0; j < i; j++) {
-			if ((lPersonnage.get(j).getX() - posX) + (lPersonnage.get(j).getY() - posY) <= DISTANCE
-					|| (lPersonnage.get(j).getX() - posX) + (lPersonnage.get(j).getY() - posY) <= DISTANCE) {
+			if ((lPersonnage.get(j).getX() - posX) + (lPersonnage.get(j).getY() - posY) <= DISTANCE*TILE_SIZE
+					&& (lPersonnage.get(j).getX() - posX) + (lPersonnage.get(j).getY() - posY) <= DISTANCE*TILE_SIZE) {
 				present = true;
 			}
 		}
 
-		return present;
+		return false;
 	}
 
 }

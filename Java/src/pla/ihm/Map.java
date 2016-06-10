@@ -44,6 +44,15 @@ public class Map {
 	public void init() throws SlickException {
 		this.ssmap = new SpriteSheet("res/sprite.png", TILE_SIZE, TILE_SIZE);
 	}
+	
+	public int getLargeur(){
+		return largeur*TILE_SIZE;
+	}
+	
+	public int getHauteur(){
+		return hauteur*TILE_SIZE;
+	}
+	
 
 	public void afficher() {
 		ssmap.startUse();

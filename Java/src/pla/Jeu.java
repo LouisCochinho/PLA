@@ -22,6 +22,8 @@ public class Jeu extends BasicGame {
 																		// des
 																		// personnages
 	private GameContainer gc; // conteneur
+	private int camX, camY;
+	private final static int DEPLACEMENT = 15;
 	// private static final int PAUSE = 25; // temps de latence
 
 	//private float zoom = 0.1f;
@@ -81,6 +83,7 @@ public class Jeu extends BasicGame {
 	// Affiche le contenu du jeu
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
+		g.translate(camX, camY);
 		this.map.afficher();
 		for (Personnage p : personnages) {
 			p.afficher(g);
@@ -97,10 +100,8 @@ public class Jeu extends BasicGame {
 			deplacerPersonnage(p, delta);
 		}
 
-		/*
-		 * if (gc.getInput().isKeyPressed(Input.KEY_UP)) {
-		 * gc.getGraphics().scale(zoom,zoom); }
-		 */
+		
+
 		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn()) {
 			sound.resume();
 		}
@@ -109,11 +110,19 @@ public class Jeu extends BasicGame {
 		}
 		if (gc.getInput().isKeyPressed(Input.KEY_P)) {
 			sound.pause();
+		}	
+		if (gc.getInput().isKeyDown(Input.KEY_UP)) {
+				camY+=DEPLACEMENT;
 		}
-		/*
-		 * if(gc.getInput().isKeyDown(Input.KEY_DOWN)){ z1+=0.5f; z2+=0.5f;
-		 * gc.getGraphics().scale(z1,z2); }
-		 */
+		if (gc.getInput().isKeyDown(Input.KEY_DOWN)) {
+			camY-=DEPLACEMENT;
+		} 
+		if(gc.getInput().isKeyDown(Input.KEY_RIGHT)){
+			camX-= DEPLACEMENT;
+		}
+		if (gc.getInput().isKeyDown(Input.KEY_LEFT)) {
+			camX+=DEPLACEMENT;
+		} 
 	}
 
 	// Arreter correctement le jeu en appuyant sur ECHAP
@@ -180,7 +189,7 @@ public class Jeu extends BasicGame {
 				// m�me le trou du cul de golum est moins sale que la ligne qui
 				// suit =D
 				// A changer bien evidemment
-				if (!decorCaseOrientee.getClass().getSimpleName().equals(decorCondition.getClass().getSimpleName())) {
+				if (decorCaseOrientee.getClass().getSimpleName().equals(decorCondition.getClass().getSimpleName())) {
 					// contient le decor contenu dans condition simple alors la
 					// conditionSimple est verifi�e
 					conditionVerifiee = false;

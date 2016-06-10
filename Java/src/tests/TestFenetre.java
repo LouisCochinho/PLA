@@ -18,7 +18,7 @@ public class TestFenetre {
 		// Spï¿½cifie le mode d'affichage : le deuxieme parametre est le mode
 		// plein ecran ou non
 		app.setDisplayMode(640, 512, false);
-		// Démarre le jeu
+		// Dï¿½marre le jeu
 		app.setIcon("res/logo.png");
 		app.start();
 	}

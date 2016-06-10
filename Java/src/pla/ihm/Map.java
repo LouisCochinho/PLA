@@ -223,8 +223,8 @@ public class Map {
 		int h = getCases()[0].length;
 
 		do {
-			posX = rand.nextInt(w)*TILE_SIZE;
-			posY = rand.nextInt(w)*TILE_SIZE;
+			posX = rand.nextInt(w)*TILE_SIZE+TILE_SIZE/2;
+			posY = rand.nextInt(w)*TILE_SIZE+TILE_SIZE/2;
 		} while (getCases()[posX/TILE_SIZE][posY/TILE_SIZE].getNbPersonnage() != 0);
 
 		lPersonnage.get(0).setX(posX);
@@ -232,8 +232,8 @@ public class Map {
 
 		for (int i = 1; i < lPersonnage.size(); i++) {
 			do {
-				posX = rand.nextInt(w)*TILE_SIZE;
-				posY = rand.nextInt(h)*TILE_SIZE;
+				posX = rand.nextInt(w)*TILE_SIZE+TILE_SIZE/2;
+				posY = rand.nextInt(h)*TILE_SIZE+TILE_SIZE/2;
 			} while ( personnagePresent(lPersonnage, posX, posY, i));
 
 			lPersonnage.get(i).setX(posX);

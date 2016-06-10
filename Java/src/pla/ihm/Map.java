@@ -15,6 +15,7 @@ import pla.Cellule;
 import pla.Personnage;
 import pla.action.transition.Action_transition;
 import pla.decor.Decor;
+import pla.decor.DecorSprite;
 
 public class Map {
 
@@ -49,6 +50,7 @@ public class Map {
 		for (int i = 0; i < hauteur; i++) {
 			for (int j = 0; j < largeur; j++) {
                                 Decor d = cases[i][j].getDecor();
+                                ssmap.renderInUse(j * TILE_SIZE, i * TILE_SIZE, DecorSprite.SOL_NORMAL.getX(), DecorSprite.SOL_NORMAL.getY());
 				ssmap.renderInUse(j * TILE_SIZE, i * TILE_SIZE, d.getX(), d.getY());
 			}
 		}

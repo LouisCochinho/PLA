@@ -6,6 +6,9 @@
 package pla;
 
 import java.util.ArrayList;
+import pla.decor.Decor;
+import pla.ihm.Case;
+import pla.ihm.Map;
 
 /**
  *
@@ -45,4 +48,15 @@ public class Condition {
 	public ArrayList<ConditionSimple> getConditions() {
 		return conditions;
 	}
+	
+	public boolean estVerifiee(Personnage p,Map m){
+	for (ConditionSimple cs : this.conditions){
+		Case caseCourante = m.getCaseFromCoord((int)p.getX(),(int)p.getY());
+		Case caseOrientee = m.getCase(caseCourante,cs.getCellule());
+		if(!cs.estVerifiee(caseOrientee.getDecor())){
+			return false;
+		}
+	}
+	return true;
+}
 }

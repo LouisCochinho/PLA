@@ -1,6 +1,7 @@
 package pla;
 
 import pla.action.transition.Action_transition;
+import pla.decor.Decor;
 import pla.action.etat.Action_etat;
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +10,6 @@ import java.util.HashMap;
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
 
-import pla.decor.Decor;
 
 public class XMLParser {
     

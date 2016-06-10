@@ -22,10 +22,10 @@ public class Map {
 	private static final int TILE_SIZE = 64;
 
 	/* largeur de la map */
-	private int largeur = 10;
+	private int largeur = 20;
 
 	/* longueur de la map */
-	private int hauteur =8;
+	private int hauteur =16;
 
 	// Matrice des Cases
 	private Case cases[][];
@@ -124,7 +124,7 @@ public class Map {
 		try {
 			switch (cellule) {
 			case Nord:
-				return cases[caseCourante.getIndexI()][caseCourante.getIndexJ() - 1];
+				return cases[caseCourante.getIndexI()][caseCourante.getIndexJ() - 1];			
 			case Sud:
 				return cases[caseCourante.getIndexI()][caseCourante.getIndexJ() + 1];
 			case Est:
@@ -140,8 +140,10 @@ public class Map {
 		}
 	}
 
-	public Case getCase(int i, int j) {
-		return cases[i][j];
+	public Case getCaseFromCoord(int posX, int posY) {
+		System.out.println("X = "+posX+ " Y="+posY);
+		System.out.println("X = "+(posX/TILE_SIZE)+" Y="+(posY/TILE_SIZE));
+		return cases[(posY/TILE_SIZE)][(posX/TILE_SIZE)];
 	}
 	/*
 	 * // Compteur qui retourne un entier correspondant aux nombres de cases

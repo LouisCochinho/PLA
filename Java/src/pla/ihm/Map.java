@@ -227,7 +227,6 @@ public class Map {
 			do {
 				posX = rand.nextInt(w)*TILE_SIZE+TILE_SIZE/2;
 				posY = rand.nextInt(h)*TILE_SIZE+TILE_SIZE/2;
-				System.out.println("lol");
 			} while ( personnagePresent(lPersonnage, posX, posY, i) || automatePresent(lPersonnage, posX, posY, 0));
 			/*System.out.println("perso "+i+" posX" + posX);
 			System.out.println("perso "+i+" posY" + posY);*/

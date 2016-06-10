@@ -13,22 +13,17 @@ public abstract class Decor {
 	protected SpriteSheet sprite;
 	private float wSprite;
 	private float hSprite;
+        private DecorSprite decorSprite;
 	
 	public Decor(int id) {
 		actions = new ArrayList<Action>();
 		this.id = id;
 	}
 	
-	public Decor(String ref, int wSprite, int hSprite){
+	public Decor(DecorSprite decorSprite, int wSprite, int hSprite){
 		this.wSprite = wSprite;
 		this.hSprite = hSprite;
-		try {
-			this.sprite = new SpriteSheet(ref, wSprite, hSprite);
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		actions = new ArrayList<Action>();
+                this.decorSprite = decorSprite;
 	}
 	
 
@@ -68,4 +63,12 @@ public abstract class Decor {
 	public String toString() {
 		return this.getClass().getSimpleName();
 	}
+
+    public int getX() {
+        return decorSprite.getX();
+    }
+
+    public int getY() {
+        return decorSprite.getY();
+    }
 }

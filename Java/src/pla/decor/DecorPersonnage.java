@@ -14,7 +14,7 @@ import org.newdawn.slick.Image;
 public class DecorPersonnage extends Decor {
 
     public DecorPersonnage() {
-       super("res/personnage.png",64,64);
+       //super("res/personnage.png",64,64);
     }
     
 }

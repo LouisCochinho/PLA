@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 public class BoucheEgout extends Decor {
     
     public BoucheEgout() {
-    	super("res/plaque_egout.png",64,64);
+    	super(DecorSprite.BOUCHE_EGOUT, 64, 64);
     }
     
 }

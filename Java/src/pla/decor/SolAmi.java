@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 public class SolAmi extends Decor {
     
     public SolAmi() {
-        
+    	super(DecorSprite.SOL_AMI, 64, 64);
     }
     
 }

@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 public class Skatepark extends Decor {
     
     public Skatepark() {
-       
+    	super(DecorSprite.SKATEPARK, 64, 64);
     }
     
 }

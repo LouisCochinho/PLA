@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 public class BombeEau extends Decor {
     
     public BombeEau() {
-    	super("res/bombe_eau.png",64,64);
+    	super(DecorSprite.BOMBE_EAU, 64, 64);
     }
     
 }

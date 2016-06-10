@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 public class Muret extends Decor {
     
     public Muret() {
-    	super("res/Muret.png",64,64);
+    	super(DecorSprite.MURET, 64, 64);
     }
     
 }

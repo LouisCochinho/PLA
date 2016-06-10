@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 public class Velo extends Decor {
     
     public Velo() {
-       
+    	super(DecorSprite.VELO, 64, 64);
     }
     
 }

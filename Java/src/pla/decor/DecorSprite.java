@@ -10,18 +10,18 @@ package pla.decor;
  * @author antoi
  */
 public enum DecorSprite {
-    BATIMENT_NEUTRE(0, 2),
-    BOMBE_EAU(0, 1),
-    BOMBE_PEINTURE(0, 2),
-    BOUCHE_EGOUT(0, 0),
-    GENDARMERIE(0, 1),
+    BATIMENT_NEUTRE(0, 7),
+    BOMBE_EAU(0, 5),
+    BOMBE_PEINTURE(0, 4),
+    BOUCHE_EGOUT(0, 9),
+    GENDARMERIE(0, 3),
     HELICO(0, 1),
     MUR(0, 0),
-    MURET(0, 3),
-    SKATEPARK(0, 1),
-    SOL_AMI(0, 1),
-    SOL_ENNEMI(0, 2),
-    SOL_NORMAL(0, 1),
+    MURET(0, 1),
+    SKATEPARK(0, 11),
+    SOL_AMI(0, 8),
+    SOL_ENNEMI(0, 10),
+    SOL_NORMAL(0, 6),
     VELO(0, 2);
     
     private final int x;

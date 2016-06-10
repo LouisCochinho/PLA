@@ -231,7 +231,7 @@ public class Map {
 			do {
 				posX = rand.nextInt(w)*TILE_SIZE;
 				posY = rand.nextInt(h)*TILE_SIZE;
-			} while (getCases()[posX/TILE_SIZE][posY/TILE_SIZE].getNbPersonnage() != 0 || personnagePresent(lPersonnage, posX, posY, i));
+			} while ( personnagePresent(lPersonnage, posX, posY, i));
 
 			lPersonnage.get(i).setX(posX);
 			lPersonnage.get(i).setY(posY);
@@ -242,8 +242,8 @@ public class Map {
 	private boolean personnagePresent(List<Personnage> lPersonnage, int posX, int posY, int i) {
 		boolean present = false;
 		for (int j = 0; j < i; j++) {
-			if ((lPersonnage.get(j).getX() - posX) + (lPersonnage.get(j).getY() - posY) <= DISTANCE
-					|| (lPersonnage.get(j).getX() - posX) + (lPersonnage.get(j).getY() - posY) <= DISTANCE) {
+			if ((lPersonnage.get(j).getX() - posX) + (lPersonnage.get(j).getY() - posY) <= DISTANCE*TILE_SIZE
+					&& (lPersonnage.get(j).getX() - posX) + (lPersonnage.get(j).getY() - posY) <= DISTANCE*TILE_SIZE) {
 				present = true;
 			}
 		}

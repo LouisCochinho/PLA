@@ -161,7 +161,7 @@ public class Map {
 	 */
 
 	private static final int CERCLE = 360;
-	private static final int DISTANCE = 2;
+	private static final int DISTANCE = 0;
 
 	public void placerAutoRandom(List<Personnage> lPersonnage) {
 		Random rand = new Random();
@@ -220,24 +220,35 @@ public class Map {
 		int w = getCases().length;
 		int h = getCases()[0].length;
 
-		do {
-			posX = rand.nextInt(w)*TILE_SIZE+TILE_SIZE/2;
-			posY = rand.nextInt(w)*TILE_SIZE+TILE_SIZE/2;
-		} while (getCases()[posX/TILE_SIZE][posY/TILE_SIZE].getNbPersonnage() != 0);
 
-		lPersonnage.get(0).setX(posX);
-		lPersonnage.get(0).setY(posY);
-
-		for (int i = 1; i < lPersonnage.size(); i++) {
+		for (int i = 0; i < lPersonnage.size(); i++) {
 			do {
 				posX = rand.nextInt(w)*TILE_SIZE+TILE_SIZE/2;
 				posY = rand.nextInt(h)*TILE_SIZE+TILE_SIZE/2;
-			} while ( personnagePresent(lPersonnage, posX, posY, i));
-
-			lPersonnage.get(i).setX(posX);
-			lPersonnage.get(i).setY(posY);
+				System.out.println("lol");
+			} while ( personnagePresent(lPersonnage, posX, posY, i) || automatePresent(lPersonnage, posX, posY, 0));
+			/*System.out.println("perso "+i+" posX" + posX);
+			System.out.println("perso "+i+" posY" + posY);*/
+			lPersonnage.get(i).setX(posX%(w*TILE_SIZE));
+			lPersonnage.get(i).setY(posY%(h*TILE_SIZE));
 		}
 
+	}
+	
+	private boolean automatePresent(List<Personnage> lPersonnage, int posX, int posY, int i) {
+		boolean present = false;
+		int intiAPosX, intiAPosY, endAPosX, endAPosY;
+		for (int j = 0; j < i; j++) {
+			intiAPosX  = lPersonnage.get(j).getAutomate().getPosX();
+			intiAPosY  = lPersonnage.get(j).getAutomate().getPosX();
+			endAPosX  = lPersonnage.get(j).getAutomate().getNbColonnes() + intiAPosX;
+			endAPosY  = lPersonnage.get(j).getAutomate().getNbLignes() + intiAPosY;
+			if (intiAPosX<posX && endAPosX>posX && intiAPosY<posY && endAPosY>posY) {
+				present = true;
+			}
+		}
+		
+		return false;
 	}
 
 	private boolean personnagePresent(List<Personnage> lPersonnage, int posX, int posY, int i) {
@@ -249,7 +260,7 @@ public class Map {
 			}
 		}
 
-		return present;
+		return false;
 	}
 
 }

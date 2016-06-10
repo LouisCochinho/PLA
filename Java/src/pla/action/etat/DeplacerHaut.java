@@ -16,6 +16,7 @@ public class DeplacerHaut extends Action_etat {
 		if(p.getY() < 0){
 			p.setY(MODULO_TORE_Y - 1);
 		}   
+		
 	}
 
 }

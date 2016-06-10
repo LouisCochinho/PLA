@@ -60,13 +60,12 @@ public class Jeu extends BasicGame {
 		this.gc = gc;
 		this.map.init();
 		ajouterPersonnage(
-				new Personnage("res/personnage.png", 400.f, 400.f, 2, 0, 64, 64, new Automate(), Color.blue));
+				new Personnage("res/thugBleu.png", 400.f, 400.f, 2, 0, 64, 64, new Automate(), Color.blue));
 		ajouterPersonnage(
-				new Personnage("res/personnage.png", 300.f, 300.f, 1, 0, 64, 64, new Automate(), Color.green));
+				new Personnage("res/thugRouge.png", 300.f, 300.f, 1, 0, 64, 64, new Automate(), Color.green));
 
 		// Marche pas => Revoir sprite policier
-		// ajouterPersonnage(new
-		// Personnage("res/policier.png",400.f,400.f,3,0,15,15));
+		ajouterPersonnage(new Personnage("res/Bernard.png",200.f,200.f,3,0,64,64, new Automate(), Color.green));
 
 		for (Personnage p : personnages) {
 			p.init();

@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 public class SolEnnemi extends Decor {
     
     public SolEnnemi() {
-        
+    	super(DecorSprite.SOL_ENNEMI, 64, 64);
     }
     
 }

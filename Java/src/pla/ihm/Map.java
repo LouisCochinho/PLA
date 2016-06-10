@@ -41,15 +41,15 @@ public class Map {
 	}
 
 	public void init() throws SlickException {
-		this.ssmap = new SpriteSheet("res/beton.jpg", TILE_SIZE, TILE_SIZE);
-
+		this.ssmap = new SpriteSheet("res/sprite.png", TILE_SIZE, TILE_SIZE);
 	}
 
 	public void afficher() {
 		ssmap.startUse();
-		for (int i = 0; i < largeur; i++) {
-			for (int j = 0; j < hauteur; j++) {
-				ssmap.renderInUse(i * TILE_SIZE, j * TILE_SIZE, 0, 0);
+		for (int i = 0; i < hauteur; i++) {
+			for (int j = 0; j < largeur; j++) {
+                                Decor d = cases[i][j].getDecor();
+				ssmap.renderInUse(j * TILE_SIZE, i * TILE_SIZE, d.getX(), d.getY());
 			}
 		}
 		ssmap.endUse();
@@ -72,8 +72,8 @@ public class Map {
 	 * p.getPosX() * TILE_SIZE, p.getPosY() * TILE_SIZE, g); }
 	 */
 	public void placerAutomate(Automate a, Color couleurPerso, Graphics g) {
-		for (int i = 0; i < a.getTabActionTransition().length; i++)
-			for (int j = 0; j < a.getTabActionTransition().length; j++) {
+		for (int i = 0; i < a.getNbLignes(); i++)
+			for (int j = 0; j < a.getNbColonnes(); j++) {
 				// pour chaque valeur dans le tableau action-transition, charger
 				// l'image dans la case
 				chargerDecor(a, g, i, j);
@@ -93,7 +93,7 @@ public class Map {
 	public void chargerDecor(Automate a, Graphics g, int i, int j) {
 		Action_transition at = a.getTabActionTransition()[i][j];
 		Decor decor = Association.getDecor(at);
-		modifierDecorCase(j + a.getPosX(), i + a.getPosY(), decor);
+		modifierDecorCase(i + a.getPosX(), j + a.getPosY(), decor);
 	}
 
 	public Case[][] getCases() {

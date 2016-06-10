@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 public class BombePeinture extends Decor {
     
     public BombePeinture() {
-    	
+    	super(DecorSprite.BOMBE_PEINTURE, 64, 64);
     }
     
 }

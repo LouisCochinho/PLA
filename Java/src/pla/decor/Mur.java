@@ -16,6 +16,6 @@ import org.newdawn.slick.SpriteSheet;
 public class Mur extends Decor {
     
     public Mur() {
-    	super("res/wall.png",64,64);
+    	super(DecorSprite.MUR, 64, 64);
     } 
 }

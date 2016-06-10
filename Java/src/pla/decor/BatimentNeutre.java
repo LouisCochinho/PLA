@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 public class BatimentNeutre extends Decor {
     
     public BatimentNeutre() {
-    	
+    	super(DecorSprite.BATIMENT_NEUTRE, 64, 64);
     }
     
 }

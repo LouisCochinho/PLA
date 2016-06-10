@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 public class SolNormal extends Decor {
     
     public SolNormal() {
-        
+    	super(DecorSprite.SOL_NORMAL, 64, 64);
     }
     
 }

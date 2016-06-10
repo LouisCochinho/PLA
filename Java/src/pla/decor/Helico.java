@@ -2,7 +2,7 @@ package pla.decor;
 
 public class Helico extends Decor {
 
-	 public Helico() {
-	    	super("res/helico.png",64,64);
-	    } 
+    public Helico() {
+       super(DecorSprite.HELICO, 64, 64);
+    } 
 }

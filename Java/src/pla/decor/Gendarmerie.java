@@ -14,8 +14,8 @@ import org.newdawn.slick.SlickException;
  */
 public class Gendarmerie extends Decor {
     
-    public Gendarmerie() { 
-    	
+    public Gendarmerie() {
+    	super(DecorSprite.GENDARMERIE, 64, 64);
     }
     
 }

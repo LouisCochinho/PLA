@@ -167,14 +167,11 @@ public class Jeu extends BasicGame {
 			conditionVerifiee = true;
 			// Verifier si chaque condition simple est vraie
 			for (ConditionSimple cs : c.getConditions()) {
-				// si la case au NORD|SUD|EST|OUEST|CASE de la case sur laquelle
-				// se trouve le personnage
-				// contient le decor contenu dans condition simple alors la
-				// conditionSimple est verifi�e
-				// contient le decor contenu dans condition simple alors la
-				// conditionSimple est verifi�e
+				// si la case au NORD|SUD|EST|OUEST|CASE de la case sur laquelle se trouve le personnage
+				// contient le decor contenu dans condition simple alors la conditionSimple est verifiée
 
-				Case caseCourante = map.getCase(coordX, coordX);
+
+				Case caseCourante = map.getCase(coordX, coordY);
 				Cellule cell = cs.getCellule();
 				Case caseOrientee = map.getCase(caseCourante, cell);
 				Decor decorCaseOrientee = caseOrientee.getDecor();
@@ -183,7 +180,7 @@ public class Jeu extends BasicGame {
 				// m�me le trou du cul de golum est moins sale que la ligne qui
 				// suit =D
 				// A changer bien evidemment
-				if (decorCaseOrientee.getClass().getSimpleName().equals(decorCondition.getClass().getSimpleName())) {
+				if (!decorCaseOrientee.getClass().getSimpleName().equals(decorCondition.getClass().getSimpleName())) {
 					// contient le decor contenu dans condition simple alors la
 					// conditionSimple est verifi�e
 					conditionVerifiee = false;

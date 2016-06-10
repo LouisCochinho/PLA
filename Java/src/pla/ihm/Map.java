@@ -7,6 +7,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
+import org.omg.CORBA.TIMEOUT;
 
 import pla.Association;
 import pla.Automate;
@@ -31,7 +32,7 @@ public class Map {
 
 	public Map() {
 		cases = new Case[hauteur][largeur];
-		// Création de la matrice des cases
+		// Crï¿½ation de la matrice des cases
 		for (int i = 0; i < hauteur; i++) {
 			for (int j = 0; j < largeur; j++) {
 				cases[i][j] = new Case(i, j);
@@ -164,31 +165,30 @@ public class Map {
 
 	public void placerAutoRandom(List<Personnage> lPersonnage) {
 		Random rand = new Random();
-		rand.setSeed(5);
+		
 		int nbAutomate = lPersonnage.size();
 		int rayonCercle, centreCercleX, centreCercleY, anglePersonnage, firstAngle, hmax, lmax;
 
 		hmax = hauteurMax(lPersonnage);
 		lmax = largeurMax(lPersonnage);
 
-		if (hmax < lmax) {
-			rayonCercle = lmax * (nbAutomate) / 2 + nbAutomate;
+		if (hmax <= lmax) {
+			rayonCercle = (lmax * (nbAutomate) / 2 )*TILE_SIZE;
 		} else {
-			rayonCercle = hmax * (nbAutomate) / 2 + nbAutomate;
+			rayonCercle = (hmax * (nbAutomate) / 2 )*TILE_SIZE;
 		}
 		centreCercleX = rayonCercle;
 		centreCercleY = rayonCercle;
 		
 		anglePersonnage = CERCLE / nbAutomate;
-		firstAngle = rand.nextInt() * (CERCLE + 1);
-
-		lPersonnage.get(0).getAutomate().setPosX(rayonCercle * (int) Math.cos(firstAngle) + centreCercleX);
-		lPersonnage.get(0).getAutomate().setPosX(rayonCercle * (int) Math.sin(firstAngle) + centreCercleY);
+		firstAngle = rand.nextInt(CERCLE + 1);
+		lPersonnage.get(0).getAutomate().setPosX((int)(rayonCercle * Math.cos(firstAngle*2*Math.PI/360)+ centreCercleX));
+		lPersonnage.get(0).getAutomate().setPosY((int)(rayonCercle * Math.sin(firstAngle*2*Math.PI/360)+ centreCercleY));
 
 		for (int i = 1; i < nbAutomate; i++) {
-			rayonCercle += anglePersonnage;
-			lPersonnage.get(i).getAutomate().setPosX(rayonCercle * (int) Math.cos(firstAngle));
-			lPersonnage.get(i).getAutomate().setPosX(rayonCercle * (int) Math.sin(firstAngle));
+			firstAngle = (anglePersonnage +firstAngle)%CERCLE;
+			lPersonnage.get(i).getAutomate().setPosX((int)(rayonCercle * Math.cos(firstAngle*2*Math.PI/360) + centreCercleX));
+			lPersonnage.get(i).getAutomate().setPosY((int)(rayonCercle * Math.sin(firstAngle*2*Math.PI/360) + centreCercleY));
 		}
 	}
 
@@ -214,25 +214,24 @@ public class Map {
 
 	public void placerPersonnageRandom(List<Personnage> lPersonnage) {
 		Random rand = new Random();
-		rand.setSeed(5);
 
 		int posX, posY;
 		int w = getCases().length;
 		int h = getCases()[0].length;
 
 		do {
-			posX = rand.nextInt(1) * w;
-			posY = rand.nextInt(1) * h;
-		} while (getCases()[posX][posY].getNbPersonnage() != 0);
+			posX = rand.nextInt(w)*TILE_SIZE;
+			posY = rand.nextInt(w)*TILE_SIZE;
+		} while (getCases()[posX/TILE_SIZE][posY/TILE_SIZE].getNbPersonnage() != 0);
 
 		lPersonnage.get(0).setX(posX);
 		lPersonnage.get(0).setY(posY);
 
 		for (int i = 1; i < lPersonnage.size(); i++) {
 			do {
-				posX = rand.nextInt(1) * w;
-				posY = rand.nextInt(1) * h;
-			} while (getCases()[posX][posY].getNbPersonnage() != 0 || personnagePresent(lPersonnage, posX, posY, i));
+				posX = rand.nextInt(w)*TILE_SIZE;
+				posY = rand.nextInt(h)*TILE_SIZE;
+			} while (getCases()[posX/TILE_SIZE][posY/TILE_SIZE].getNbPersonnage() != 0 || personnagePresent(lPersonnage, posX, posY, i));
 
 			lPersonnage.get(i).setX(posX);
 			lPersonnage.get(i).setY(posY);

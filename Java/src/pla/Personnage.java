@@ -34,7 +34,7 @@ public class Personnage {
 			this.sperso = new SpriteSheet(ref, wSprite, hSprite);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			System.out.println("le fichier "+ref+ " n'a pas pu être trouvé");
+			System.out.println("le fichier "+ref+ " n'a pas pu ï¿½tre trouvï¿½");
 		}
 	}
 
@@ -46,14 +46,14 @@ public class Personnage {
 	}
 	
 	private void initTagueur()throws SlickException{
-		this.animations[0] = chargerAnimation(sperso, 0, 1, 0);
-		this.animations[1] = chargerAnimation(sperso, 0, 1, 1);
-		this.animations[2] = chargerAnimation(sperso, 0, 1, 2);
-		this.animations[3] = chargerAnimation(sperso, 0, 1, 3);
-		this.animations[4] = chargerAnimation(sperso, 1, 9, 0);
-		this.animations[5] = chargerAnimation(sperso, 1, 9, 1);
-		this.animations[6] = chargerAnimation(sperso, 1, 9, 2);
-		this.animations[7] = chargerAnimation(sperso, 1, 9, 3);
+		this.animations[0] = chargerAnimation(sperso, 0, 1, 8);
+		this.animations[1] = chargerAnimation(sperso, 0, 1, 9);
+		this.animations[2] = chargerAnimation(sperso, 0, 1, 10);
+		this.animations[3] = chargerAnimation(sperso, 0, 1, 11);
+		this.animations[4] = chargerAnimation(sperso, 1, 9, 8);
+		this.animations[5] = chargerAnimation(sperso, 1, 9, 9);
+		this.animations[6] = chargerAnimation(sperso, 1, 9, 10);
+		this.animations[7] = chargerAnimation(sperso, 1, 9, 11);
 	}
 	
 	private void initPolicier()throws SlickException{

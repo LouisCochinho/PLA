@@ -60,13 +60,12 @@ public class Jeu extends BasicGame {
 		this.gc = gc;
 		this.map.init();
 		ajouterPersonnage(
-				new Personnage("res/personnage.png", 400.f, 400.f, 2, 0, 64, 64, new Automate(), Color.blue));
+				new Personnage("res/thugBleu.png", 400.f, 400.f, 2, 0, 64, 64, new Automate(), Color.blue));
 		ajouterPersonnage(
-				new Personnage("res/personnage.png", 300.f, 300.f, 1, 0, 64, 64, new Automate(), Color.green));
+				new Personnage("res/thugRouge.png", 300.f, 300.f, 1, 0, 64, 64, new Automate(), Color.green));
 
 		// Marche pas => Revoir sprite policier
-		// ajouterPersonnage(new
-		// Personnage("res/policier.png",400.f,400.f,3,0,15,15));
+		ajouterPersonnage(new Personnage("res/Bernard.png",200.f,200.f,3,0,64,64, new Automate(), Color.green));
 
 		for (Personnage p : personnages) {
 			p.init();
@@ -87,9 +86,9 @@ public class Jeu extends BasicGame {
 		}
 	}
 
-	// Met à jour les éléments de la scène en fonction du delta temps
+	// Met ï¿½ jour les ï¿½lï¿½ments de la scï¿½ne en fonction du delta temps
 	// survenu.
-	// C'est ici que la logique du jeu est enfermée.
+	// C'est ici que la logique du jeu est enfermï¿½e.
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		// TODO Auto-generated method stub
@@ -143,7 +142,7 @@ public class Jeu extends BasicGame {
 	 */
 	public void deplacerPersonnage(Personnage p, int delta) {
 
-		// Prendre sa couleur et ses coordonnïées => conversion à vérifier
+		// Prendre sa couleur et ses coordonnï¿½ï¿½es => conversion ï¿½ vï¿½rifier
 		int coordX = (int) p.getCoordX();
 		int coordY = (int) p.getCoordY();
 		// La case sur lequel le personnage etait doit revenir a son etat
@@ -172,7 +171,7 @@ public class Jeu extends BasicGame {
 				// contient le decor contenu dans condition simple alors la
 				// conditionSimple est verifiï¿½e
 				// contient le decor contenu dans condition simple alors la
-				// conditionSimple est verifiée
+				// conditionSimple est verifiï¿½e
 
 				Case caseCourante = map.getCase(coordX, coordX);
 				Cellule cell = cs.getCellule();
@@ -180,12 +179,12 @@ public class Jeu extends BasicGame {
 				Decor decorCaseOrientee = caseOrientee.getDecor();
 				Decor decorCondition = cs.getDecor();
 
-				// même le trou du cul de golum est moins sale que la ligne qui
+				// mï¿½me le trou du cul de golum est moins sale que la ligne qui
 				// suit =D
 				// A changer bien evidemment
 				if (decorCaseOrientee.getClass().getSimpleName().equals(decorCondition.getClass().getSimpleName())) {
 					// contient le decor contenu dans condition simple alors la
-					// conditionSimple est verifiée
+					// conditionSimple est verifiï¿½e
 					conditionVerifiee = false;
 				}
 			}

@@ -20,7 +20,7 @@ public class Jeu extends BasicGame {
 																		// personnages
 	private GameContainer gc; // conteneur
 	private int camX, camY;
-	private final static int DEPLACEMENT = 15;
+	private final static int DEPLACEMENT = 13;
 	// private static final int PAUSE = 25; // temps de latence
 
 	// private float zoom = 0.1f;
@@ -107,16 +107,19 @@ public class Jeu extends BasicGame {
 			sound.pause();
 		}	
 		if (gc.getInput().isKeyDown(Input.KEY_UP)) {
-				camY+=DEPLACEMENT;
+			cameraUP();
+			
 		}
 		if (gc.getInput().isKeyDown(Input.KEY_DOWN)) {
-			camY-=DEPLACEMENT;
+			cameraDown();
 		} 
 		if(gc.getInput().isKeyDown(Input.KEY_RIGHT)){
-			camX-= DEPLACEMENT;
+			cameraRIGHT();
+			
 		}
 		if (gc.getInput().isKeyDown(Input.KEY_LEFT)) {
-			camX+=DEPLACEMENT;
+			cameraLEFT();
+			
 		} 
 	}
 
@@ -161,5 +164,26 @@ public class Jeu extends BasicGame {
 			p.getAutomate().setEtatCourant(p.getAutomate().getEtatInitial());
 		}	
 		p.deplacer(delta);
+	}
+	
+	void cameraDown(){
+		if(camY-DEPLACEMENT >= -map.getHauteur()+800){camY-=DEPLACEMENT;}
+		else{camY = camY - (camY +map.getHauteur()-800);}
+	}
+	
+	void cameraUP(){
+		if(camY+DEPLACEMENT <= 0){camY+=DEPLACEMENT;}
+		else{camY = camY-camY;}
+		System.out.println(map.getHauteur() +" " +camY);
+	}
+	
+	void cameraLEFT(){
+		if(camX+DEPLACEMENT <= 0){camX+=DEPLACEMENT;}
+		else{camX = camX-camX;}
+	}
+	
+	void cameraRIGHT(){
+		if(camX-DEPLACEMENT >= -map.getLargeur()+1280){camX-= DEPLACEMENT;}
+		else{camX = camX - (camX +map.getLargeur()-1280);}
 	}
 }

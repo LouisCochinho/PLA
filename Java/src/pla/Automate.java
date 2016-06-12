@@ -14,7 +14,7 @@ public class Automate {
 	private int nbLignes = 0;
 	private int nbColonnes = 0;
 	private int posX; // position en abcisse sur la grille
-	private int posY; // position en ordonnée sur la grille
+	private int posY; // position en ordonnï¿½e sur la grille
 	private ArrayList<Etat> etats;
 	private ArrayList<Transition> transitions;
 	private Transition transitionParDefaut;
@@ -29,7 +29,7 @@ public class Automate {
 	}
 
 	public Automate(int posX, int posY) {
-		this("../OCaml/test.xml", posX, posY);
+		this("../Ocaml/test.xml", posX, posY);
 	}
 	
 

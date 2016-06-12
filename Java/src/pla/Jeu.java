@@ -58,21 +58,21 @@ public class Jeu extends BasicGame {
 
 		this.gc = gc;
 		this.map.init();
-		ajouterPersonnage(new Personnage("res/thugBleu.png", 420.f, 420.f, 2, 0, 64, 64, new Automate(), Color.blue));
-		ajouterPersonnage(new Personnage("res/thugRouge.png", 320.f, 320.f, 1, 0, 64, 64, new Automate(), Color.green));
+		ajouterPersonnage(new Personnage("res/thugBleu.png", 2, 64, 64, new Automate(), Color.blue));
+		ajouterPersonnage(new Personnage("res/thugRouge.png", 1, 64, 64, new Automate(), Color.green));
 
 		// Marche pas => Revoir sprite policier
-		ajouterPersonnage(new Personnage("res/Bernard.png", 200.f, 200.f, 3, 0, 64, 64, new Automate(), Color.green));
+		ajouterPersonnage(new Personnage("res/Bernard.png", 3, 64, 64, new Automate(), Color.green));
 
 		for (Personnage p : personnages) {
 			p.init();
-			// this.map.placerAutoRandom(personnages);
-			this.map.placerAutomate(p.getAutomate(), p.getCouleur(), gc.getGraphics());
+			this.map.placerAutoRandom(personnages);
+			//this.map.placerAutomate(p.getAutomate(), p.getCouleur(), gc.getGraphics());
 
 		}
-		// this.map.placerPersonnageRandom(personnages);
-	//	sound = new Music("res/thug.ogg");
-	//	sound.loop();
+		this.map.placerPersonnageRandom(personnages);
+	 	//sound = new Music("res/thug.ogg");
+		//sound.loop();
 	}
 
 	// Affiche le contenu du jeu
@@ -92,7 +92,11 @@ public class Jeu extends BasicGame {
 	public void update(GameContainer gc, int delta) throws SlickException {
 		// TODO Auto-generated method stub
 		for (Personnage p : personnages) {
-			deplacerPersonnage(p, delta);
+			if(p.isDeplacementTermine()){
+				System.out.println("X = "+p.getX()+" y = "+p.getY());
+				changerEtatAutomate(p, delta);
+			}
+			p.deplacer(delta);
 		}
 
 		
@@ -128,8 +132,10 @@ public class Jeu extends BasicGame {
 			gc.exit();
 		}
 	}
+	
+	
 
-	public void deplacerPersonnage(Personnage p, int delta) {
+	public void changerEtatAutomate(Personnage p, int delta) {
 
 		ArrayList<Integer> indexPossibles = new ArrayList<Integer>();
 		int etatCourantId = p.getAutomate().getEtatCourant().getId();
@@ -160,6 +166,13 @@ public class Jeu extends BasicGame {
 		else{
 			p.getAutomate().setEtatCourant(p.getAutomate().getEtatInitial());
 		}	
+		
+		// initier le mouvement
+		p.setDeplacementCourant(0);
+		
+	}
+	
+	public void deplacerPersonnage(Personnage p, int delta){
 		p.deplacer(delta);
 	}
 }

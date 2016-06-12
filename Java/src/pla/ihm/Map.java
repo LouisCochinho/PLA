@@ -152,8 +152,6 @@ public class Map {
 	}
 
 	public Case getCaseFromCoord(int posX, int posY) {
-		System.out.println("X = "+posX+ " Y="+posY);
-		System.out.println("X = "+(posX/TILE_SIZE)+" Y="+(posY/TILE_SIZE));
 		return cases[(posY/TILE_SIZE)][(posX/TILE_SIZE)];
 	}
 	/*

@@ -14,17 +14,15 @@ public class Personnage {
 	private boolean bouge = true;
 	private Animation[] animations = new Animation[8];
 	private SpriteSheet sperso;
-	private int typePerso;
 	private Automate automate;
 	private Color couleur;
 	private float wSprite;
 	private float hSprite;
+	private static final float distanceDeplacement = 64;
+	private float deplacementCourant;
 	
-	public Personnage(String ref,float x, float y,int direction,int typePerso,int wSprite,int hSprite,Automate a,Color c) throws SlickException {
-		this.x = x; 
-		this.y = y;
+	public Personnage(String ref,int direction,int wSprite,int hSprite,Automate a,Color c) throws SlickException {
 		this.direction = direction;
-		this.typePerso = typePerso;
 		this.automate = a;
 		this.couleur = c;
 		this.wSprite = wSprite;
@@ -33,18 +31,11 @@ public class Personnage {
 			this.sperso = new SpriteSheet(ref, wSprite, hSprite);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			System.out.println("le fichier "+ref+ " n'a pas pu ï¿½tre trouvï¿½");
+			System.out.println("le fichier "+ref+ " n'a pas pu être trouvé");
 		}
 	}
 
 	public void init() throws SlickException {
-		switch(typePerso){
-			case 0 : initTagueur();break;
-			case 1 : initPolicier();break;
-		}
-	}
-	
-	private void initTagueur()throws SlickException{
 		this.animations[0] = chargerAnimation(sperso, 0, 1, 8);
 		this.animations[1] = chargerAnimation(sperso, 0, 1, 9);
 		this.animations[2] = chargerAnimation(sperso, 0, 1, 10);
@@ -55,16 +46,7 @@ public class Personnage {
 		this.animations[7] = chargerAnimation(sperso, 1, 9, 11);
 	}
 	
-	private void initPolicier()throws SlickException{
-		this.animations[0] = chargerAnimation(sperso, 0, 1, 0);
-		this.animations[1] = chargerAnimation(sperso, 0, 1, 1);
-		this.animations[2] = chargerAnimation(sperso, 0, 1, 2);
-		this.animations[3] = chargerAnimation(sperso, 0, 1, 3);
-		this.animations[4] = chargerAnimation(sperso, 1, 4, 0);
-		this.animations[5] = chargerAnimation(sperso, 1, 4, 1);
-		this.animations[6] = chargerAnimation(sperso, 1, 4, 2);
-		this.animations[7] = chargerAnimation(sperso, 1, 4, 3);
-	}
+
 
 	private Animation chargerAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
 		Animation animation = new Animation();
@@ -84,12 +66,6 @@ public class Personnage {
 
 	public void deplacer(int delta) {
 		automate.getEtatCourant().getActionEtat().executer(this,delta);
-		try {
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public float getX() {
@@ -137,5 +113,17 @@ public class Personnage {
 	
 	public Color getCouleur(){
 		return this.couleur;
+	}
+	public float getDeplacementCourant() {
+		return deplacementCourant;
+	}
+
+	public void setDeplacementCourant(float deplacementCourant) {
+		this.deplacementCourant = deplacementCourant;
+	}
+	
+	public boolean isDeplacementTermine(){
+	//	return this.deplacementCourant >= distanceDeplacement;
+		return Math.round(x)%32==0 && Math.round(x)%64!=0 && Math.round(y)%32==0 && Math.round(y)%64!=0;
 	}
 }

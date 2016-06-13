@@ -76,6 +76,7 @@ public class Jeu extends BasicGame {
 		ajouterPersonnage(new Personnage("res/Bernard.png", 3, 64, 64, new Automate(), Color.black));
 		
 		map = new Map((int)SIZE_WINDOW_X, (int)SIZE_WINDOW_Y, personnages);
+
 		this.map.init();
 		currentSizeMapX = map.getLargeur();
 		currentSizeMapY = map.getHauteur();
@@ -116,7 +117,7 @@ public class Jeu extends BasicGame {
 				//System.out.println("X = "+p.getX()+" y = "+p.getY());
 				changerEtatAutomate(p, delta);
 			}
-			p.deplacer(delta,SIZE_WINDOW_X,SIZE_WINDOW_Y);
+			deplacerPersonnage(p, delta);
 		}
 
 
@@ -142,10 +143,10 @@ public class Jeu extends BasicGame {
 		if (gc.getInput().isKeyDown(Input.KEY_LEFT)) {
 			cameraLEFT();	
 		} 
-		if (gc.getInput().isKeyDown(Input.KEY_ADD)) {
+		if (gc.getInput().isKeyDown(Input.KEY_A)) {
 			cameraZoom();
 		}
-		if (gc.getInput().isKeyDown(Input.KEY_SUBTRACT)) {
+		if (gc.getInput().isKeyDown(Input.KEY_B)) {
 			cameraDezoom();
 		}
 
@@ -183,35 +184,37 @@ public class Jeu extends BasicGame {
 		}
 		else{
 			p.getAutomate().setEtatCourant(p.getAutomate().getEtatInitial());
-		}	
-		
+		}			
 		// initier le mouvement
-		p.setDeplacementCourant(0);
-		
+		p.setDeplacementCourant(0);		
 	}
 	
-	public void deplacerPersonnage(Personnage p, int delta){
-		p.deplacer(delta,SIZE_WINDOW_X,SIZE_WINDOW_Y);
+	public void deplacerPersonnage(Personnage p, int delta){		
+		p.deplacer(delta,map.getLargeur(),map.getHauteur());
 	}
 
 	void cameraDown(){
 		if(camY-DEPLACEMENT >= -currentSizeMapY+SIZE_WINDOW_Y){camY-=DEPLACEMENT;}
-		else{camY = camY - (camY +currentSizeMapY-SIZE_WINDOW_Y);}
+		else{camY = camY - (camY +currentSizeMapY-SIZE_WINDOW_Y);}		
+		
 	}
 
 	void cameraUP(){
 		if(camY+DEPLACEMENT <= 0){camY+=DEPLACEMENT;}
-		else{camY = camY-camY;}
+		else{camY = 0;}
+		
 	}
 
 	void cameraLEFT(){
 		if(camX+DEPLACEMENT <= 0){camX+=DEPLACEMENT;}
-		else{camX = camX-camX;}
+		else{camX = 0;}
+		
 	}
 
 	void cameraRIGHT(){
 		if(camX-DEPLACEMENT >= -currentSizeMapX+SIZE_WINDOW_X){camX-= DEPLACEMENT;}
 		else{camX = camX - (camX +currentSizeMapX-SIZE_WINDOW_X);}
+		
 	}
 
 	void cameraDezoom(){

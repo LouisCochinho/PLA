@@ -5,8 +5,11 @@
  */
 package pla.action.transition;
 
+import java.util.ArrayList;
 import pla.Personnage;
+import pla.decor.*;
 import pla.ihm.Case;
+import pla.ihm.Map;
 
 /**
  *
@@ -15,8 +18,16 @@ import pla.ihm.Case;
 public class Voyager extends Action_transition {
 
     @Override
-    public void executer(Personnage p, Case c, int delta) {
-        
+    public void executer(Personnage p, Case c, Map m, int delta) {
+        Decor d = c.getDecor();
+        if(d instanceof BoucheEgout) {
+            ArrayList<Case> cases = new ArrayList<Case>();
+            for (Case[] case1 : m.getCases()) {
+                for (Case case11 : case1) {
+                    System.out.println(case11);
+                }
+            }
+        }
     }
     
 }

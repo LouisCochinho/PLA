@@ -7,6 +7,7 @@ package pla.action.transition;
 
 import pla.Personnage;
 import pla.ihm.Case;
+import pla.ihm.Map;
 
 /**
  *
@@ -15,7 +16,7 @@ import pla.ihm.Case;
 public class Admirer extends Action_transition {
 
     @Override
-    public void executer(Personnage p, Case c, int delta) {
+    public void executer(Personnage p, Case c, Map m, int delta) {
         
     }
     

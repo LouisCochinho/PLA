@@ -18,7 +18,6 @@ public class Personnage {
 	private Color couleur;
 	private float wSprite;
 	private float hSprite;
-	private static final float distanceDeplacement = 64;
 	private float deplacementCourant;
 	
 	public Personnage(String ref,int direction,int wSprite,int hSprite,Automate a,Color c) throws SlickException {
@@ -64,8 +63,9 @@ public class Personnage {
 		g.drawRect(automate.getPosY(), automate.getPosX(), automate.getNbColonnes()*wSprite, automate.getNbLignes()*hSprite);
 	}
 
-	public void deplacer(int delta) {
-		automate.getEtatCourant().getActionEtat().executer(this,delta);
+	public void deplacer(int delta,int modulo_tore_x,int modulo_tore_y) {
+		
+		automate.getEtatCourant().getActionEtat().executer(this,delta, modulo_tore_x, modulo_tore_y);
 	}
 
 	public float getX() {

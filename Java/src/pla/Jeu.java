@@ -14,7 +14,7 @@ import org.newdawn.slick.SlickException;
 import pla.ihm.Map;
 
 public class Jeu extends BasicGame {
-	private Map map = new Map(); // carte du jeu
+	private Map map ; // carte du jeu
 	private List<Personnage> personnages = new ArrayList<Personnage>(); // Liste
 	// des
 	// personnages
@@ -22,10 +22,10 @@ public class Jeu extends BasicGame {
 	private float camX, camY;
 	private float zoomX=1, zoomY=1;
 	private final static float DEPLACEMENT = 13;
-	private float SIZE_WINDOW_X = 1280;
-	private float SIZE_WINDOW_Y = 1024;
-	private float currentSizeMapX = map.getLargeur();
-	private float currentSizeMapY = map.getHauteur();
+	private int SIZE_WINDOW_X ;
+	private int SIZE_WINDOW_Y ;
+	private float currentSizeMapX ;
+	private float currentSizeMapY ;
 	private final static float ZOOM = 0.03f;
 	// private static final int PAUSE = 25; // temps de latence
 
@@ -36,9 +36,13 @@ public class Jeu extends BasicGame {
 	 * private float z1 = 0.01f; private float z2 = 0.01f;
 	 */
 
-	public Jeu(String titre) {
+	public Jeu(String titre,int largeur,int hauteur) {
 		super(titre); // Nom du jeu
-
+		SIZE_WINDOW_X = largeur;
+		SIZE_WINDOW_Y = hauteur;
+		map = new Map(largeur, hauteur);
+		currentSizeMapX = map.getLargeur();
+		currentSizeMapY = map.getHauteur();
 		personnages = new ArrayList<Personnage>();
 	}
 
@@ -105,7 +109,7 @@ public class Jeu extends BasicGame {
 				System.out.println("X = "+p.getX()+" y = "+p.getY());
 				changerEtatAutomate(p, delta);
 			}
-			p.deplacer(delta);
+			p.deplacer(delta,SIZE_WINDOW_X,SIZE_WINDOW_Y);
 		}
 
 
@@ -180,7 +184,7 @@ public class Jeu extends BasicGame {
 	}
 	
 	public void deplacerPersonnage(Personnage p, int delta){
-		p.deplacer(delta);
+		p.deplacer(delta,SIZE_WINDOW_X,SIZE_WINDOW_Y);
 	}
 
 	void cameraDown(){

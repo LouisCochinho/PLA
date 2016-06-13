@@ -31,11 +31,13 @@ public class Map {
 	// Matrice des Cases
 	private Case cases[][];
 
-	public Map() {
-		cases = new Case[hauteur][largeur];
+	public Map(int largeur, int hauteur) {
+		this.largeur = largeur / TILE_SIZE;
+		this.hauteur = hauteur / TILE_SIZE;
+		cases = new Case[this.hauteur][this.largeur];
 		// Cr�ation de la matrice des cases
-		for (int i = 0; i < hauteur; i++) {
-			for (int j = 0; j < largeur; j++) {
+		for (int i = 0; i < this.hauteur; i++) {
+			for (int j = 0; j < this.largeur; j++) {
 				cases[i][j] = new Case(i, j);
 			}
 		}

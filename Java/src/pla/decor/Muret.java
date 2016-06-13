@@ -5,8 +5,7 @@
  */
 package pla.decor;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
+import pla.action.transition.*;
 
 /**
  *
@@ -16,6 +15,8 @@ public class Muret extends Decor {
     
     public Muret() {
     	super(DecorSprite.MURET, 64, 64);
+        ajouterAction(new Construire());
+        ajouterAction(new Demolir());
     }
     
 }

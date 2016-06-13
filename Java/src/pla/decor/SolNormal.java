@@ -5,8 +5,7 @@
  */
 package pla.decor;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
+import pla.action.transition.*;
 
 /**
  *
@@ -16,6 +15,9 @@ public class SolNormal extends Decor {
     
     public SolNormal() {
     	super(DecorSprite.SOL_NORMAL, 64, 64);
+        ajouterAction(new Construire());
+        ajouterAction(new PeindreAmi());
+        ajouterAction(new PeindreEnnemi());
     }
     
 }

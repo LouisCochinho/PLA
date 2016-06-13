@@ -40,9 +40,8 @@ public class Jeu extends BasicGame {
 		super(titre); // Nom du jeu
 		SIZE_WINDOW_X = largeur;
 		SIZE_WINDOW_Y = hauteur;
-		map = new Map(largeur, hauteur);
-		currentSizeMapX = map.getLargeur();
-		currentSizeMapY = map.getHauteur();
+		
+		
 		personnages = new ArrayList<Personnage>();
 	}
 
@@ -67,13 +66,17 @@ public class Jeu extends BasicGame {
 	public void init(GameContainer gc) throws SlickException {
 
 		this.gc = gc;
-		this.map.init();
+		
 		ajouterPersonnage(new Personnage("res/thugBleu.png", 2, 64, 64, new Automate(), Color.blue));
 		ajouterPersonnage(new Personnage("res/thugRouge.png", 1, 64, 64, new Automate(), Color.red));
 
 		// Marche pas => Revoir sprite policier
 		ajouterPersonnage(new Personnage("res/Bernard.png", 3, 64, 64, new Automate(), Color.black));
-
+		
+		map = new Map((int)SIZE_WINDOW_X, (int)SIZE_WINDOW_Y, personnages);
+		this.map.init();
+		currentSizeMapX = map.getLargeur();
+		currentSizeMapY = map.getHauteur();
 		for (Personnage p : personnages) {
 			p.init();
 

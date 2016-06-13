@@ -5,8 +5,7 @@
  */
 package pla.decor;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
+import pla.action.transition.*;
 
 /**
  *
@@ -16,6 +15,8 @@ public class Gendarmerie extends Decor {
     
     public Gendarmerie() {
     	super(DecorSprite.GENDARMERIE, 64, 64);
+        ajouterAction(new Demolir());
+        ajouterAction(new Dupliquer());
     }
     
 }

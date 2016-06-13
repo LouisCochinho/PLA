@@ -152,7 +152,15 @@ public class Map {
 	}
 
 	public Case getCaseFromCoord(int posX, int posY) {
-		return cases[(posY/TILE_SIZE)][(posX/TILE_SIZE)];
+		try{
+			return cases[(posY/TILE_SIZE)][(posX/TILE_SIZE)];
+		}catch(ArrayIndexOutOfBoundsException e){
+			/*A changer*/
+			System.out.println("Case hors map :");
+			System.out.println("posX = "+posX +" posY = "+posY);
+			System.out.println("caseX = "+posY/TILE_SIZE+ " caseY = "+posX/TILE_SIZE);
+			return cases[(posY/TILE_SIZE)-1][(posX/TILE_SIZE)-1];
+		}
 	}
 	/*
 	 * // Compteur qui retourne un entier correspondant aux nombres de cases
@@ -228,9 +236,8 @@ public class Map {
 		Random rand = new Random();
 
 		int posX, posY;
-		int w = getCases().length;
-		int h = getCases()[0].length;
-
+		int w = getCases()[0].length;
+		int h = getCases().length;
 
 		for (int i = 0; i < lPersonnage.size(); i++) {
 			do {

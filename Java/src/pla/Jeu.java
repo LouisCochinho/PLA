@@ -59,10 +59,10 @@ public class Jeu extends BasicGame {
 		this.gc = gc;
 		this.map.init();
 		ajouterPersonnage(new Personnage("res/thugBleu.png", 2, 64, 64, new Automate(), Color.blue));
-		ajouterPersonnage(new Personnage("res/thugRouge.png", 1, 64, 64, new Automate(), Color.green));
+		ajouterPersonnage(new Personnage("res/thugRouge.png", 1, 64, 64, new Automate(), Color.red));
 
 		// Marche pas => Revoir sprite policier
-		ajouterPersonnage(new Personnage("res/Bernard.png", 3, 64, 64, new Automate(), Color.green));
+		ajouterPersonnage(new Personnage("res/Bernard.png", 3, 64, 64, new Automate(), Color.black));
 
 		for (Personnage p : personnages) {
 			p.init();
@@ -139,21 +139,12 @@ public class Jeu extends BasicGame {
 
 		ArrayList<Integer> indexPossibles = new ArrayList<Integer>();
 		int etatCourantId = p.getAutomate().getEtatCourant().getId();
-		boolean conditionVerifiee;
 		Random r = new Random();
 		int indexChoisi = 0;
 
 		for (int i = 0; i < p.getAutomate().getNbLignes(); i++) {
 			Condition c = p.getAutomate().getTabCondition()[i][etatCourantId];
-			conditionVerifiee = true;
-
-
-			if (!c.estVerifiee(p, map)) {
-				conditionVerifiee = false;
-
-			}
-
-			if (conditionVerifiee) {
+			if(c.estVerifiee(p, map)){
 				indexPossibles.add(i);
 			}
 		}

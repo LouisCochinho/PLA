@@ -15,7 +15,7 @@ public class DeplacerGauche extends Action_etat {
 		float depl = (p.getX()-0.1f*delta)%MODULO_TORE_Y;
 		p.setX(depl);
 		if(p.getX() < 0){
-			p.setX(MODULO_TORE_X - 1);
+			p.setX(MODULO_TORE_X-32);
 		}
 	}
 }

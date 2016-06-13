@@ -15,7 +15,7 @@ public class DeplacerHaut extends Action_etat {
 		float depl = (p.getY()-0.1f*delta)%MODULO_TORE_Y;
 		p.setY(depl);
 		if(p.getY() < 0){
-			p.setY(MODULO_TORE_Y - 1);
+			p.setY(MODULO_TORE_Y - 32);
 		}   			
 	}
 

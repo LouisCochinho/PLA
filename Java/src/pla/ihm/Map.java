@@ -104,7 +104,7 @@ public class Map {
 	public void chargerDecor(Automate a, Graphics g, int i, int j) {
 		Action_transition at = a.getTabActionTransition()[i][j];
 		Decor decor = Association.getDecor(at);
-		modifierDecorCase(i + a.getPosX(), j + a.getPosY(), decor);
+		modifierDecorCase(i + a.getPosX()/64, j + a.getPosY()/64, decor);
 	}
 
 	public Case[][] getCases() {
@@ -182,7 +182,7 @@ public class Map {
 	private static final int CERCLE = 360;
 	private static final int DISTANCE = 0;
 
-	public void placerAutoRandom(List<Personnage> lPersonnage) {
+	public void placerAutoRandom(List<Personnage> lPersonnage, Graphics g) {
 		Random rand = new Random();
 		
 		int nbAutomate = lPersonnage.size();
@@ -203,12 +203,14 @@ public class Map {
 		firstAngle = rand.nextInt(CERCLE + 1);
 		lPersonnage.get(0).getAutomate().setPosX((int)(rayonCercle * Math.cos(firstAngle*2*Math.PI/360)+ centreCercleX)*TILE_SIZE);
 		lPersonnage.get(0).getAutomate().setPosY((int)(rayonCercle * Math.sin(firstAngle*2*Math.PI/360)+ centreCercleY)*TILE_SIZE);
+                placerAutomate(lPersonnage.get(0).getAutomate(), lPersonnage.get(0).getCouleur(), g);
 	
 
 		for (int i = 1; i < nbAutomate; i++) {
 			firstAngle = (anglePersonnage +firstAngle)%CERCLE;
 			lPersonnage.get(i).getAutomate().setPosX((int)(rayonCercle * Math.cos(firstAngle*2*Math.PI/360) + centreCercleX)*TILE_SIZE);
 			lPersonnage.get(i).getAutomate().setPosY((int)(rayonCercle * Math.sin(firstAngle*2*Math.PI/360) + centreCercleY)*TILE_SIZE);
+                        placerAutomate(lPersonnage.get(i).getAutomate(), lPersonnage.get(i).getCouleur(), g);
 		}
 	}
 

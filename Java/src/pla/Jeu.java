@@ -16,11 +16,17 @@ import pla.ihm.Map;
 public class Jeu extends BasicGame {
 	private Map map = new Map(); // carte du jeu
 	private List<Personnage> personnages = new ArrayList<Personnage>(); // Liste
-																		// des
-																		// personnages
+	// des
+	// personnages
 	private GameContainer gc; // conteneur
-	private int camX, camY;
-	private final static int DEPLACEMENT = 15;
+	private float camX, camY;
+	private float zoomX=1, zoomY=1;
+	private final static float DEPLACEMENT = 13;
+	private float SIZE_WINDOW_X = 1280;
+	private float SIZE_WINDOW_Y = 1024;
+	private float currentSizeMapX = map.getLargeur();
+	private float currentSizeMapY = map.getHauteur();
+	private final static float ZOOM = 0.03f;
 	// private static final int PAUSE = 25; // temps de latence
 
 	// private float zoom = 0.1f;
@@ -66,19 +72,22 @@ public class Jeu extends BasicGame {
 
 		for (Personnage p : personnages) {
 			p.init();
-			this.map.placerAutoRandom(personnages);
+
 			//this.map.placerAutomate(p.getAutomate(), p.getCouleur(), gc.getGraphics());
 
 		}
+        this.map.placerAutoRandom(personnages, gc.getGraphics());
 		this.map.placerPersonnageRandom(personnages);
-	 	//sound = new Music("res/thug.ogg");
-		//sound.loop();
+	//	sound = new Music("res/thug.ogg");
+	//	sound.loop();
+
 	}
 
 	// Affiche le contenu du jeu
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		g.translate(camX, camY);
+		g.scale(zoomX, zoomY);
 		this.map.afficher();
 		for (Personnage p : personnages) {
 			p.afficher(g);
@@ -99,7 +108,7 @@ public class Jeu extends BasicGame {
 			p.deplacer(delta);
 		}
 
-		
+
 
 		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn()) {
 			sound.resume();
@@ -111,17 +120,24 @@ public class Jeu extends BasicGame {
 			sound.pause();
 		}	
 		if (gc.getInput().isKeyDown(Input.KEY_UP)) {
-				camY+=DEPLACEMENT;
+			cameraUP();		
 		}
 		if (gc.getInput().isKeyDown(Input.KEY_DOWN)) {
-			camY-=DEPLACEMENT;
+			cameraDown();
 		} 
 		if(gc.getInput().isKeyDown(Input.KEY_RIGHT)){
-			camX-= DEPLACEMENT;
+			cameraRIGHT();		
 		}
 		if (gc.getInput().isKeyDown(Input.KEY_LEFT)) {
-			camX+=DEPLACEMENT;
+			cameraLEFT();	
 		} 
+		if (gc.getInput().isKeyDown(Input.KEY_ADD)) {
+			cameraZoom();
+		}
+		if (gc.getInput().isKeyDown(Input.KEY_SUBTRACT)) {
+			cameraDezoom();
+		}
+
 	}
 
 	// Arreter correctement le jeu en appuyant sur ECHAP
@@ -165,5 +181,39 @@ public class Jeu extends BasicGame {
 	
 	public void deplacerPersonnage(Personnage p, int delta){
 		p.deplacer(delta);
+	}
+
+	void cameraDown(){
+		if(camY-DEPLACEMENT >= -currentSizeMapY+SIZE_WINDOW_Y){camY-=DEPLACEMENT;}
+		else{camY = camY - (camY +currentSizeMapY-SIZE_WINDOW_Y);}
+	}
+
+	void cameraUP(){
+		if(camY+DEPLACEMENT <= 0){camY+=DEPLACEMENT;}
+		else{camY = camY-camY;}
+	}
+
+	void cameraLEFT(){
+		if(camX+DEPLACEMENT <= 0){camX+=DEPLACEMENT;}
+		else{camX = camX-camX;}
+	}
+
+	void cameraRIGHT(){
+		if(camX-DEPLACEMENT >= -currentSizeMapX+SIZE_WINDOW_X){camX-= DEPLACEMENT;}
+		else{camX = camX - (camX +currentSizeMapX-SIZE_WINDOW_X);}
+	}
+
+	void cameraDezoom(){
+		if(currentSizeMapX >= SIZE_WINDOW_X && currentSizeMapY >= SIZE_WINDOW_Y){
+			zoomX -= ZOOM; zoomY -= ZOOM;
+			currentSizeMapX = zoomX*map.getLargeur();
+			currentSizeMapY = zoomY*map.getHauteur();
+		}
+	}
+
+	void cameraZoom(){
+		zoomX += ZOOM; zoomY += ZOOM;
+		currentSizeMapX = zoomX*map.getLargeur();
+		currentSizeMapY = zoomY*map.getHauteur();
 	}
 }

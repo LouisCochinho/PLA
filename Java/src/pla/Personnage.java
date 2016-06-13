@@ -61,7 +61,7 @@ public class Personnage {
 		g.fillOval(x - 16, y - 8, 32, 16);
 		g.drawAnimation(animations[direction + (bouge ? 4 : 0)], x - 32, y - 60);
 		g.setColor(couleur);		
-		g.drawRect(automate.getPosX(), automate.getPosY(), automate.getNbColonnes()*wSprite, automate.getNbLignes()*hSprite);
+		g.drawRect(automate.getPosY(), automate.getPosX(), automate.getNbColonnes()*wSprite, automate.getNbLignes()*hSprite);
 	}
 
 	public void deplacer(int delta) {

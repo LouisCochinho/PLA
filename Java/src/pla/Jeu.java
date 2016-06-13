@@ -29,6 +29,7 @@ public class Jeu extends BasicGame {
 	private float currentSizeMapX ;
 	private float currentSizeMapY ;
 	private final static float ZOOM = 0.03f;
+	private final static float ZOOM_MAX = 5;
 	// private static final int PAUSE = 25; // temps de latence
 
 	// private float zoom = 0.1f;
@@ -149,7 +150,19 @@ public class Jeu extends BasicGame {
 		if (gc.getInput().isKeyDown(Input.KEY_B)) {
 			cameraDezoom();
 		}
+		if(gc.getInput().isKeyPressed(Input.KEY_F1)){
+			gc.setPaused(!gc.isPaused());
+		}
 
+	}
+	
+	public void mouseWheelMoved(int change) {
+		if(change<0){
+			cameraDezoom();
+		}
+		else{
+			cameraZoom();
+		}
 	}
 
 	// Arreter correctement le jeu en appuyant sur ECHAP
@@ -218,17 +231,44 @@ public class Jeu extends BasicGame {
 	}
 
 	void cameraDezoom(){
-		if(currentSizeMapX >= SIZE_WINDOW_X && currentSizeMapY >= SIZE_WINDOW_Y){
+		float lastSizeMapX = currentSizeMapX;
+		float lastSizeMapY = currentSizeMapY;
+		if((zoomX-ZOOM)*map.getLargeur() >= SIZE_WINDOW_X && (zoomY-ZOOM)*map.getHauteur() >= SIZE_WINDOW_Y
+			/*	&& currentSizeMapX+camX < SIZE_WINDOW_X && camX<=0*/){
 			zoomX -= ZOOM; zoomY -= ZOOM;
 			currentSizeMapX = zoomX*map.getLargeur();
 			currentSizeMapY = zoomY*map.getHauteur();
+			camX = camX-(currentSizeMapX-lastSizeMapX)/2;
+			camY = camY-(currentSizeMapY-lastSizeMapY)/2;
 		}
+		/*else if(currentSizeMapX+camX >= SIZE_WINDOW_X){
+			camX=0;
+		}*/
+		else{
+			if(map.getLargeur() >= map.getHauteur()){
+				zoomX = SIZE_WINDOW_X/(float)map.getLargeur();
+				zoomY = zoomX;
+			}
+			else{
+				zoomY = SIZE_WINDOW_Y/(float)map.getHauteur();
+				zoomX = zoomY;
+			}
+		}
+		if(currentSizeMapX+camX<SIZE_WINDOW_X){camX = camX+(SIZE_WINDOW_X-currentSizeMapX-camX);}
+		if(currentSizeMapY+camY<SIZE_WINDOW_Y){camY = camY+(SIZE_WINDOW_Y-currentSizeMapY-camY);}
 
 	}
 
 	void cameraZoom(){
-		zoomX += ZOOM; zoomY += ZOOM;
-		currentSizeMapX = zoomX*map.getLargeur();
-		currentSizeMapY = zoomY*map.getHauteur();
+		float lastSizeMapX = currentSizeMapX;
+		float lastSizeMapY = currentSizeMapY;
+		if(zoomX<=ZOOM_MAX && zoomY<=ZOOM_MAX){
+			zoomX += ZOOM; zoomY += ZOOM;
+			currentSizeMapX = zoomX*map.getLargeur();
+			currentSizeMapY = zoomY*map.getHauteur();
+			camX = camX-(currentSizeMapX-lastSizeMapX)/2;
+			camY = camY-(currentSizeMapY-lastSizeMapY)/2;
+		}		
 	}
+	
 }

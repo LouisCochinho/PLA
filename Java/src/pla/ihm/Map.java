@@ -24,18 +24,17 @@ public class Map {
 	private static final int TILE_SIZE = 64;
 
 	/* largeur de la map */
-	private int largeur = 25;
+	private int largeur = 20;
 
 	/* longueur de la map */
-	private int hauteur =20;
+	private int hauteur =16;
 
 	// Matrice des Cases
 	private Case cases[][];
 
-	public Map(int largeur, int hauteur, List<Personnage> personnages) {
-		this.largeur = largeurMax(personnages)*personnages.size()/ TILE_SIZE;
-		this.hauteur = hauteurMax(personnages)*personnages.size()/ TILE_SIZE;
-		System.out.println(this.largeur+ " "+this.hauteur + " " + personnages.size());
+	public Map(int largeur, int hauteur) {
+                this.largeur = largeur / TILE_SIZE;
+ 		this.hauteur = hauteur / TILE_SIZE;
 		cases = new Case[this.hauteur][this.largeur];
 		// Cr�ation de la matrice des cases
 		for (int i = 0; i < this.hauteur; i++) {

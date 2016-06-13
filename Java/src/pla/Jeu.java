@@ -66,11 +66,11 @@ public class Jeu extends BasicGame {
 
 		for (Personnage p : personnages) {
 			p.init();
-			// this.map.placerAutoRandom(personnages);
-			this.map.placerAutomate(p.getAutomate(), p.getCouleur(), gc.getGraphics());
+			//this.map.placerAutomate(p.getAutomate(), p.getCouleur(), gc.getGraphics());
 
 		}
-		// this.map.placerPersonnageRandom(personnages);
+                this.map.placerAutoRandom(personnages, gc.getGraphics());
+		//this.map.placerPersonnageRandom(personnages);
 	//	sound = new Music("res/thug.ogg");
 	//	sound.loop();
 	}
@@ -174,7 +174,6 @@ public class Jeu extends BasicGame {
 	void cameraUP(){
 		if(camY+DEPLACEMENT <= 0){camY+=DEPLACEMENT;}
 		else{camY = camY-camY;}
-		System.out.println(map.getHauteur() +" " +camY);
 	}
 	
 	void cameraLEFT(){

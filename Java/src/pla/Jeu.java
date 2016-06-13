@@ -209,6 +209,7 @@ public class Jeu extends BasicGame {
 			currentSizeMapX = zoomX*map.getLargeur();
 			currentSizeMapY = zoomY*map.getHauteur();
 		}
+
 	}
 
 	void cameraZoom(){

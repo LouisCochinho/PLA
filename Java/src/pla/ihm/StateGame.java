@@ -4,10 +4,16 @@ import org.newdawn.slick.state.*;
 
 import pla.Jeu;
 
+
+
 public class StateGame extends StateBasedGame {
 	
+	static private AppGameContainer app;
+	
 	public static void main(String [] args) throws SlickException {
-		new AppGameContainer(new StateGame(), 1280, 768, false).start();
+		app = new AppGameContainer(new StateGame(), 1280, 768, false);
+		app.setIcon("res/logo.png");
+		app.start();
 	}
 	
 	public StateGame() {

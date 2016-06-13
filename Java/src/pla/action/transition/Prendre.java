@@ -6,6 +6,8 @@
 package pla.action.transition;
 
 import pla.Personnage;
+import pla.decor.*;
+import pla.ihm.Case;
 
 /**
  *
@@ -14,8 +16,11 @@ import pla.Personnage;
 public class Prendre extends Action_transition {
 
     @Override
-    public void executer(Personnage p, int delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void executer(Personnage p, Case c, int delta) {
+        Decor d = c.getDecor();
+        if(d instanceof BombeEau || d instanceof BombePeinture) {
+            c.setDecor(new SolNormal());
+        }
     }
     
 }

@@ -11,6 +11,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import pla.action.transition.Construire;
+import pla.action.transition.Demolir;
 import pla.ihm.Map;
 
 public class Jeu extends BasicGame {
@@ -85,6 +87,8 @@ public class Jeu extends BasicGame {
 		}
         this.map.placerAutoRandom(personnages, gc.getGraphics());
 		this.map.placerPersonnageRandom(personnages);
+                //new Construire().executer(personnages.get(0), map.getCaseFromCoord(0, 0), 0);
+                //System.out.println(map.getCaseFromCoord(0, 0).getDecor());
 	//	sound = new Music("res/thug.ogg");
 	//	sound.loop();
 
@@ -109,7 +113,7 @@ public class Jeu extends BasicGame {
 		// TODO Auto-generated method stub
 		for (Personnage p : personnages) {
 			if(p.isDeplacementTermine()){
-				System.out.println("X = "+p.getX()+" y = "+p.getY());
+				//System.out.println("X = "+p.getX()+" y = "+p.getY());
 				changerEtatAutomate(p, delta);
 			}
 			p.deplacer(delta,SIZE_WINDOW_X,SIZE_WINDOW_Y);

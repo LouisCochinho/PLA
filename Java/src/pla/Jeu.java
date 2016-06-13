@@ -11,13 +11,17 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
+
 import pla.ihm.Map;
 
-public class Jeu extends BasicGame {
+public class Jeu extends BasicGameState {
 	private Map map = new Map(); // carte du jeu
 	private List<Personnage> personnages = new ArrayList<Personnage>(); // Liste
 																		// des
-																		// personnages
+	public static final int ID = 1;										// personnages
+	
 	private GameContainer gc; // conteneur
 	private int camX, camY;
 	private final static int DEPLACEMENT = 15;
@@ -30,8 +34,7 @@ public class Jeu extends BasicGame {
 	 * private float z1 = 0.01f; private float z2 = 0.01f;
 	 */
 
-	public Jeu(String titre) {
-		super(titre); // Nom du jeu
+	public Jeu() {
 
 		personnages = new ArrayList<Personnage>();
 	}
@@ -54,7 +57,7 @@ public class Jeu extends BasicGame {
 
 	// Initialise le contenu du jeu, charge les graphismes, la musique, etc..
 	@Override
-	public void init(GameContainer gc) throws SlickException {
+	public void init(GameContainer gc, StateBasedGame game) throws SlickException {
 
 		this.gc = gc;
 		this.map.init();
@@ -66,7 +69,7 @@ public class Jeu extends BasicGame {
 
 		for (Personnage p : personnages) {
 			p.init();
-			// this.map.placerAutoRandom(personnages);
+			//this.map.placerAutoRandom(personnages);
 			this.map.placerAutomate(p.getAutomate(), p.getCouleur(), gc.getGraphics());
 
 		}
@@ -77,7 +80,7 @@ public class Jeu extends BasicGame {
 
 	// Affiche le contenu du jeu
 	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException {
+	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
 		g.translate(camX, camY);
 		this.map.afficher();
 		for (Personnage p : personnages) {
@@ -89,7 +92,7 @@ public class Jeu extends BasicGame {
 	// survenu.
 	// C'est ici que la logique du jeu est enferm�e.
 	@Override
-	public void update(GameContainer gc, int delta) throws SlickException {
+	public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
 		// TODO Auto-generated method stub
 		for (Personnage p : personnages) {
 			deplacerPersonnage(p, delta);
@@ -162,4 +165,11 @@ public class Jeu extends BasicGame {
 		}	
 		p.deplacer(delta);
 	}
+	
+	@Override
+	public int getID() {
+		return ID;
+	}
+		
+	
 }

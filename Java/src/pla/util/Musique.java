@@ -45,7 +45,7 @@ public class Musique {
 	
 	public void pauseJeu() {
 		
-		soundJeu.resume();
+		soundJeu.pause();
 	}
 	
 	public void stopJeu() {

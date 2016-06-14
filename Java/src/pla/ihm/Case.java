@@ -7,7 +7,8 @@ import pla.Personnage;
 import pla.decor.*;
 
 public class Case {
-	private ArrayList<Personnage> personnages; // Liste des personnages pr�sents
+	private ArrayList<Personnage> personnages; // Liste des personnages
+												// pr�sents
 												// sur la case
 	private Decor decor; // Decor de la case
 	private int indexI; // Position sur la grille
@@ -15,10 +16,10 @@ public class Case {
 	private boolean estDansAutomate;
 
 	public Case(int i, int j) {
-            personnages = new ArrayList<Personnage>();
-            indexI = i;
-            indexJ = j;
-            this.decor = new SolNormal();
+		personnages = new ArrayList<Personnage>();
+		indexI = i;
+		indexJ = j;
+		this.decor = new SolNormal();
 
 	}
 
@@ -74,6 +75,8 @@ public class Case {
 	public void setEstDansAutomate(boolean estDansAutomate) {
 		this.estDansAutomate = estDansAutomate;
 	}
-	
-	
+
+	public ArrayList<Personnage> getPersonnages() {
+		return personnages;
+	}
 }

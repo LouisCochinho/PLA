@@ -5,9 +5,11 @@
  */
 package pla.action.transition;
 
+import pla.Jeu;
 import pla.Personnage;
 import pla.decor.*;
 import pla.ihm.Case;
+import pla.ihm.Map;
 
 /**
  *
@@ -16,7 +18,7 @@ import pla.ihm.Case;
 public class PeindreNeutre extends Action_transition {
 
     @Override
-    public void executer(Personnage p, Case c, int delta) {
+    public void executer(Personnage p, Case c, Jeu j, int delta) {
         Decor d = c.getDecor();
         if(d instanceof SolAmi || d instanceof SolEnnemi) {
             c.setDecor(new SolNormal());

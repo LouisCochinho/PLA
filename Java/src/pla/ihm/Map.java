@@ -114,15 +114,15 @@ public class Map {
 			for (int j = 0; j < nbCasesLargeur; j++) {
 				if (!cases[i][j].estDansAutomate()) {
 					if (r >= binf && r < bsup) {
-						if(nbBat>0){
+						if (nbBat > 0) {
 							cases[i][j].setDecor(bat);
 							nbBat--;
-						}						
+						}
 					}
 					binf = bsup;
 					bsup = bsup + nbBe;
 					if (r >= binf && r < bsup) {
-						if(nbBe>0){
+						if (nbBe > 0) {
 							cases[i][j].setDecor(be);
 							nbBe--;
 						}
@@ -130,7 +130,7 @@ public class Map {
 					binf = bsup;
 					bsup = bsup + nbBoe;
 					if (r >= binf && r < bsup) {
-						if(nbBoe>0){
+						if (nbBoe > 0) {
 							cases[i][j].setDecor(boe);
 							nbBoe--;
 						}
@@ -138,7 +138,7 @@ public class Map {
 					binf = bsup;
 					bsup = bsup + nbG;
 					if (r >= binf && r < bsup) {
-						if(nbG>0){
+						if (nbG > 0) {
 							cases[i][j].setDecor(g);
 							nbG--;
 						}
@@ -146,7 +146,7 @@ public class Map {
 					binf = bsup;
 					bsup = bsup + nbMur;
 					if (r >= binf && r < bsup) {
-						if(nbMur>0){
+						if (nbMur > 0) {
 							cases[i][j].setDecor(mur);
 							nbMur--;
 						}
@@ -154,7 +154,7 @@ public class Map {
 					binf = bsup;
 					bsup = bsup + nbMuret;
 					if (r >= binf && r < bsup) {
-						if(nbMuret>0){
+						if (nbMuret > 0) {
 							cases[i][j].setDecor(muret);
 							nbMuret--;
 						}
@@ -162,7 +162,7 @@ public class Map {
 					binf = bsup;
 					bsup = bsup + nbSk;
 					if (r >= binf && r < bsup) {
-						if(nbSk>0){
+						if (nbSk > 0) {
 							cases[i][j].setDecor(sk);
 							nbSk--;
 						}
@@ -170,7 +170,7 @@ public class Map {
 					binf = bsup;
 					bsup = bsup + nbSa;
 					if (r >= binf && r < bsup) {
-						if(nbSa>0){
+						if (nbSa > 0) {
 							cases[i][j].setDecor(sa);
 							nbSa--;
 						}
@@ -178,7 +178,7 @@ public class Map {
 					binf = bsup;
 					bsup = bsup + nbSe;
 					if (r >= binf && r < bsup) {
-						if(nbSe>0){
+						if (nbSe > 0) {
 							cases[i][j].setDecor(se);
 							nbSe--;
 						}
@@ -186,7 +186,7 @@ public class Map {
 					binf = bsup;
 					bsup = bsup + nbSn;
 					if (r >= binf && r < bsup) {
-						if(nbSn>0){
+						if (nbSn > 0) {
 							cases[i][j].setDecor(sn);
 							nbSn--;
 						}
@@ -194,7 +194,7 @@ public class Map {
 					binf = bsup;
 					bsup = bsup + nbV;
 					if (r >= binf && r < bsup) {
-						if(nbV>0){
+						if (nbV > 0) {
 							cases[i][j].setDecor(v);
 							nbV--;
 						}
@@ -216,6 +216,8 @@ public class Map {
 	public void chargerDecor(Automate a, Graphics g, int i, int j) {
 		Action_transition at = a.getTabActionTransition()[i][j];
 		Decor decor = Association.getDecor(at);
+		if (decor instanceof SolAmi || decor instanceof SolEnnemi)
+			decor = new SolNormal();
 		modifierDecorCase(i + a.getPosX() / 64, j + a.getPosY() / 64, decor);
 	}
 
@@ -378,6 +380,22 @@ public class Map {
 					.ajouterPersonnage(lPersonnage.get(i));
 		}
 
+	}
+
+	public void placerPersonnageRandom(Personnage personnage, List<Personnage> lPersonnage) {
+		Random rand = new Random();
+
+		int posX, posY;
+		int w = getCases()[0].length;
+		int h = getCases().length;
+
+		do {
+			posX = rand.nextInt(w) * TILE_SIZE + TILE_SIZE / 2;
+			posY = rand.nextInt(h) * TILE_SIZE + TILE_SIZE / 2;
+		} while (personnagePresent(lPersonnage, posX, posY, lPersonnage.size())
+				|| automatePresent(lPersonnage, posX, posY, 0));
+		personnage.setX(posX % (w * TILE_SIZE));
+		personnage.setY(posY % (h * TILE_SIZE));
 	}
 
 	private boolean automatePresent(List<Personnage> lPersonnage, int posX, int posY, int i) {

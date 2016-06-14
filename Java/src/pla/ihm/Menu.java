@@ -33,7 +33,7 @@ public class Menu extends BasicGameState {
 		play6 = new Image("res/menu/image/bleu/creditbleu.png");
 		play7 = new Image("res/menu/image/doree/quitterdoree.png");
 		play8 = new Image("res/menu/image/bleu/quitterbleu.png");
-		fouad = new Image("res/fouad.png");
+		fouad = new Image("res/Fouad.png");
 		ms = new MouseOverArea(gc, play, (gc.getWidth()/2)-100, 300, 200, 100);
 		ms2 = new MouseOverArea(gc, play2, (gc.getWidth()/2)-100, 300, 200, 100);
 		ms3 = new MouseOverArea(gc, play3, (gc.getWidth()/2)-100, 400, 200, 100);

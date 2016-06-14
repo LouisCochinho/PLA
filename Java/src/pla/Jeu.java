@@ -11,30 +11,50 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
-import pla.ihm.Camera;
-import pla.ihm.Map;
 
-public class Jeu extends BasicGame {
+
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
+
+
+import pla.action.transition.Construire;
+import pla.action.transition.Demolir;
+
+
+
+import pla.ihm.Camera;
+
+import pla.ihm.Map;
+import pla.util.Musique;
+
+
+public class Jeu extends BasicGameState {
 	private Map map ; // carte du jeu
 	private List<Personnage> personnages = new ArrayList<Personnage>(); // Liste
-	// des
-	// personnages
+																		// des
+	public static final int ID = 1;										// personnages
+	
 	private GameContainer gc; // conteneur
+
+	Musique musique;
+
 	private int SIZE_WINDOW_X ;
 	private int SIZE_WINDOW_Y ;
 	// private static final int PAUSE = 25; // temps de latence
 
 	// private float zoom = 0.1f;
-	Music sound;
+	
 
 	/*
 	 * private float z1 = 0.01f; private float z2 = 0.01f;
 	 */
 
-	public Jeu(String titre,int largeur,int hauteur) {
-		super(titre); // Nom du jeu
+
+	public Jeu(int largeur,int hauteur) {
 		SIZE_WINDOW_X = largeur;
-		SIZE_WINDOW_Y = hauteur;		
+
+		SIZE_WINDOW_Y = hauteur;
+
 		personnages = new ArrayList<Personnage>();
 	}
 
@@ -56,7 +76,7 @@ public class Jeu extends BasicGame {
 
 	// Initialise le contenu du jeu, charge les graphismes, la musique, etc..
 	@Override
-	public void init(GameContainer gc) throws SlickException {
+	public void init(GameContainer gc, StateBasedGame game) throws SlickException {
 
 		this.gc = gc;
 		
@@ -72,8 +92,19 @@ public class Jeu extends BasicGame {
 		Camera.initCamera(map, SIZE_WINDOW_X, SIZE_WINDOW_Y);
 		for (Personnage p : personnages) {
 			p.init();
+
+		
+		// this.map.placerPersonnageRandom(personnages);
+		//sound = new Music("res/thug.ogg");
+		//musique = new Musique();
+		
+
+			//this.map.placerAutomate(p.getAutomate(), p.getCouleur(), gc.getGraphics());
+
+
 			//this.map.placerAutomate(p.getAutomate(), p.getCouleur(), gc.getGraphics());
 		}
+
         this.map.placerAutoRandom(personnages, gc.getGraphics());
 		this.map.placerPersonnageRandom(personnages);
                 //new Construire().executer(personnages.get(0), map.getCaseFromCoord(0, 0), 0);
@@ -85,8 +116,10 @@ public class Jeu extends BasicGame {
 
 	// Affiche le contenu du jeu
 	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException {
+	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
+
 		Camera.moveCamera(g);
+
 		this.map.afficher();
 		for (Personnage p : personnages) {
 			p.afficher(g);
@@ -97,7 +130,7 @@ public class Jeu extends BasicGame {
 	// survenu.
 	// C'est ici que la logique du jeu est enferm�e.
 	@Override
-	public void update(GameContainer gc, int delta) throws SlickException {
+	public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
 		// TODO Auto-generated method stub
 		for (Personnage p : personnages) {
 			if(p.isDeplacementTermine()){
@@ -109,13 +142,13 @@ public class Jeu extends BasicGame {
 
 
 		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn()) {
-			sound.resume();
+			musique.resumeJeu();
 		}
 		if (gc.getInput().isKeyPressed(Input.KEY_S)) {
-			sound.stop();
+			musique.stopJeu();
 		}
 		if (gc.getInput().isKeyPressed(Input.KEY_P)) {
-			sound.pause();
+			musique.pauseJeu();
 		}	
 		if (gc.getInput().isKeyDown(Input.KEY_UP)) {
 			Camera.cameraUP();		
@@ -129,6 +162,7 @@ public class Jeu extends BasicGame {
 		if (gc.getInput().isKeyDown(Input.KEY_LEFT)) {
 			Camera.cameraLEFT();	
 		} 
+
 		if (gc.getInput().isKeyDown(Input.KEY_A)) {
 			Camera.cameraZoom(map);
 		}
@@ -198,6 +232,13 @@ public class Jeu extends BasicGame {
 	public void deplacerPersonnage(Personnage p, int delta){		
 		p.deplacer(delta,map.getLargeur(),map.getHauteur());
 	}
+
+
+	@Override
+	public int getID() {
+		return ID;
+	}
+		
 
 	
 }

@@ -7,6 +7,8 @@ package pla;
 
 import java.util.ArrayList;
 import pla.decor.Decor;
+import pla.decor.SolAmi;
+import pla.decor.SolEnnemi;
 import pla.ihm.Case;
 import pla.ihm.Map;
 
@@ -51,7 +53,7 @@ public class Condition {
 		return conditions;
 	}
 	
-	public boolean estVerifiee(Personnage p,Map m){
+    public boolean estVerifiee(Personnage p,Map m){
 	for (ConditionSimple cs : this.conditions){
 		Case caseCourante = m.getCaseFromCoord((int)p.getX(),(int)p.getY());
 		Case caseOrientee = m.getCase(caseCourante,cs.getCellule());
@@ -60,5 +62,15 @@ public class Condition {
 		}
 	}
 	return true;
-}
+    }
+    
+    public void inverser() {
+        for(ConditionSimple c : conditions) {
+            if(c.getDecor() instanceof SolAmi) {
+                c.setDecor(new SolEnnemi());
+            } else if(c.getDecor() instanceof SolEnnemi) {
+                c.setDecor(new SolAmi());
+            }
+        }
+    }
 }

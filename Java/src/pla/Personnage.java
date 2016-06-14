@@ -5,8 +5,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
-
-import pla.decor.DecorPersonnage;
+import pla.decor.*;
 
 public class Personnage {
 	private float x,y;
@@ -19,20 +18,33 @@ public class Personnage {
 	private float wSprite;
 	private float hSprite;
 	private float deplacementCourant;
+        private boolean inverse;
+        private String ref;
+        private TypePersonnage typePersonnage;
 	private static int distanceDeplacement = 64;
+	private Etat etatCourant;
+        private int nbToursVelo = 0;
+        private Decor objet = null;
+        
 	
-	public Personnage(String ref,int direction,int wSprite,int hSprite,Automate a,Color c) throws SlickException {
+	public Personnage(TypePersonnage typePersonnage,int direction,int wSprite,int hSprite,Automate a) throws SlickException {
+                this.typePersonnage = typePersonnage;
+                this.ref = typePersonnage.getRef();
 		this.direction = direction;
 		this.automate = a;
-		this.couleur = c;
+                etatCourant = a.getEtatInitial();
+		this.couleur = typePersonnage.getColor();
 		this.wSprite = wSprite;
 		this.hSprite = hSprite;
 		try {
 			this.sperso = new SpriteSheet(ref, wSprite, hSprite);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			System.out.println("le fichier "+ref+ " n'a pas pu être trouvé");
+			System.out.println("le fichier "+ref+ " n'a pas pu ï¿½tre trouvï¿½");
 		}
+                this.inverse = typePersonnage.isInverse();
+                if(inverse)
+                    a.inverser();
 	}
 
 	public void init() throws SlickException {
@@ -66,7 +78,7 @@ public class Personnage {
 
 	public void deplacer(int delta,int modulo_tore_x,int modulo_tore_y) {
 		
-		automate.getEtatCourant().getActionEtat().executer(this,delta, modulo_tore_x, modulo_tore_y);
+		getEtatCourant().getActionEtat().executer(this,delta, modulo_tore_x, modulo_tore_y);
 	}
 
 	public float getX() {
@@ -125,7 +137,59 @@ public class Personnage {
 		String str="";
 		str = "personnage "+this.couleur.toString()+"\n";
 		str = "position : X = "+x+" Y = "+y;	
-		str = str+"\netat courant automate : "+this.automate.getEtatCourant().getId();
+		str = str+"\netat courant automate : "+this.getEtatCourant().getId();
 		return str; 
 	}
+
+    public boolean isInverse() {
+        return inverse;
+    }
+
+    public String getRef() {
+        return ref;
+    }
+
+    public float getwSprite() {
+        return wSprite;
+    }
+
+    public float gethSprite() {
+        return hSprite;
+    }
+
+    public TypePersonnage getTypePersonnage() {
+        return typePersonnage;
+    }
+
+	public Etat getEtatCourant() {
+		return etatCourant;
+	}
+
+	public void setEtatCourant(Etat etatCourant) {
+		this.etatCourant = etatCourant;
+	}
+
+    public void addVelo() {
+        nbToursVelo += 10;
+    }
+
+    public boolean hasVelo() {
+        return nbToursVelo > 0;
+    }
+
+    public void decrementeToursVelo() {
+        nbToursVelo--;
+    }
+
+    public void setObjet(Decor objet) {
+        this.objet = objet;
+    }
+    
+    public void removeObjet() {
+        objet = null;
+    }
+
+    public Decor getObjet() {
+        return objet;
+    }
 }

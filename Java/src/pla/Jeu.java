@@ -12,16 +12,11 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
+import pla.action.transition.*;
+import pla.decor.*;
 
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-
-
-import pla.action.transition.Construire;
-import pla.action.transition.Demolir;
-
-
-
 import pla.ihm.Camera;
 
 import pla.ihm.Map;
@@ -80,11 +75,11 @@ public class Jeu extends BasicGameState {
 
 		this.gc = gc;
 		
-		ajouterPersonnage(new Personnage("res/thugBleu.png", 2, 64, 64, new Automate(), Color.blue));
-		ajouterPersonnage(new Personnage("res/thugRouge.png", 1, 64, 64, new Automate(), Color.red));
+		ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate()));
+		ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate()));
 
 		// Marche pas => Revoir sprite policier
-		ajouterPersonnage(new Personnage("res/Bernard.png", 3, 64, 64, new Automate(), Color.black));
+		ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate()));
 		
 		map = new Map((int)SIZE_WINDOW_X, (int)SIZE_WINDOW_Y, personnages);
 
@@ -107,8 +102,11 @@ public class Jeu extends BasicGameState {
 
         this.map.placerAutoRandom(personnages, gc.getGraphics());
 		this.map.placerPersonnageRandom(personnages);
-                //new Construire().executer(personnages.get(0), map.getCaseFromCoord(0, 0), 0);
-                //System.out.println(map.getCaseFromCoord(0, 0).getDecor());
+                //map.getCaseFromCoord(0, 0).setDecor(new BoucheEgout());
+                //map.getCaseFromCoord(640, 640).setDecor(new BoucheEgout());
+                //new Dupliquer().executer(personnages.get(0), map.getCaseFromCoord(0, 0), this, 0);
+                //new Dupliquer().executer(personnages.get(1), map.getCaseFromCoord(0, 0), this, 0);
+                
 	//	sound = new Music("res/thug.ogg");
 	//	sound.loop();
 
@@ -198,7 +196,7 @@ public class Jeu extends BasicGameState {
 	public void changerEtatAutomate(Personnage p, int delta) {
 
 		ArrayList<Integer> indexPossibles = new ArrayList<Integer>();
-		int etatCourantId = p.getAutomate().getEtatCourant().getId();
+		int etatCourantId = p.getEtatCourant().getId();
 		Random r = new Random();
 		int indexChoisi = 0;
 		
@@ -218,13 +216,13 @@ public class Jeu extends BasicGameState {
 			indexChoisi = indexPossibles.get(r.nextInt(indexPossibles.size()));	
 			System.out.println("index choisi : "+indexChoisi);
 			System.out.println("etat suivant : "+p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());
-			p.getAutomate().setEtatCourant(p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId]);
+			p.setEtatCourant(p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId]);
 		}
 		else{
-			p.getAutomate().setEtatCourant(p.getAutomate().getEtatInitial());
+			p.setEtatCourant(p.getAutomate().getEtatInitial());
 		}			
 		// initier le mouvement
-		System.out.println("action etat courant : "+p.getAutomate().getEtatCourant().getActionEtat().toString());
+		System.out.println("action etat courant : "+p.getEtatCourant().getActionEtat().toString());
 		p.setDeplacementCourant(0);	
 		
 	}
@@ -233,12 +231,18 @@ public class Jeu extends BasicGameState {
 		p.deplacer(delta,map.getLargeur(),map.getHauteur());
 	}
 
+    public Map getMap() {
+        return map;
+    }
 
 	@Override
 	public int getID() {
 		return ID;
 	}
-		
+
+    public List<Personnage> getPersonnages() {
+        return personnages;
+    }
 
 	
 }

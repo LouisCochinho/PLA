@@ -4,6 +4,8 @@ import pla.action.transition.Admirer;
 import pla.action.transition.Action_transition;
 import java.util.ArrayList;
 import java.util.Arrays;
+import pla.action.transition.PeindreAmi;
+import pla.action.transition.PeindreEnnemi;
 
 public class Automate {
 	private Transition tabTransition[][];
@@ -21,7 +23,6 @@ public class Automate {
 	private Action_transition actionParDefaut;
 	private Etat etatInitial;
 	private Condition conditionParDefaut;
-	private Etat etatCourant;
 
 	// automate par defaut
 	public Automate() {
@@ -52,7 +53,6 @@ public class Automate {
 
 		actionParDefaut = new Admirer();
 		etatInitial = etats.get(0);
-                etatCourant = etatInitial;
 		conditionParDefaut = new Condition();
 		transitionParDefaut = new Transition(etatInitial, conditionParDefaut, actionParDefaut, etatInitial);
 	
@@ -241,14 +241,6 @@ public class Automate {
 			System.out.println();
 		}
 	}
-
-	public Etat getEtatCourant() {
-		return etatCourant;
-	}
-
-	public void setEtatCourant(Etat etatCourant) {
-		this.etatCourant = etatCourant;
-	}
 	
 	public Etat getEtatSuivant(int i, int j){
 		return tabEtatSuivant[i][j];
@@ -265,5 +257,23 @@ public class Automate {
 	public int getNbEtats(){
 		return this.etats.size();
 	}
+        
+        // Inverse SolAmi/SolEnnemi et PeindreAmi/PeindreEnnemi
+        public void inverser() {
+            for (int i = 0; i < nbLignes; i++) {
+                for (int j = 0; j < nbColonnes; j++) {
+                    if(tabActionTransition[i][j] instanceof PeindreAmi) {
+                        tabActionTransition[i][j] = new PeindreEnnemi();
+                    } else if(tabActionTransition[i][j] instanceof PeindreEnnemi) {
+                        tabActionTransition[i][j] = new PeindreAmi();
+                    }
+                }
+            }
+            for (int i = 0; i < nbLignes; i++) {
+                for (int j = 0; j < nbColonnes; j++) {
+                    tabCondition[i][j].inverser();
+                }
+            }
+        }
 	
 }

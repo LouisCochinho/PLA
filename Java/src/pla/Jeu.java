@@ -11,6 +11,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import pla.ihm.Camera;
 import pla.ihm.Map;
 
 public class Jeu extends BasicGame {
@@ -19,15 +20,8 @@ public class Jeu extends BasicGame {
 	// des
 	// personnages
 	private GameContainer gc; // conteneur
-	private float camX, camY;
-	private float zoomX=1, zoomY=1;
-	private final static float DEPLACEMENT = 13;
 	private int SIZE_WINDOW_X ;
 	private int SIZE_WINDOW_Y ;
-	private float currentSizeMapX ;
-	private float currentSizeMapY ;
-	private final static float ZOOM = 0.03f;
-	private final static float ZOOM_MAX = 5;
 	// private static final int PAUSE = 25; // temps de latence
 
 	// private float zoom = 0.1f;
@@ -40,9 +34,7 @@ public class Jeu extends BasicGame {
 	public Jeu(String titre,int largeur,int hauteur) {
 		super(titre); // Nom du jeu
 		SIZE_WINDOW_X = largeur;
-		SIZE_WINDOW_Y = hauteur;
-		
-		
+		SIZE_WINDOW_Y = hauteur;		
 		personnages = new ArrayList<Personnage>();
 	}
 
@@ -77,13 +69,10 @@ public class Jeu extends BasicGame {
 		map = new Map((int)SIZE_WINDOW_X, (int)SIZE_WINDOW_Y, personnages);
 
 		this.map.init();
-		currentSizeMapX = map.getLargeur();
-		currentSizeMapY = map.getHauteur();
+		Camera.initCamera(map, SIZE_WINDOW_X, SIZE_WINDOW_Y);
 		for (Personnage p : personnages) {
 			p.init();
-
 			//this.map.placerAutomate(p.getAutomate(), p.getCouleur(), gc.getGraphics());
-
 		}
         this.map.placerAutoRandom(personnages, gc.getGraphics());
 		this.map.placerPersonnageRandom(personnages);
@@ -97,8 +86,7 @@ public class Jeu extends BasicGame {
 	// Affiche le contenu du jeu
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		g.translate(camX, camY);
-		g.scale(zoomX, zoomY);
+		Camera.moveCamera(g);
 		this.map.afficher();
 		for (Personnage p : personnages) {
 			p.afficher(g);
@@ -130,22 +118,22 @@ public class Jeu extends BasicGame {
 			sound.pause();
 		}	
 		if (gc.getInput().isKeyDown(Input.KEY_UP)) {
-			cameraUP();		
+			Camera.cameraUP();		
 		}
 		if (gc.getInput().isKeyDown(Input.KEY_DOWN)) {
-			cameraDown();
+			Camera.cameraDown();
 		} 
 		if(gc.getInput().isKeyDown(Input.KEY_RIGHT)){
-			cameraRIGHT();		
+			Camera.cameraRIGHT();		
 		}
 		if (gc.getInput().isKeyDown(Input.KEY_LEFT)) {
-			cameraLEFT();	
+			Camera.cameraLEFT();	
 		} 
 		if (gc.getInput().isKeyDown(Input.KEY_A)) {
-			cameraZoom();
+			Camera.cameraZoom(map);
 		}
 		if (gc.getInput().isKeyDown(Input.KEY_B)) {
-			cameraDezoom();
+			Camera.cameraDezoom(map);
 		}
 		if(gc.getInput().isKeyPressed(Input.KEY_F1)){
 			gc.setPaused(!gc.isPaused());
@@ -155,10 +143,10 @@ public class Jeu extends BasicGame {
 	
 	public void mouseWheelMoved(int change) {
 		if(change<0){
-			cameraDezoom();
+			Camera.cameraDezoom(map);
 		}
 		else{
-			cameraZoom();
+			Camera.cameraZoom(map);
 		}
 	}
 
@@ -211,69 +199,5 @@ public class Jeu extends BasicGame {
 		p.deplacer(delta,map.getLargeur(),map.getHauteur());
 	}
 
-	void cameraDown(){
-		if(camY-DEPLACEMENT >= -currentSizeMapY+SIZE_WINDOW_Y){camY-=DEPLACEMENT;}
-		else{camY = camY - (camY +currentSizeMapY-SIZE_WINDOW_Y);}		
-		
-	}
-
-	void cameraUP(){
-		if(camY+DEPLACEMENT <= 0){camY+=DEPLACEMENT;}
-		else{camY = 0;}
-		
-	}
-
-	void cameraLEFT(){
-		if(camX+DEPLACEMENT <= 0){camX+=DEPLACEMENT;}
-		else{camX = 0;}
-		
-	}
-
-	void cameraRIGHT(){
-		if(camX-DEPLACEMENT >= -currentSizeMapX+SIZE_WINDOW_X){camX-= DEPLACEMENT;}
-		else{camX = camX - (camX +currentSizeMapX-SIZE_WINDOW_X);}
-		
-	}
-
-	void cameraDezoom(){
-		float lastSizeMapX = currentSizeMapX;
-		float lastSizeMapY = currentSizeMapY;
-		if((zoomX-ZOOM)*map.getLargeur() >= SIZE_WINDOW_X && (zoomY-ZOOM)*map.getHauteur() >= SIZE_WINDOW_Y
-			/*	&& currentSizeMapX+camX < SIZE_WINDOW_X && camX<=0*/){
-			zoomX -= ZOOM; zoomY -= ZOOM;
-			currentSizeMapX = zoomX*map.getLargeur();
-			currentSizeMapY = zoomY*map.getHauteur();
-			camX = camX-(currentSizeMapX-lastSizeMapX)/2;
-			camY = camY-(currentSizeMapY-lastSizeMapY)/2;
-		}
-		/*else if(currentSizeMapX+camX >= SIZE_WINDOW_X){
-			camX=0;
-		}*/
-		else{
-			if(map.getLargeur() >= map.getHauteur()){
-				zoomX = SIZE_WINDOW_X/(float)map.getLargeur();
-				zoomY = zoomX;
-			}
-			else{
-				zoomY = SIZE_WINDOW_Y/(float)map.getHauteur();
-				zoomX = zoomY;
-			}
-		}
-		if(currentSizeMapX+camX<SIZE_WINDOW_X){camX = camX+(SIZE_WINDOW_X-currentSizeMapX-camX);}
-		if(currentSizeMapY+camY<SIZE_WINDOW_Y){camY = camY+(SIZE_WINDOW_Y-currentSizeMapY-camY);}
-
-	}
-
-	void cameraZoom(){
-		float lastSizeMapX = currentSizeMapX;
-		float lastSizeMapY = currentSizeMapY;
-		if(zoomX<=ZOOM_MAX && zoomY<=ZOOM_MAX){
-			zoomX += ZOOM; zoomY += ZOOM;
-			currentSizeMapX = zoomX*map.getLargeur();
-			currentSizeMapY = zoomY*map.getHauteur();
-			camX = camX-(currentSizeMapX-lastSizeMapX)/2;
-			camY = camY-(currentSizeMapY-lastSizeMapY)/2;
-		}		
-	}
 	
 }

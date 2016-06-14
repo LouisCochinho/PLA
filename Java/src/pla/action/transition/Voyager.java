@@ -24,7 +24,9 @@ public class Voyager extends Action_transition {
             ArrayList<Case> cases = new ArrayList<Case>();
             for (Case[] case1 : m.getCases()) {
                 for (Case case11 : case1) {
-                    System.out.println(case11);
+                    if(case11 == c && case11.getDecor() instanceof BoucheEgout) {
+                        System.out.println("if");
+                    }
                 }
             }
         }

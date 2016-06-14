@@ -13,6 +13,8 @@ import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import pla.action.transition.Construire;
 import pla.action.transition.Demolir;
+import pla.action.transition.Voyager;
+import pla.decor.BoucheEgout;
 import pla.ihm.Map;
 
 public class Jeu extends BasicGame {
@@ -89,8 +91,10 @@ public class Jeu extends BasicGame {
 		}
         this.map.placerAutoRandom(personnages, gc.getGraphics());
 		this.map.placerPersonnageRandom(personnages);
-                //new Construire().executer(personnages.get(0), map.getCaseFromCoord(0, 0), 0);
+                map.getCaseFromCoord(1, 0).setDecor(new BoucheEgout());
+                new Voyager().executer(personnages.get(0), map.getCaseFromCoord(0, 0), map, 0);
                 //System.out.println(map.getCaseFromCoord(0, 0).getDecor());
+                
 	//	sound = new Music("res/thug.ogg");
 	//	sound.loop();
 

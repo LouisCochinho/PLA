@@ -12,7 +12,7 @@ import pla.decor.Decor;
  * @author antoi
  */
 public class ConditionSimple {
-    private final Decor decor;
+    private Decor decor;
     private final Cellule cellule;
 
     public ConditionSimple(Decor decor, Cellule cellule) {
@@ -35,5 +35,9 @@ public class ConditionSimple {
     
     public boolean estVerifiee(Decor d){
     	return decor.toString().equals(d.toString());
+    }
+
+    public void setDecor(Decor decor) {
+        this.decor = decor;
     }
 }

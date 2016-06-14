@@ -24,18 +24,18 @@ public class Association {
     }
     
     private static void init() {
-        addAssociation(new Admirer(), new BatimentNeutre());
+        addAssociation(new Admirer(), new SolNormal());
         addAssociation(new Combattre(), new BombeEau());
-        addAssociation(new Construire(), new BombePeinture());
-        addAssociation(new Demolir(), new BoucheEgout());
-        addAssociation(new Dupliquer(), new Gendarmerie());
-        addAssociation(new LaisserTomber(), new Mur());
-        addAssociation(new PeindreAmi(), new Muret());
-        addAssociation(new PeindreEnnemi(), new Skatepark());
-        addAssociation(new PeindreNeutre(), new SolAmi());
-        addAssociation(new Prendre(), new SolEnnemi());
-        addAssociation(new Voler(), new SolNormal());
-        addAssociation(new Voyager(), new Velo());
+        addAssociation(new Construire(), new Gendarmerie());
+        addAssociation(new Demolir(), new Muret());
+        addAssociation(new Dupliquer(), new BatimentNeutre());
+        addAssociation(new LaisserTomber(), new Skatepark());
+        addAssociation(new PeindreAmi(), new SolAmi());
+        addAssociation(new PeindreEnnemi(), new SolEnnemi());
+        addAssociation(new PeindreNeutre(), new Mur());
+        addAssociation(new Prendre(), new BombePeinture());
+        addAssociation(new Voler(), new Velo());
+        addAssociation(new Voyager(), new BoucheEgout());
     }
     
     private static void addAssociation(Action_transition a, Decor d) {

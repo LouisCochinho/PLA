@@ -6,6 +6,7 @@
 package pla.action.transition;
 
 import java.util.ArrayList;
+import java.util.Random;
 import pla.Personnage;
 import pla.decor.*;
 import pla.ihm.Case;
@@ -24,10 +25,17 @@ public class Voyager extends Action_transition {
             ArrayList<Case> cases = new ArrayList<Case>();
             for (Case[] case1 : m.getCases()) {
                 for (Case case11 : case1) {
-                    if(case11 == c && case11.getDecor() instanceof BoucheEgout) {
-                        System.out.println("if");
+                    if((case11.getIndexI() != c.getIndexI() || case11.getIndexJ() != c.getIndexJ()) && case11.getDecor() instanceof BoucheEgout) {
+                        cases.add(case11);
                     }
                 }
+            }
+            if(!cases.isEmpty()) {
+                Random r = new Random();
+                int i = r.nextInt(cases.size());
+                Case cc = cases.get(i);
+                p.setX(cc.getIndexJ() * 64 + 32);
+                p.setY(cc.getIndexI() * 64 + 32);
             }
         }
     }

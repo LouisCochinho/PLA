@@ -91,9 +91,9 @@ public class Jeu extends BasicGame {
 		}
         this.map.placerAutoRandom(personnages, gc.getGraphics());
 		this.map.placerPersonnageRandom(personnages);
-                map.getCaseFromCoord(1, 0).setDecor(new BoucheEgout());
+                map.getCaseFromCoord(0, 0).setDecor(new BoucheEgout());
+                map.getCaseFromCoord(640, 640).setDecor(new BoucheEgout());
                 new Voyager().executer(personnages.get(0), map.getCaseFromCoord(0, 0), map, 0);
-                //System.out.println(map.getCaseFromCoord(0, 0).getDecor());
                 
 	//	sound = new Music("res/thug.ogg");
 	//	sound.loop();

@@ -23,7 +23,7 @@ import pla.action.transition.Demolir;
 
 
 import pla.ihm.Camera;
-
+import pla.ihm.Case;
 import pla.ihm.Map;
 import pla.util.Musique;
 
@@ -80,11 +80,11 @@ public class Jeu extends BasicGameState {
 
 		this.gc = gc;
 		
-		ajouterPersonnage(new Personnage("res/thugBleu.png", 2, 64, 64, new Automate(), Color.blue));
-		ajouterPersonnage(new Personnage("res/thugRouge.png", 1, 64, 64, new Automate(), Color.red));
+		ajouterPersonnage(new Personnage("res/thugBleu.png", 2, 64, 64, new Automate(), Color.blue,false));
+		ajouterPersonnage(new Personnage("res/thugRouge.png", 1, 64, 64, new Automate(), Color.red,false));
 
 		// Marche pas => Revoir sprite policier
-		ajouterPersonnage(new Personnage("res/Bernard.png", 3, 64, 64, new Automate(), Color.black));
+		ajouterPersonnage(new Personnage("res/Bernard.png", 3, 64, 64, new Automate(), Color.black,true));
 		
 		map = new Map((int)SIZE_WINDOW_X, (int)SIZE_WINDOW_Y, personnages);
 
@@ -106,6 +106,11 @@ public class Jeu extends BasicGameState {
 		}
 
         this.map.placerAutoRandom(personnages, gc.getGraphics());
+        this.map.placerDecorRandom();
+        this.map.setCasesEstDansAutomate(personnages);
+        this.map.setNbCasesHorsAutomate();
+        //System.out.println("nb Cases hors automate : "+map.getNbCasesHorsAutomate());
+		//System.out.println("Nombre de case total : "+map.getNbCasesHauteur()*map.getNbCasesLargeur());
 		this.map.placerPersonnageRandom(personnages);
                 //new Construire().executer(personnages.get(0), map.getCaseFromCoord(0, 0), 0);
                 //System.out.println(map.getCaseFromCoord(0, 0).getDecor());
@@ -120,6 +125,7 @@ public class Jeu extends BasicGameState {
 
 		Camera.moveCamera(g);
 
+		
 		this.map.afficher();
 		for (Personnage p : personnages) {
 			p.afficher(g);
@@ -136,10 +142,11 @@ public class Jeu extends BasicGameState {
 			if(p.isDeplacementTermine()){
 				changerEtatAutomate(p, delta);
 			}
-			deplacerPersonnage(p, delta);			
+			// A tester
+			map.getCaseFromCoord((int)p.getX(), (int)p.getY()).supprimerPersonnage(p);
+			deplacerPersonnage(p, delta);
+			map.getCaseFromCoord((int)p.getX(), (int)p.getY()).ajouterPersonnage(p);
 		}
-
-
 
 		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn()) {
 			musique.resumeJeu();
@@ -162,13 +169,6 @@ public class Jeu extends BasicGameState {
 		if (gc.getInput().isKeyDown(Input.KEY_LEFT)) {
 			Camera.cameraLEFT();	
 		} 
-
-		if (gc.getInput().isKeyDown(Input.KEY_A)) {
-			Camera.cameraZoom(map);
-		}
-		if (gc.getInput().isKeyDown(Input.KEY_B)) {
-			Camera.cameraDezoom(map);
-		}
 		if(gc.getInput().isKeyPressed(Input.KEY_F1)){
 			gc.setPaused(!gc.isPaused());
 		}
@@ -210,21 +210,21 @@ public class Jeu extends BasicGameState {
 		}
 		
 		// Affichage test
-		System.out.println(p.toString());
-		System.out.println(this.map.getCaseFromCoord((int)p.getX(), (int)p.getY()).getDecor().toString());
+		//System.out.println(p.toString());
+		//System.out.println(this.map.getCaseFromCoord((int)p.getX(), (int)p.getY()).getDecor().toString());
 		
 		if (!indexPossibles.isEmpty()) {
 			// Prendre un index au hasard dans la liste
 			indexChoisi = indexPossibles.get(r.nextInt(indexPossibles.size()));	
-			System.out.println("index choisi : "+indexChoisi);
-			System.out.println("etat suivant : "+p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());
+			//System.out.println("index choisi : "+indexChoisi);
+			//System.out.println("etat suivant : "+p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());
 			p.getAutomate().setEtatCourant(p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId]);
 		}
 		else{
 			p.getAutomate().setEtatCourant(p.getAutomate().getEtatInitial());
 		}			
 		// initier le mouvement
-		System.out.println("action etat courant : "+p.getAutomate().getEtatCourant().getActionEtat().toString());
+		//System.out.println("action etat courant : "+p.getAutomate().getEtatCourant().getActionEtat().toString());
 		p.setDeplacementCourant(0);	
 		
 	}

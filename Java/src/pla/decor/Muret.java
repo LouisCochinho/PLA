@@ -14,7 +14,7 @@ import pla.action.transition.*;
 public class Muret extends Decor {
     
     public Muret() {
-    	super(DecorSprite.MURET, 64, 64);
+    	super(DecorSprite.MURET, 64, 64, 15);
         ajouterAction(new Construire());
         ajouterAction(new Demolir());
     }

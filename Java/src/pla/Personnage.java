@@ -19,10 +19,12 @@ public class Personnage {
 	private float wSprite;
 	private float hSprite;
 	private float deplacementCourant;
+	private boolean vitesse;
 	private static int distanceDeplacement = 64;
 	
-	public Personnage(String ref,int direction,int wSprite,int hSprite,Automate a,Color c) throws SlickException {
+	public Personnage(String ref,int direction,int wSprite,int hSprite,Automate a,Color c,boolean v) throws SlickException {
 		this.direction = direction;
+		this.vitesse = v;
 		this.automate = a;
 		this.couleur = c;
 		this.wSprite = wSprite;
@@ -128,4 +130,8 @@ public class Personnage {
 		str = str+"\netat courant automate : "+this.automate.getEtatCourant().getId();
 		return str; 
 	}
+
+	public boolean isVitesse() {
+		return vitesse;
+	}	
 }

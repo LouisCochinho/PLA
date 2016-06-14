@@ -44,8 +44,8 @@ public class Menu extends BasicGameState {
 		ms8 = new MouseOverArea(gc, play8, (gc.getWidth()/2)-100, 600, 200, 100);
 		msTouche = new MouseOverArea(gc, fouad, (gc.getWidth()/6)-186, 400, 372, 475);
 		msCredit = new MouseOverArea(gc, fouad, (5*gc.getWidth()/6)-186, 400, 372, 475);
-		musique = new Musique();
-		musique.jouerMenu();
+		//musique = new Musique();
+		//musique.jouerMenu();
 		//soundMenu = new Music("res/ThugMenu.ogg");
 		//soundJeu = new Music ("res/thug.ogg");
 		//soundMenu.play();
@@ -71,8 +71,8 @@ public class Menu extends BasicGameState {
 		
 		if((posX>541 && posX<740)&&(posY>369 && posY<466)){
 			if(Mouse.isButtonDown(0)){
-				musique.stopMenu();;
-				musique.jouerJeu();
+				//musique.stopMenu();;
+				//musique.jouerJeu();
 				sbg.enterState(1);
 			}
 		}

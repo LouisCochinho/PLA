@@ -12,6 +12,7 @@ public class Case {
 	private Decor decor; // Decor de la case
 	private int indexI; // Position sur la grille
 	private int indexJ;
+	private boolean estDansAutomate;
 
 	public Case(int i, int j) {
             personnages = new ArrayList<Personnage>();
@@ -65,4 +66,14 @@ public class Case {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	public boolean estDansAutomate() {
+		return estDansAutomate;
+	}
+
+	public void setEstDansAutomate(boolean estDansAutomate) {
+		this.estDansAutomate = estDansAutomate;
+	}
+	
+	
 }

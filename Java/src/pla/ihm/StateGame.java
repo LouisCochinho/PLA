@@ -3,6 +3,7 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
 import pla.Jeu;
+import pla.util.Musique;
 
 
 
@@ -14,6 +15,7 @@ public class StateGame extends StateBasedGame {
 		app = new AppGameContainer(new StateGame(), 1280, 768, false);
 		app.setIcon("res/logo.png");
 		app.start();
+		
 	}
 	
 	public StateGame() {

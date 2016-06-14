@@ -15,6 +15,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import pla.ihm.Map;
+import pla.util.Musique;
 
 public class Jeu extends BasicGameState {
 	private Map map = new Map(); // carte du jeu
@@ -25,10 +26,11 @@ public class Jeu extends BasicGameState {
 	private GameContainer gc; // conteneur
 	private int camX, camY;
 	private final static int DEPLACEMENT = 15;
+	Musique musique;
 	// private static final int PAUSE = 25; // temps de latence
 
 	// private float zoom = 0.1f;
-	Music sound;
+	
 
 	/*
 	 * private float z1 = 0.01f; private float z2 = 0.01f;
@@ -74,8 +76,9 @@ public class Jeu extends BasicGameState {
 
 		}
 		// this.map.placerPersonnageRandom(personnages);
-	//	sound = new Music("res/thug.ogg");
-	//	sound.loop();
+		//sound = new Music("res/thug.ogg");
+		//musique = new Musique();
+		
 	}
 
 	// Affiche le contenu du jeu
@@ -101,13 +104,13 @@ public class Jeu extends BasicGameState {
 		
 
 		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn()) {
-			sound.resume();
+			musique.resumeJeu();
 		}
 		if (gc.getInput().isKeyPressed(Input.KEY_S)) {
-			sound.stop();
+			musique.stopJeu();
 		}
 		if (gc.getInput().isKeyPressed(Input.KEY_P)) {
-			sound.pause();
+			musique.pauseJeu();
 		}	
 		if (gc.getInput().isKeyDown(Input.KEY_UP)) {
 				camY+=DEPLACEMENT;
@@ -121,6 +124,7 @@ public class Jeu extends BasicGameState {
 		if (gc.getInput().isKeyDown(Input.KEY_LEFT)) {
 			camX+=DEPLACEMENT;
 		} 
+		
 	}
 
 	// Arreter correctement le jeu en appuyant sur ECHAP

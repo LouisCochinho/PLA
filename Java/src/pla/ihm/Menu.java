@@ -88,7 +88,7 @@ public class Menu extends BasicGameState {
 	}
 	
 	public int getID() {
-		return 0;
+		return ID;
 	}
 	
 

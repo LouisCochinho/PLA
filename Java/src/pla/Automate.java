@@ -7,8 +7,8 @@ import java.util.Arrays;
 
 public class Automate {
 	private Transition tabTransition[][];
-	private Etat tabEtatSuivant[][]; // [Decor_id][etat_courant_id]
-	private Action_transition tabActionTransition[][]; // [Decor_id][etat_courant_id]
+	private Etat tabEtatSuivant[][]; 
+	private Action_transition tabActionTransition[][]; 
 	//private int tabActionTransition[][];
 	private Condition tabCondition[][];
 	private int nbLignes = 0;

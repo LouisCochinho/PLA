@@ -7,10 +7,7 @@ package pla.decor;
 
 import pla.action.transition.*;
 
-/**
- *
- * @author antoi
- */
+
 public class Gendarmerie extends Decor {
     
     public Gendarmerie() {

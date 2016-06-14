@@ -30,9 +30,15 @@ public class Personnage {
 			this.sperso = new SpriteSheet(ref, wSprite, hSprite);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			System.out.println("le fichier "+ref+ " n'a pas pu être trouvé");
+			System.out.println("le fichier "+ref+ " n'a pas pu ï¿½tre trouvï¿½");
 		}
 	}
+        
+        public Personnage(String ref,int direction,int wSprite,int hSprite,Automate a,Color c,boolean inverser) throws SlickException {
+            this(ref, direction, wSprite, hSprite, a, c);
+            if(inverser)
+                a.inverser();
+        }
 
 	public void init() throws SlickException {
 		this.animations[0] = chargerAnimation(sperso, 0, 1, 8);

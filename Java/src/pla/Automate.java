@@ -4,6 +4,8 @@ import pla.action.transition.Admirer;
 import pla.action.transition.Action_transition;
 import java.util.ArrayList;
 import java.util.Arrays;
+import pla.action.transition.PeindreAmi;
+import pla.action.transition.PeindreEnnemi;
 
 public class Automate {
 	private Transition tabTransition[][];
@@ -265,5 +267,23 @@ public class Automate {
 	public int getNbEtats(){
 		return this.etats.size();
 	}
+        
+        // Inverse SolAmi/SolEnnemi et PeindreAmi/PeindreEnnemi
+        public void inverser() {
+            for (int i = 0; i < nbLignes; i++) {
+                for (int j = 0; j < nbColonnes; j++) {
+                    if(tabActionTransition[i][j] instanceof PeindreAmi) {
+                        tabActionTransition[i][j] = new PeindreEnnemi();
+                    } else if(tabActionTransition[i][j] instanceof PeindreEnnemi) {
+                        tabActionTransition[i][j] = new PeindreAmi();
+                    }
+                }
+            }
+            for (int i = 0; i < nbLignes; i++) {
+                for (int j = 0; j < nbColonnes; j++) {
+                    tabCondition[i][j].inverser();
+                }
+            }
+        }
 	
 }

@@ -21,6 +21,7 @@ public class Prendre extends Action_transition {
         Decor d = c.getDecor();
         if(d instanceof BombeEau || d instanceof BombePeinture) {
             c.setDecor(new SolNormal());
+            //TODO
         }
     }
     

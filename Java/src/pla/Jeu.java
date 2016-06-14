@@ -72,7 +72,7 @@ public class Jeu extends BasicGame {
 
 		this.gc = gc;
 		
-		ajouterPersonnage(new Personnage("res/thugBleu.png", 2, 64, 64, new Automate(), Color.blue));
+		ajouterPersonnage(new Personnage("res/thugBleu.png", 2, 64, 64, new Automate(), Color.blue, true));
 		ajouterPersonnage(new Personnage("res/thugRouge.png", 1, 64, 64, new Automate(), Color.red));
 
 		// Marche pas => Revoir sprite policier

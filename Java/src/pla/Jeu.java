@@ -11,8 +11,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
-import pla.action.transition.Construire;
-import pla.action.transition.Demolir;
 import pla.ihm.Map;
 
 public class Jeu extends BasicGame {
@@ -115,10 +113,9 @@ public class Jeu extends BasicGame {
 		// TODO Auto-generated method stub
 		for (Personnage p : personnages) {
 			if(p.isDeplacementTermine()){
-				//System.out.println("X = "+p.getX()+" y = "+p.getY());
 				changerEtatAutomate(p, delta);
 			}
-			deplacerPersonnage(p, delta);
+			deplacerPersonnage(p, delta);			
 		}
 
 
@@ -182,24 +179,32 @@ public class Jeu extends BasicGame {
 		int etatCourantId = p.getAutomate().getEtatCourant().getId();
 		Random r = new Random();
 		int indexChoisi = 0;
-
+		
 		for (int i = 0; i < p.getAutomate().getNbLignes(); i++) {
 			Condition c = p.getAutomate().getTabCondition()[i][etatCourantId];
-			if(c.estVerifiee(p, map)){
+			if(c.nombreConditions()!=0&&c.estVerifiee(p, map)){
 				indexPossibles.add(i);
 			}
 		}
-
+		
+		// Affichage test
+		System.out.println(p.toString());
+		System.out.println(this.map.getCaseFromCoord((int)p.getX(), (int)p.getY()).getDecor().toString());
+		
 		if (!indexPossibles.isEmpty()) {
 			// Prendre un index au hasard dans la liste
 			indexChoisi = indexPossibles.get(r.nextInt(indexPossibles.size()));	
+			System.out.println("index choisi : "+indexChoisi);
+			System.out.println("etat suivant : "+p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());
 			p.getAutomate().setEtatCourant(p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId]);
 		}
 		else{
 			p.getAutomate().setEtatCourant(p.getAutomate().getEtatInitial());
 		}			
 		// initier le mouvement
-		p.setDeplacementCourant(0);		
+		System.out.println("action etat courant : "+p.getAutomate().getEtatCourant().getActionEtat().toString());
+		p.setDeplacementCourant(0);	
+		
 	}
 	
 	public void deplacerPersonnage(Personnage p, int delta){		

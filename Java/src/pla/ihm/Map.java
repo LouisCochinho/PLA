@@ -15,6 +15,9 @@ import pla.Personnage;
 import pla.action.transition.Action_transition;
 import pla.decor.Decor;
 import pla.decor.DecorSprite;
+import pla.decor.SolAmi;
+import pla.decor.SolEnnemi;
+import pla.decor.SolNormal;
 
 public class Map {
 
@@ -117,6 +120,8 @@ public class Map {
 	public void chargerDecor(Automate a, Graphics g, int i, int j) {
 		Action_transition at = a.getTabActionTransition()[i][j];
 		Decor decor = Association.getDecor(at);
+                if(decor instanceof SolAmi || decor instanceof SolEnnemi)
+                    decor = new SolNormal();
 		modifierDecorCase(i + a.getPosX() / 64, j + a.getPosY() / 64, decor);
 	}
 

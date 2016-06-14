@@ -41,6 +41,8 @@ public class Condition {
             for(int i=1; i<conditions.size(); i++) {
                 s += " && " + conditions.get(i);
             }
+        } else {
+            s = "Defaut";
         }
         return s;
     }

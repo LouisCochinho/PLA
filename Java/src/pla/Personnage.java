@@ -19,6 +19,7 @@ public class Personnage {
 	private float wSprite;
 	private float hSprite;
 	private float deplacementCourant;
+	private static int distanceDeplacement = 64;
 	
 	public Personnage(String ref,int direction,int wSprite,int hSprite,Automate a,Color c) throws SlickException {
 		this.direction = direction;
@@ -103,14 +104,6 @@ public class Personnage {
 		return this.automate;
 	}
 	
-	public int getCoordX(){
-		return (int)(this.x / wSprite);
-	}
-	
-	public int getCoordY(){
-		return (int)(this.y / hSprite);
-	}
-	
 	public Color getCouleur(){
 		return this.couleur;
 	}
@@ -123,7 +116,16 @@ public class Personnage {
 	}
 	
 	public boolean isDeplacementTermine(){
-	//	return this.deplacementCourant >= distanceDeplacement;
-		return Math.round(x)%32==0 && Math.round(x)%64!=0 && Math.round(y)%32==0 && Math.round(y)%64!=0;
+		return this.deplacementCourant >= distanceDeplacement;
+		//return Math.round(x)%32==0 && Math.round(x)%64!=0 && Math.round(y)%32==0 && Math.round(y)%64!=0;
+		
+	}
+	
+	public String toString(){
+		String str="";
+		str = "personnage "+this.couleur.toString()+"\n";
+		str = "position : X = "+x+" Y = "+y;	
+		str = str+"\netat courant automate : "+this.automate.getEtatCourant().getId();
+		return str; 
 	}
 }

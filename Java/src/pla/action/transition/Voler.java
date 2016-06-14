@@ -22,7 +22,7 @@ public class Voler extends Action_transition {
         Decor d = c.getDecor();
         if(d instanceof Velo) {
             c.setDecor(new SolNormal());
-            //TODO
+            p.addVelo();
         }
     }
     

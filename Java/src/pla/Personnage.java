@@ -24,6 +24,8 @@ public class Personnage {
         private TypePersonnage typePersonnage;
 	private static int distanceDeplacement = 64;
 	private Etat etatCourant;
+        private int nbToursVelo = 0;
+        
 	
 	public Personnage(TypePersonnage typePersonnage,int direction,int wSprite,int hSprite,Automate a) throws SlickException {
                 this.typePersonnage = typePersonnage;
@@ -166,4 +168,16 @@ public class Personnage {
 	public void setEtatCourant(Etat etatCourant) {
 		this.etatCourant = etatCourant;
 	}
+
+    public void addVelo() {
+        nbToursVelo += 10;
+    }
+
+    public boolean hasVelo() {
+        return nbToursVelo > 0;
+    }
+
+    public void decrementeToursVelo() {
+        nbToursVelo--;
+    }
 }

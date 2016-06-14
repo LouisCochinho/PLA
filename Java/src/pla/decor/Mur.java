@@ -5,6 +5,8 @@
  */
 package pla.decor;
 
+import pla.action.transition.*;
+
 
 /**
  *
@@ -14,5 +16,7 @@ public class Mur extends Decor {
     
     public Mur() {
     	super(DecorSprite.MUR, 64, 64);
+        ajouterAction(new Construire());
+        ajouterAction(new Demolir());
     } 
 }

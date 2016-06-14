@@ -10,13 +10,19 @@ import pla.action.etat.Action_etat;
 public class DeplacerHaut extends Action_etat {
 
 	@Override
-	public void executer(Personnage p, int delta) {
-		p.setDirection(0);
-		//p.setY((p.getY()-0.5f*delta)%MODULO_TORE_Y);
-		p.setY((p.getY()-64)%MODULO_TORE_Y);
+	public void executer(Personnage p, int delta,int modulo_tore_x, int modulo_tore_y) {
+		p.setDirection(0);		
+		float depl = (p.getY()-0.1f*delta)%modulo_tore_y;
+		p.setY(depl);
 		if(p.getY() < 0){
-			p.setY(MODULO_TORE_Y - 1);
+			p.setY(modulo_tore_y - 32);
 		}   			
+	}
+
+	@Override
+	protected void executer(Personnage p, int delta) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -5,7 +5,10 @@
  */
 package pla.action.transition;
 
+import java.util.Random;
 import pla.Personnage;
+import pla.decor.*;
+import pla.ihm.Case;
 
 /**
  *
@@ -14,8 +17,29 @@ import pla.Personnage;
 public class Construire extends Action_transition {
 
     @Override
-    public void executer(Personnage p, int delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void executer(Personnage p, Case c, int delta) {
+        Decor d = c.getDecor();
+        if(d instanceof SolNormal) {
+            c.setDecor(new Muret());
+        } else if(d instanceof Muret) {
+            c.setDecor(new Mur());
+        } else if(d instanceof Mur) {
+            Random r = new Random();
+            int i = r.nextInt(3);
+            switch(i) {
+                case 0:
+                    c.setDecor(new BatimentNeutre());
+                    break;
+                case 1:
+                    c.setDecor(new Gendarmerie());
+                    break;
+                case 2:
+                    c.setDecor(new Skatepark());
+                    break;
+                default:
+                    break;
+            }
+        }
     }
     
 }

@@ -15,7 +15,13 @@ import pla.action.etat.Action_etat;
 public class NePasBouger extends Action_etat {
 
     @Override
-    public void executer(Personnage p, int delta) {
- 
+    public void executer(Personnage p, int delta,int modulo_tore_x,int modulo_tore_y) {
+    	
     }
+
+	@Override
+	protected void executer(Personnage p, int delta) {
+		// TODO Auto-generated method stub
+		
+	}
 }

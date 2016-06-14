@@ -7,7 +7,6 @@ import pla.action.Action;
 
 public abstract class Action_etat extends Action {
 
-	public final static int MODULO_TORE_X = 1280;
-	public final static int MODULO_TORE_Y = 1024;
-	public abstract void executer(Personnage p, int delta);
+	protected abstract void executer(Personnage p, int delta);
+	public abstract void executer(Personnage p, int delta,int modulo_tore_x, int modulo_tore_y);
 }

@@ -7,7 +7,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
-import org.omg.CORBA.TIMEOUT;
 
 import pla.Association;
 import pla.Automate;
@@ -23,19 +22,25 @@ public class Map {
 	private static final int TILE_SIZE = 64;
 
 	/* largeur de la map */
-	private int largeur = 20;
+	private int nbCasesLargeur;
 
 	/* longueur de la map */
-	private int hauteur =16;
+	private int nbCasesHauteur;
 
 	// Matrice des Cases
 	private Case cases[][];
 
-	public Map() {
-		cases = new Case[hauteur][largeur];
+	public Map(int largeur, int hauteur, List<Personnage> personnages) {
+
+		this.nbCasesLargeur = largeurMax(personnages) * personnages.size()*2;
+		this.nbCasesHauteur = hauteurMax(personnages) * personnages.size()*2;
+		
+		// nbCasesLargeur = 20;
+		// nbCasesHauteur = 16;
+		cases = new Case[this.nbCasesHauteur][this.nbCasesLargeur];
 		// Cr�ation de la matrice des cases
-		for (int i = 0; i < hauteur; i++) {
-			for (int j = 0; j < largeur; j++) {
+		for (int i = 0; i < this.nbCasesHauteur; i++) {
+			for (int j = 0; j < this.nbCasesLargeur; j++) {
 				cases[i][j] = new Case(i, j);
 			}
 		}
@@ -44,22 +49,30 @@ public class Map {
 	public void init() throws SlickException {
 		this.ssmap = new SpriteSheet("res/sprite.png", TILE_SIZE, TILE_SIZE);
 	}
-	
-	public int getLargeur(){
-		return largeur*TILE_SIZE;
+
+	public int getNbCasesLargeur() {
+		return nbCasesLargeur;
 	}
-	
-	public int getHauteur(){
-		return hauteur*TILE_SIZE;
+
+	public int getNbCasesHauteur() {
+		return nbCasesHauteur;
 	}
-	
+
+	public int getLargeur() {
+		return nbCasesLargeur * TILE_SIZE;
+	}
+
+	public int getHauteur() {
+		return nbCasesHauteur * TILE_SIZE;
+	}
 
 	public void afficher() {
 		ssmap.startUse();
-		for (int i = 0; i < hauteur; i++) {
-			for (int j = 0; j < largeur; j++) {
-                                Decor d = cases[i][j].getDecor();
-                                ssmap.renderInUse(j * TILE_SIZE, i * TILE_SIZE, DecorSprite.SOL_NORMAL.getX(), DecorSprite.SOL_NORMAL.getY());
+		for (int i = 0; i < nbCasesHauteur; i++) {
+			for (int j = 0; j < nbCasesLargeur; j++) {
+				Decor d = cases[i][j].getDecor();
+				ssmap.renderInUse(j * TILE_SIZE, i * TILE_SIZE, DecorSprite.SOL_NORMAL.getX(),
+						DecorSprite.SOL_NORMAL.getY());
 				ssmap.renderInUse(j * TILE_SIZE, i * TILE_SIZE, d.getX(), d.getY());
 			}
 		}
@@ -104,7 +117,7 @@ public class Map {
 	public void chargerDecor(Automate a, Graphics g, int i, int j) {
 		Action_transition at = a.getTabActionTransition()[i][j];
 		Decor decor = Association.getDecor(at);
-		modifierDecorCase(i + a.getPosX(), j + a.getPosY(), decor);
+		modifierDecorCase(i + a.getPosX() / 64, j + a.getPosY() / 64, decor);
 	}
 
 	public Case[][] getCases() {
@@ -115,7 +128,7 @@ public class Map {
 	 * public void setCases(Case[][] cases) { this.cases = cases; }
 	 */
 	public void modifierDecorCase(int i, int j, Decor decor) {
-		if (i < largeur && j < hauteur) {
+		if (i < nbCasesHauteur && j < nbCasesLargeur) {
 			cases[i][j].setDecor(decor);
 		}
 
@@ -135,7 +148,7 @@ public class Map {
 		try {
 			switch (cellule) {
 			case Nord:
-				return cases[caseCourante.getIndexI()][caseCourante.getIndexJ() - 1];			
+				return cases[caseCourante.getIndexI()][caseCourante.getIndexJ() - 1];
 			case Sud:
 				return cases[caseCourante.getIndexI()][caseCourante.getIndexJ() + 1];
 			case Est:
@@ -152,9 +165,12 @@ public class Map {
 	}
 
 	public Case getCaseFromCoord(int posX, int posY) {
-		System.out.println("X = "+posX+ " Y="+posY);
-		System.out.println("X = "+(posX/TILE_SIZE)+" Y="+(posY/TILE_SIZE));
-		return cases[(posY/TILE_SIZE)][(posX/TILE_SIZE)];
+		try {
+			return cases[(posY / TILE_SIZE)][(posX / TILE_SIZE)];
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// A changer
+			return cases[0][0];
+		}
 	}
 	/*
 	 * // Compteur qui retourne un entier correspondant aux nombres de cases
@@ -176,9 +192,9 @@ public class Map {
 	private static final int CERCLE = 360;
 	private static final int DISTANCE = 0;
 
-	public void placerAutoRandom(List<Personnage> lPersonnage) {
+	public void placerAutoRandom(List<Personnage> lPersonnage, Graphics g) {
 		Random rand = new Random();
-		
+
 		int nbAutomate = lPersonnage.size();
 		int rayonCercle, centreCercleX, centreCercleY, anglePersonnage, firstAngle, hmax, lmax;
 
@@ -186,23 +202,28 @@ public class Map {
 		lmax = largeurMax(lPersonnage);
 
 		if (hmax <= lmax) {
-			rayonCercle = (lmax * (nbAutomate) / 2 );
+			rayonCercle = (lmax * (nbAutomate) / 2);
 		} else {
-			rayonCercle = (hmax * (nbAutomate) / 2 );
+			rayonCercle = (hmax * (nbAutomate) / 2);
 		}
 		centreCercleX = rayonCercle;
 		centreCercleY = rayonCercle;
-		
+
 		anglePersonnage = CERCLE / nbAutomate;
 		firstAngle = rand.nextInt(CERCLE + 1);
-		lPersonnage.get(0).getAutomate().setPosX((int)(rayonCercle * Math.cos(firstAngle*2*Math.PI/360)+ centreCercleX)*TILE_SIZE);
-		lPersonnage.get(0).getAutomate().setPosY((int)(rayonCercle * Math.sin(firstAngle*2*Math.PI/360)+ centreCercleY)*TILE_SIZE);
-	
+		lPersonnage.get(0).getAutomate()
+				.setPosX((int) (rayonCercle * Math.cos(firstAngle * 2 * Math.PI / 360) + centreCercleX) * TILE_SIZE);
+		lPersonnage.get(0).getAutomate()
+				.setPosY((int) (rayonCercle * Math.sin(firstAngle * 2 * Math.PI / 360) + centreCercleY) * TILE_SIZE);
+		placerAutomate(lPersonnage.get(0).getAutomate(), lPersonnage.get(0).getCouleur(), g);
 
 		for (int i = 1; i < nbAutomate; i++) {
-			firstAngle = (anglePersonnage +firstAngle)%CERCLE;
-			lPersonnage.get(i).getAutomate().setPosX((int)(rayonCercle * Math.cos(firstAngle*2*Math.PI/360) + centreCercleX)*TILE_SIZE);
-			lPersonnage.get(i).getAutomate().setPosY((int)(rayonCercle * Math.sin(firstAngle*2*Math.PI/360) + centreCercleY)*TILE_SIZE);
+			firstAngle = (anglePersonnage + firstAngle) % CERCLE;
+			lPersonnage.get(i).getAutomate().setPosX(
+					(int) (rayonCercle * Math.cos(firstAngle * 2 * Math.PI / 360) + centreCercleX) * TILE_SIZE);
+			lPersonnage.get(i).getAutomate().setPosY(
+					(int) (rayonCercle * Math.sin(firstAngle * 2 * Math.PI / 360) + centreCercleY) * TILE_SIZE);
+			placerAutomate(lPersonnage.get(i).getAutomate(), lPersonnage.get(i).getCouleur(), g);
 		}
 	}
 
@@ -210,7 +231,7 @@ public class Map {
 		int hmax = 0;
 		for (int i = 0; i < lPersonnage.size(); i++) {
 			if (lPersonnage.get(i).getAutomate().getNbLignes() > hmax) {
-				hmax = lPersonnage.get(i).getAutomate().getNbColonnes();
+				hmax = lPersonnage.get(i).getAutomate().getNbLignes();
 			}
 		}
 		return hmax;
@@ -220,7 +241,7 @@ public class Map {
 		int lmax = 0;
 		for (int i = 0; i < lPersonnage.size(); i++) {
 			if (lPersonnage.get(i).getAutomate().getNbColonnes() > lmax) {
-				lmax = lPersonnage.get(i).getAutomate().getNbLignes();
+				lmax = lPersonnage.get(i).getAutomate().getNbColonnes();
 			}
 		}
 		return lmax;
@@ -230,44 +251,42 @@ public class Map {
 		Random rand = new Random();
 
 		int posX, posY;
-		int w = getCases().length;
-		int h = getCases()[0].length;
-
+		int w = getCases()[0].length;
+		int h = getCases().length;
 
 		for (int i = 0; i < lPersonnage.size(); i++) {
 			do {
-				posX = rand.nextInt(w)*TILE_SIZE+TILE_SIZE/2;
-				posY = rand.nextInt(h)*TILE_SIZE+TILE_SIZE/2;
-			} while ( personnagePresent(lPersonnage, posX, posY, i) || automatePresent(lPersonnage, posX, posY, 0));
-			/*System.out.println("perso "+i+" posX" + posX);
-			System.out.println("perso "+i+" posY" + posY);*/
-			lPersonnage.get(i).setX(posX%(w*TILE_SIZE));
-			lPersonnage.get(i).setY(posY%(h*TILE_SIZE));
+				posX = rand.nextInt(w) * TILE_SIZE + TILE_SIZE / 2;
+				posY = rand.nextInt(h) * TILE_SIZE + TILE_SIZE / 2;
+			} while (personnagePresent(lPersonnage, posX, posY, i) || automatePresent(lPersonnage, posX, posY, 0));
+			lPersonnage.get(i).setX(posX % (w * TILE_SIZE));
+			lPersonnage.get(i).setY(posY % (h * TILE_SIZE));
 		}
 
 	}
-	
+
 	private boolean automatePresent(List<Personnage> lPersonnage, int posX, int posY, int i) {
 		boolean present = false;
 		int intiAPosX, intiAPosY, endAPosX, endAPosY;
 		for (int j = 0; j < i; j++) {
-			intiAPosX  = lPersonnage.get(j).getAutomate().getPosX();
-			intiAPosY  = lPersonnage.get(j).getAutomate().getPosX();
-			endAPosX  = lPersonnage.get(j).getAutomate().getNbColonnes() + intiAPosX;
-			endAPosY  = lPersonnage.get(j).getAutomate().getNbLignes() + intiAPosY;
-			if (intiAPosX<posX && endAPosX>posX && intiAPosY<posY && endAPosY>posY) {
+			intiAPosX = lPersonnage.get(j).getAutomate().getPosX();
+			intiAPosY = lPersonnage.get(j).getAutomate().getPosX();
+			endAPosX = lPersonnage.get(j).getAutomate().getNbColonnes() + intiAPosX;
+			endAPosY = lPersonnage.get(j).getAutomate().getNbLignes() + intiAPosY;
+			if (intiAPosX < posX && endAPosX > posX && intiAPosY < posY && endAPosY > posY) {
 				present = true;
 			}
 		}
-		
+
 		return false;
 	}
 
 	private boolean personnagePresent(List<Personnage> lPersonnage, int posX, int posY, int i) {
 		boolean present = false;
 		for (int j = 0; j < i; j++) {
-			if ((lPersonnage.get(j).getX() - posX) + (lPersonnage.get(j).getY() - posY) <= DISTANCE*TILE_SIZE
-					&& (lPersonnage.get(j).getX() - posX) + (lPersonnage.get(j).getY() - posY) <= DISTANCE*TILE_SIZE) {
+			if ((lPersonnage.get(j).getX() - posX) + (lPersonnage.get(j).getY() - posY) <= DISTANCE * TILE_SIZE
+					&& (lPersonnage.get(j).getX() - posX) + (lPersonnage.get(j).getY() - posY) <= DISTANCE
+							* TILE_SIZE) {
 				present = true;
 			}
 		}

@@ -6,21 +6,26 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 import pla.action.Action;
+import pla.action.transition.*;
 
 public abstract class Decor {
 	private int id;
-	private ArrayList<Action> actions;
+	private ArrayList<Action_transition> actions;
 	protected SpriteSheet sprite;
 	private float wSprite;
 	private float hSprite;
         private DecorSprite decorSprite;
 	
 	public Decor(int id) {
-		actions = new ArrayList<Action>();
+		actions = new ArrayList<Action_transition>();
 		this.id = id;
 	}
 	
 	public Decor(DecorSprite decorSprite, int wSprite, int hSprite){
+		actions = new ArrayList<Action_transition>();
+                ajouterAction(new Admirer());
+                ajouterAction(new Combattre());
+                ajouterAction(new LaisserTomber());
 		this.wSprite = wSprite;
 		this.hSprite = hSprite;
                 this.decorSprite = decorSprite;
@@ -28,7 +33,7 @@ public abstract class Decor {
 	
 
 	public Decor() {
-		actions = new ArrayList<Action>();
+		actions = new ArrayList<Action_transition>();
 	}
 
 	public int getId() {
@@ -39,11 +44,11 @@ public abstract class Decor {
 		this.id = id;
 	}
 
-	public ArrayList<Action> getActions() {
+	public ArrayList<Action_transition> getActions() {
 		return actions;
 	}
 
-	public void ajouterAction(Action a) {
+	public final void ajouterAction(Action_transition a) {
 		if (a != null) {
 			this.actions.add(a);
 		} else {

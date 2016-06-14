@@ -11,22 +11,34 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
+
+import pla.action.transition.Construire;
+import pla.action.transition.Demolir;
 
 import pla.ihm.Map;
 import pla.util.Musique;
 
+
 public class Jeu extends BasicGameState {
-	private Map map = new Map(); // carte du jeu
+	private Map map ; // carte du jeu
 	private List<Personnage> personnages = new ArrayList<Personnage>(); // Liste
 																		// des
 	public static final int ID = 1;										// personnages
 	
 	private GameContainer gc; // conteneur
-	private int camX, camY;
 	private final static int DEPLACEMENT = 15;
 	Musique musique;
+	private float camX, camY;
+	private float zoomX=1, zoomY=1;
+	private int SIZE_WINDOW_X ;
+	private int SIZE_WINDOW_Y ;
+	private float currentSizeMapX ;
+	private float currentSizeMapY ;
+	private final static float ZOOM = 0.03f;
 	// private static final int PAUSE = 25; // temps de latence
 
 	// private float zoom = 0.1f;
@@ -36,7 +48,10 @@ public class Jeu extends BasicGameState {
 	 * private float z1 = 0.01f; private float z2 = 0.01f;
 	 */
 
-	public Jeu() {
+
+	public Jeu(int largeur,int hauteur) {
+		SIZE_WINDOW_X = largeur;
+		SIZE_WINDOW_Y = hauteur;
 
 		personnages = new ArrayList<Personnage>();
 	}
@@ -62,29 +77,42 @@ public class Jeu extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame game) throws SlickException {
 
 		this.gc = gc;
-		this.map.init();
-		ajouterPersonnage(new Personnage("res/thugBleu.png", 420.f, 420.f, 2, 0, 64, 64, new Automate(), Color.blue));
-		ajouterPersonnage(new Personnage("res/thugRouge.png", 320.f, 320.f, 1, 0, 64, 64, new Automate(), Color.green));
+		
+		ajouterPersonnage(new Personnage("res/thugBleu.png", 2, 64, 64, new Automate(), Color.blue));
+		ajouterPersonnage(new Personnage("res/thugRouge.png", 1, 64, 64, new Automate(), Color.red));
 
 		// Marche pas => Revoir sprite policier
-		ajouterPersonnage(new Personnage("res/Bernard.png", 200.f, 200.f, 3, 0, 64, 64, new Automate(), Color.green));
+		ajouterPersonnage(new Personnage("res/Bernard.png", 3, 64, 64, new Automate(), Color.black));
+		
+		map = new Map((int)SIZE_WINDOW_X, (int)SIZE_WINDOW_Y, personnages);
 
+		this.map.init();
+		currentSizeMapX = map.getLargeur();
+		currentSizeMapY = map.getHauteur();
 		for (Personnage p : personnages) {
 			p.init();
-			//this.map.placerAutoRandom(personnages);
-			this.map.placerAutomate(p.getAutomate(), p.getCouleur(), gc.getGraphics());
-
 		}
 		// this.map.placerPersonnageRandom(personnages);
 		//sound = new Music("res/thug.ogg");
 		//musique = new Musique();
 		
+
+			//this.map.placerAutomate(p.getAutomate(), p.getCouleur(), gc.getGraphics());
+
+        this.map.placerAutoRandom(personnages, gc.getGraphics());
+		this.map.placerPersonnageRandom(personnages);
+                //new Construire().executer(personnages.get(0), map.getCaseFromCoord(0, 0), 0);
+                //System.out.println(map.getCaseFromCoord(0, 0).getDecor());
+	//	sound = new Music("res/thug.ogg");
+	//	sound.loop();
+
 	}
 
 	// Affiche le contenu du jeu
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
 		g.translate(camX, camY);
+		g.scale(zoomX, zoomY);
 		this.map.afficher();
 		for (Personnage p : personnages) {
 			p.afficher(g);
@@ -98,10 +126,14 @@ public class Jeu extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
 		// TODO Auto-generated method stub
 		for (Personnage p : personnages) {
+			if(p.isDeplacementTermine()){
+				//System.out.println("X = "+p.getX()+" y = "+p.getY());
+				changerEtatAutomate(p, delta);
+			}
 			deplacerPersonnage(p, delta);
 		}
 
-		
+
 
 		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn()) {
 			musique.resumeJeu();
@@ -113,18 +145,25 @@ public class Jeu extends BasicGameState {
 			musique.pauseJeu();
 		}	
 		if (gc.getInput().isKeyDown(Input.KEY_UP)) {
-				camY+=DEPLACEMENT;
+			cameraUP();		
 		}
 		if (gc.getInput().isKeyDown(Input.KEY_DOWN)) {
-			camY-=DEPLACEMENT;
+			cameraDown();
 		} 
 		if(gc.getInput().isKeyDown(Input.KEY_RIGHT)){
-			camX-= DEPLACEMENT;
+			cameraRIGHT();		
 		}
 		if (gc.getInput().isKeyDown(Input.KEY_LEFT)) {
-			camX+=DEPLACEMENT;
+			cameraLEFT();	
 		} 
-		
+
+		if (gc.getInput().isKeyDown(Input.KEY_A)) {
+			cameraZoom();
+		}
+		if (gc.getInput().isKeyDown(Input.KEY_B)) {
+			cameraDezoom();
+		}
+
 	}
 
 	// Arreter correctement le jeu en appuyant sur ECHAP
@@ -135,26 +174,19 @@ public class Jeu extends BasicGameState {
 			gc.exit();
 		}
 	}
+	
+	
 
-	public void deplacerPersonnage(Personnage p, int delta) {
+	public void changerEtatAutomate(Personnage p, int delta) {
 
 		ArrayList<Integer> indexPossibles = new ArrayList<Integer>();
 		int etatCourantId = p.getAutomate().getEtatCourant().getId();
-		boolean conditionVerifiee;
 		Random r = new Random();
 		int indexChoisi = 0;
 
 		for (int i = 0; i < p.getAutomate().getNbLignes(); i++) {
 			Condition c = p.getAutomate().getTabCondition()[i][etatCourantId];
-			conditionVerifiee = true;
-
-
-			if (!c.estVerifiee(p, map)) {
-				conditionVerifiee = false;
-
-			}
-
-			if (conditionVerifiee) {
+			if(c.estVerifiee(p, map)){
 				indexPossibles.add(i);
 			}
 		}
@@ -166,8 +198,52 @@ public class Jeu extends BasicGameState {
 		}
 		else{
 			p.getAutomate().setEtatCourant(p.getAutomate().getEtatInitial());
-		}	
-		p.deplacer(delta);
+		}			
+		// initier le mouvement
+		p.setDeplacementCourant(0);		
+	}
+	
+	public void deplacerPersonnage(Personnage p, int delta){		
+		p.deplacer(delta,map.getLargeur(),map.getHauteur());
+	}
+
+	void cameraDown(){
+		if(camY-DEPLACEMENT >= -currentSizeMapY+SIZE_WINDOW_Y){camY-=DEPLACEMENT;}
+		else{camY = camY - (camY +currentSizeMapY-SIZE_WINDOW_Y);}		
+		
+	}
+
+	void cameraUP(){
+		if(camY+DEPLACEMENT <= 0){camY+=DEPLACEMENT;}
+		else{camY = 0;}
+		
+	}
+
+	void cameraLEFT(){
+		if(camX+DEPLACEMENT <= 0){camX+=DEPLACEMENT;}
+		else{camX = 0;}
+		
+	}
+
+	void cameraRIGHT(){
+		if(camX-DEPLACEMENT >= -currentSizeMapX+SIZE_WINDOW_X){camX-= DEPLACEMENT;}
+		else{camX = camX - (camX +currentSizeMapX-SIZE_WINDOW_X);}
+		
+	}
+
+	void cameraDezoom(){
+		if(currentSizeMapX >= SIZE_WINDOW_X && currentSizeMapY >= SIZE_WINDOW_Y){
+			zoomX -= ZOOM; zoomY -= ZOOM;
+			currentSizeMapX = zoomX*map.getLargeur();
+			currentSizeMapY = zoomY*map.getHauteur();
+		}
+
+	}
+
+	void cameraZoom(){
+		zoomX += ZOOM; zoomY += ZOOM;
+		currentSizeMapX = zoomX*map.getLargeur();
+		currentSizeMapY = zoomY*map.getHauteur();
 	}
 	
 	@Override

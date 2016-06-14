@@ -5,8 +5,7 @@
  */
 package pla.decor;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
+import pla.action.transition.*;
 
 /**
  *
@@ -16,6 +15,7 @@ public class BoucheEgout extends Decor {
     
     public BoucheEgout() {
     	super(DecorSprite.BOUCHE_EGOUT, 64, 64);
+        ajouterAction(new Voyager());
     }
     
 }

@@ -7,6 +7,7 @@ package pla.decor;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import pla.action.transition.*;
 
 /**
  *
@@ -16,6 +17,7 @@ public class BombeEau extends Decor {
     
     public BombeEau() {
     	super(DecorSprite.BOMBE_EAU, 64, 64);
+        ajouterAction(new Prendre());
     }
     
 }

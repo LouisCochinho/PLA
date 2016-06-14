@@ -32,7 +32,8 @@ public class Jeu extends BasicGameState {
 	private GameContainer gc; // conteneur
 
 	Musique musique;
-
+	private boolean MusicEnable = false;    
+		
 	private int SIZE_WINDOW_X ;
 	private int SIZE_WINDOW_Y ;
 	// private static final int PAUSE = 25; // temps de latence
@@ -90,8 +91,9 @@ public class Jeu extends BasicGameState {
 
 		
 		// this.map.placerPersonnageRandom(personnages);
-		//sound = new Music("res/thug.ogg");
-		//musique = new Musique();
+		if (MusicEnable) {
+			musique = new Musique();
+		}
 		
 
 			//this.map.placerAutomate(p.getAutomate(), p.getCouleur(), gc.getGraphics());
@@ -139,13 +141,13 @@ public class Jeu extends BasicGameState {
 
 
 
-		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn()) {
+		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn() && MusicEnable) {
 			musique.resumeJeu();
 		}
-		if (gc.getInput().isKeyPressed(Input.KEY_S)) {
+		if (gc.getInput().isKeyPressed(Input.KEY_S) && MusicEnable) {
 			musique.stopJeu();
 		}
-		if (gc.getInput().isKeyPressed(Input.KEY_P)) {
+		if (gc.getInput().isKeyPressed(Input.KEY_P) && MusicEnable) {
 			musique.pauseJeu();
 		}	
 		if (gc.getInput().isKeyDown(Input.KEY_UP)) {

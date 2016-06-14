@@ -206,8 +206,8 @@ public class Map {
 		} else {
 			rayonCercle = (hmax * (nbAutomate) / 2);
 		}
-		centreCercleX = rayonCercle;
-		centreCercleY = rayonCercle;
+		centreCercleX = getNbCasesLargeur()/2-lmax;
+		centreCercleY = getNbCasesHauteur()/2;
 
 		anglePersonnage = CERCLE / nbAutomate;
 		firstAngle = rand.nextInt(CERCLE + 1);

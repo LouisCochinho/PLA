@@ -12,12 +12,16 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
+
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 
 import pla.action.transition.Construire;
 import pla.action.transition.Demolir;
+
+
+import pla.ihm.Camera;
 
 import pla.ihm.Map;
 import pla.util.Musique;
@@ -30,15 +34,11 @@ public class Jeu extends BasicGameState {
 	public static final int ID = 1;										// personnages
 	
 	private GameContainer gc; // conteneur
-	private final static int DEPLACEMENT = 15;
+
 	Musique musique;
-	private float camX, camY;
-	private float zoomX=1, zoomY=1;
+
 	private int SIZE_WINDOW_X ;
 	private int SIZE_WINDOW_Y ;
-	private float currentSizeMapX ;
-	private float currentSizeMapY ;
-	private final static float ZOOM = 0.03f;
 	// private static final int PAUSE = 25; // temps de latence
 
 	// private float zoom = 0.1f;
@@ -87,8 +87,7 @@ public class Jeu extends BasicGameState {
 		map = new Map((int)SIZE_WINDOW_X, (int)SIZE_WINDOW_Y, personnages);
 
 		this.map.init();
-		currentSizeMapX = map.getLargeur();
-		currentSizeMapY = map.getHauteur();
+		Camera.initCamera(map, SIZE_WINDOW_X, SIZE_WINDOW_Y);
 		for (Personnage p : personnages) {
 			p.init();
 		}
@@ -111,8 +110,9 @@ public class Jeu extends BasicGameState {
 	// Affiche le contenu du jeu
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
-		g.translate(camX, camY);
-		g.scale(zoomX, zoomY);
+
+		Camera.moveCamera(g);
+
 		this.map.afficher();
 		for (Personnage p : personnages) {
 			p.afficher(g);
@@ -145,25 +145,37 @@ public class Jeu extends BasicGameState {
 			musique.pauseJeu();
 		}	
 		if (gc.getInput().isKeyDown(Input.KEY_UP)) {
-			cameraUP();		
+			Camera.cameraUP();		
 		}
 		if (gc.getInput().isKeyDown(Input.KEY_DOWN)) {
-			cameraDown();
+			Camera.cameraDown();
 		} 
 		if(gc.getInput().isKeyDown(Input.KEY_RIGHT)){
-			cameraRIGHT();		
+			Camera.cameraRIGHT();		
 		}
 		if (gc.getInput().isKeyDown(Input.KEY_LEFT)) {
-			cameraLEFT();	
+			Camera.cameraLEFT();	
 		} 
 
 		if (gc.getInput().isKeyDown(Input.KEY_A)) {
-			cameraZoom();
+			Camera.cameraZoom(map);
 		}
 		if (gc.getInput().isKeyDown(Input.KEY_B)) {
-			cameraDezoom();
+			Camera.cameraDezoom(map);
+		}
+		if(gc.getInput().isKeyPressed(Input.KEY_F1)){
+			gc.setPaused(!gc.isPaused());
 		}
 
+	}
+	
+	public void mouseWheelMoved(int change) {
+		if(change<0){
+			Camera.cameraDezoom(map);
+		}
+		else{
+			Camera.cameraZoom(map);
+		}
 	}
 
 	// Arreter correctement le jeu en appuyant sur ECHAP
@@ -207,49 +219,12 @@ public class Jeu extends BasicGameState {
 		p.deplacer(delta,map.getLargeur(),map.getHauteur());
 	}
 
-	void cameraDown(){
-		if(camY-DEPLACEMENT >= -currentSizeMapY+SIZE_WINDOW_Y){camY-=DEPLACEMENT;}
-		else{camY = camY - (camY +currentSizeMapY-SIZE_WINDOW_Y);}		
-		
-	}
 
-	void cameraUP(){
-		if(camY+DEPLACEMENT <= 0){camY+=DEPLACEMENT;}
-		else{camY = 0;}
-		
-	}
-
-	void cameraLEFT(){
-		if(camX+DEPLACEMENT <= 0){camX+=DEPLACEMENT;}
-		else{camX = 0;}
-		
-	}
-
-	void cameraRIGHT(){
-		if(camX-DEPLACEMENT >= -currentSizeMapX+SIZE_WINDOW_X){camX-= DEPLACEMENT;}
-		else{camX = camX - (camX +currentSizeMapX-SIZE_WINDOW_X);}
-		
-	}
-
-	void cameraDezoom(){
-		if(currentSizeMapX >= SIZE_WINDOW_X && currentSizeMapY >= SIZE_WINDOW_Y){
-			zoomX -= ZOOM; zoomY -= ZOOM;
-			currentSizeMapX = zoomX*map.getLargeur();
-			currentSizeMapY = zoomY*map.getHauteur();
-		}
-
-	}
-
-	void cameraZoom(){
-		zoomX += ZOOM; zoomY += ZOOM;
-		currentSizeMapX = zoomX*map.getLargeur();
-		currentSizeMapY = zoomY*map.getHauteur();
-	}
-	
 	@Override
 	public int getID() {
 		return ID;
 	}
 		
+
 	
 }

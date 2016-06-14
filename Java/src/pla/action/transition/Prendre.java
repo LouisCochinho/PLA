@@ -21,8 +21,8 @@ public class Prendre extends Action_transition {
     public void executer(Personnage p, Case c, Jeu j, int delta) {
         Decor d = c.getDecor();
         if(d instanceof BombeEau || d instanceof BombePeinture) {
+            p.setObjet(d);
             c.setDecor(new SolNormal());
-            //TODO
         }
     }
     

@@ -7,6 +7,7 @@ package pla.action.transition;
 
 import pla.Jeu;
 import pla.Personnage;
+import pla.decor.*;
 import pla.ihm.Case;
 import pla.ihm.Map;
 
@@ -18,7 +19,11 @@ public class LaisserTomber extends Action_transition {
 
     @Override
     public void executer(Personnage p, Case c, Jeu j, int delta) {
-        //TODO
+        Decor d = p.getObjet();
+        p.removeObjet();
+        if(d instanceof SolNormal) {
+            c.setDecor(d);
+        }
     }
     
 }

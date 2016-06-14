@@ -5,8 +5,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
-
-import pla.decor.DecorPersonnage;
+import pla.decor.*;
 
 public class Personnage {
 	private float x,y;
@@ -25,6 +24,7 @@ public class Personnage {
 	private static int distanceDeplacement = 64;
 	private Etat etatCourant;
         private int nbToursVelo = 0;
+        private Decor objet = null;
         
 	
 	public Personnage(TypePersonnage typePersonnage,int direction,int wSprite,int hSprite,Automate a) throws SlickException {
@@ -179,5 +179,17 @@ public class Personnage {
 
     public void decrementeToursVelo() {
         nbToursVelo--;
+    }
+
+    public void setObjet(Decor objet) {
+        this.objet = objet;
+    }
+    
+    public void removeObjet() {
+        objet = null;
+    }
+
+    public Decor getObjet() {
+        return objet;
     }
 }

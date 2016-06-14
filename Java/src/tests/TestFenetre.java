@@ -10,7 +10,7 @@ public class TestFenetre {
 	// jeu et lui dire quznd d�marrer, s'arreter, etc.
 	static private AppGameContainer app;
 	private static final int largeur = 1280;
-	private static final int hauteur = 1024;
+	private static final int hauteur = 800;
 	public static void main(String[] args) throws SlickException {
 		// Ce conteneur s'instancie en passant un objet impl�mentant Game
 		// (dont

@@ -18,7 +18,11 @@ public class Combattre extends Action_transition {
 
     @Override
     public void executer(Personnage p, Case c, Jeu j, int delta) {
-        //TODO
+        for(Personnage p2 : c.getPersonnages()) {
+            if(p2.getTypePersonnage() != p.getTypePersonnage()) {
+                j.supprimerPersonnage(p2);
+            }
+        }
     }
     
 }

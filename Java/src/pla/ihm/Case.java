@@ -65,4 +65,8 @@ public class Case {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+    public ArrayList<Personnage> getPersonnages() {
+        return personnages;
+    }
 }

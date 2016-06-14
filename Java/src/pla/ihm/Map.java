@@ -264,6 +264,21 @@ public class Map {
 		}
 
 	}
+	
+	public void placerPersonnageRandom(Personnage personnage, List<Personnage> lPersonnage){
+		Random rand = new Random();
+
+		int posX, posY;
+		int w = getCases()[0].length;
+		int h = getCases().length;
+		
+		do {
+			posX = rand.nextInt(w) * TILE_SIZE + TILE_SIZE / 2;
+			posY = rand.nextInt(h) * TILE_SIZE + TILE_SIZE / 2;
+		} while (personnagePresent(lPersonnage, posX, posY, lPersonnage.size()) || automatePresent(lPersonnage, posX, posY, 0));
+		personnage.setX(posX % (w * TILE_SIZE));
+		personnage.setY(posY % (h * TILE_SIZE));
+	}
 
 	private boolean automatePresent(List<Personnage> lPersonnage, int posX, int posY, int i) {
 		boolean present = false;

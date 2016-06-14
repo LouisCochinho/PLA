@@ -23,12 +23,14 @@ public class Personnage {
         private String ref;
         private TypePersonnage typePersonnage;
 	private static int distanceDeplacement = 64;
+	private Etat etatCourant;
 	
 	public Personnage(TypePersonnage typePersonnage,int direction,int wSprite,int hSprite,Automate a) throws SlickException {
                 this.typePersonnage = typePersonnage;
                 this.ref = typePersonnage.getRef();
 		this.direction = direction;
 		this.automate = a;
+                etatCourant = a.getEtatInitial();
 		this.couleur = typePersonnage.getColor();
 		this.wSprite = wSprite;
 		this.hSprite = hSprite;
@@ -74,7 +76,7 @@ public class Personnage {
 
 	public void deplacer(int delta,int modulo_tore_x,int modulo_tore_y) {
 		
-		automate.getEtatCourant().getActionEtat().executer(this,delta, modulo_tore_x, modulo_tore_y);
+		getEtatCourant().getActionEtat().executer(this,delta, modulo_tore_x, modulo_tore_y);
 	}
 
 	public float getX() {
@@ -133,7 +135,7 @@ public class Personnage {
 		String str="";
 		str = "personnage "+this.couleur.toString()+"\n";
 		str = "position : X = "+x+" Y = "+y;	
-		str = str+"\netat courant automate : "+this.automate.getEtatCourant().getId();
+		str = str+"\netat courant automate : "+this.getEtatCourant().getId();
 		return str; 
 	}
 
@@ -156,4 +158,12 @@ public class Personnage {
     public TypePersonnage getTypePersonnage() {
         return typePersonnage;
     }
+
+	public Etat getEtatCourant() {
+		return etatCourant;
+	}
+
+	public void setEtatCourant(Etat etatCourant) {
+		this.etatCourant = etatCourant;
+	}
 }

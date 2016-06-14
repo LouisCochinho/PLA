@@ -25,6 +25,7 @@ public class Dupliquer extends Action_transition {
         try {
             Personnage newP = new Personnage(p.getTypePersonnage(), p.getDirection(), (int)p.getwSprite(), (int)p.gethSprite(), p.getAutomate());
             j.ajouterPersonnage(newP);
+            j.getMap().placerPersonnageRandom(newP, j.getPersonnages());
             newP.init();
         } catch (SlickException ex) {
             Logger.getLogger(Dupliquer.class.getName()).log(Level.SEVERE, null, ex);

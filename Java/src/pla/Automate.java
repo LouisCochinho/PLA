@@ -23,7 +23,6 @@ public class Automate {
 	private Action_transition actionParDefaut;
 	private Etat etatInitial;
 	private Condition conditionParDefaut;
-	private Etat etatCourant;
 
 	// automate par defaut
 	public Automate() {
@@ -54,7 +53,6 @@ public class Automate {
 
 		actionParDefaut = new Admirer();
 		etatInitial = etats.get(0);
-                etatCourant = etatInitial;
 		conditionParDefaut = new Condition();
 		transitionParDefaut = new Transition(etatInitial, conditionParDefaut, actionParDefaut, etatInitial);
 	
@@ -242,14 +240,6 @@ public class Automate {
 			}
 			System.out.println();
 		}
-	}
-
-	public Etat getEtatCourant() {
-		return etatCourant;
-	}
-
-	public void setEtatCourant(Etat etatCourant) {
-		this.etatCourant = etatCourant;
 	}
 	
 	public Etat getEtatSuivant(int i, int j){

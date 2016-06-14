@@ -104,9 +104,8 @@ public class Jeu extends BasicGameState {
 		this.map.placerPersonnageRandom(personnages);
                 //map.getCaseFromCoord(0, 0).setDecor(new BoucheEgout());
                 //map.getCaseFromCoord(640, 640).setDecor(new BoucheEgout());
-                new Dupliquer().executer(personnages.get(0), map.getCaseFromCoord(0, 0), this, 0);
-                new Dupliquer().executer(personnages.get(1), map.getCaseFromCoord(0, 0), this, 0);
-                new Dupliquer().executer(personnages.get(2), map.getCaseFromCoord(0, 0), this, 0);
+                //new Dupliquer().executer(personnages.get(0), map.getCaseFromCoord(0, 0), this, 0);
+                //new Dupliquer().executer(personnages.get(1), map.getCaseFromCoord(0, 0), this, 0);
                 
 	//	sound = new Music("res/thug.ogg");
 	//	sound.loop();
@@ -197,7 +196,7 @@ public class Jeu extends BasicGameState {
 	public void changerEtatAutomate(Personnage p, int delta) {
 
 		ArrayList<Integer> indexPossibles = new ArrayList<Integer>();
-		int etatCourantId = p.getAutomate().getEtatCourant().getId();
+		int etatCourantId = p.getEtatCourant().getId();
 		Random r = new Random();
 		int indexChoisi = 0;
 		
@@ -217,13 +216,13 @@ public class Jeu extends BasicGameState {
 			indexChoisi = indexPossibles.get(r.nextInt(indexPossibles.size()));	
 			System.out.println("index choisi : "+indexChoisi);
 			System.out.println("etat suivant : "+p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());
-			p.getAutomate().setEtatCourant(p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId]);
+			p.setEtatCourant(p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId]);
 		}
 		else{
-			p.getAutomate().setEtatCourant(p.getAutomate().getEtatInitial());
+			p.setEtatCourant(p.getAutomate().getEtatInitial());
 		}			
 		// initier le mouvement
-		System.out.println("action etat courant : "+p.getAutomate().getEtatCourant().getActionEtat().toString());
+		System.out.println("action etat courant : "+p.getEtatCourant().getActionEtat().toString());
 		p.setDeplacementCourant(0);	
 		
 	}
@@ -240,6 +239,10 @@ public class Jeu extends BasicGameState {
 	public int getID() {
 		return ID;
 	}
+
+    public List<Personnage> getPersonnages() {
+        return personnages;
+    }
 
 	
 }

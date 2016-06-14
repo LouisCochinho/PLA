@@ -6,6 +6,7 @@
 package pla.action.transition;
 
 import java.util.Random;
+import pla.Jeu;
 import pla.Personnage;
 import pla.decor.*;
 import pla.ihm.Case;
@@ -18,7 +19,7 @@ import pla.ihm.Map;
 public class Demolir extends Action_transition {
 
     @Override
-    public void executer(Personnage p, Case c, Map m, int delta) {
+    public void executer(Personnage p, Case c, Jeu j, int delta) {
         Decor d = c.getDecor();
         if(d instanceof BatimentNeutre || d instanceof Gendarmerie || d instanceof Skatepark) {
             c.setDecor(new Mur());

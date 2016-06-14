@@ -7,6 +7,7 @@ package pla.action.transition;
 
 import java.util.ArrayList;
 import java.util.Random;
+import pla.Jeu;
 import pla.Personnage;
 import pla.decor.*;
 import pla.ihm.Case;
@@ -19,11 +20,11 @@ import pla.ihm.Map;
 public class Voyager extends Action_transition {
 
     @Override
-    public void executer(Personnage p, Case c, Map m, int delta) {
+    public void executer(Personnage p, Case c, Jeu j, int delta) {
         Decor d = c.getDecor();
         if(d instanceof BoucheEgout) {
             ArrayList<Case> cases = new ArrayList<Case>();
-            for (Case[] case1 : m.getCases()) {
+            for (Case[] case1 : j.getMap().getCases()) {
                 for (Case case11 : case1) {
                     if((case11.getIndexI() != c.getIndexI() || case11.getIndexJ() != c.getIndexJ()) && case11.getDecor() instanceof BoucheEgout) {
                         cases.add(case11);

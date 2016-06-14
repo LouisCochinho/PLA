@@ -5,6 +5,7 @@
  */
 package pla.action.transition;
 
+import pla.Jeu;
 import pla.Personnage;
 import pla.ihm.Case;
 import pla.ihm.Map;
@@ -16,7 +17,7 @@ import pla.ihm.Map;
 public class Combattre extends Action_transition {
 
     @Override
-    public void executer(Personnage p, Case c, Map m, int delta) {
+    public void executer(Personnage p, Case c, Jeu j, int delta) {
         //TODO
     }
     

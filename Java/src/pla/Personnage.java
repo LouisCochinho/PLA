@@ -19,11 +19,16 @@ public class Personnage {
 	private float wSprite;
 	private float hSprite;
 	private float deplacementCourant;
+        private boolean inverse;
+        private String ref;
+        private TypePersonnage typePersonnage;
 	
-	public Personnage(String ref,int direction,int wSprite,int hSprite,Automate a,Color c) throws SlickException {
+	public Personnage(TypePersonnage typePersonnage,int direction,int wSprite,int hSprite,Automate a) throws SlickException {
+                this.typePersonnage = typePersonnage;
+                this.ref = typePersonnage.getRef();
 		this.direction = direction;
 		this.automate = a;
-		this.couleur = c;
+		this.couleur = typePersonnage.getColor();
 		this.wSprite = wSprite;
 		this.hSprite = hSprite;
 		try {
@@ -32,13 +37,10 @@ public class Personnage {
 			// TODO Auto-generated catch block
 			System.out.println("le fichier "+ref+ " n'a pas pu �tre trouv�");
 		}
+                this.inverse = typePersonnage.isInverse();
+                if(inverse)
+                    a.inverser();
 	}
-        
-        public Personnage(String ref,int direction,int wSprite,int hSprite,Automate a,Color c,boolean inverser) throws SlickException {
-            this(ref, direction, wSprite, hSprite, a, c);
-            if(inverser)
-                a.inverser();
-        }
 
 	public void init() throws SlickException {
 		this.animations[0] = chargerAnimation(sperso, 0, 1, 8);
@@ -132,4 +134,24 @@ public class Personnage {
 	//	return this.deplacementCourant >= distanceDeplacement;
 		return Math.round(x)%32==0 && Math.round(x)%64!=0 && Math.round(y)%32==0 && Math.round(y)%64!=0;
 	}
+
+    public boolean isInverse() {
+        return inverse;
+    }
+
+    public String getRef() {
+        return ref;
+    }
+
+    public float getwSprite() {
+        return wSprite;
+    }
+
+    public float gethSprite() {
+        return hSprite;
+    }
+
+    public TypePersonnage getTypePersonnage() {
+        return typePersonnage;
+    }
 }

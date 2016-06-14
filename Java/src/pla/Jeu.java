@@ -65,11 +65,11 @@ public class Jeu extends BasicGame {
 
 		this.gc = gc;
 		
-		ajouterPersonnage(new Personnage("res/thugBleu.png", 2, 64, 64, new Automate(), Color.blue, true));
-		ajouterPersonnage(new Personnage("res/thugRouge.png", 1, 64, 64, new Automate(), Color.red));
+		ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate()));
+		ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate()));
 
 		// Marche pas => Revoir sprite policier
-		ajouterPersonnage(new Personnage("res/Bernard.png", 3, 64, 64, new Automate(), Color.black));
+		ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate()));
 		
 		map = new Map((int)SIZE_WINDOW_X, (int)SIZE_WINDOW_Y, personnages);
 
@@ -83,9 +83,11 @@ public class Jeu extends BasicGame {
 		}
         this.map.placerAutoRandom(personnages, gc.getGraphics());
 		this.map.placerPersonnageRandom(personnages);
-                map.getCaseFromCoord(0, 0).setDecor(new BoucheEgout());
-                map.getCaseFromCoord(640, 640).setDecor(new BoucheEgout());
-                new Voyager().executer(personnages.get(0), map.getCaseFromCoord(0, 0), map, 0);
+                //map.getCaseFromCoord(0, 0).setDecor(new BoucheEgout());
+                //map.getCaseFromCoord(640, 640).setDecor(new BoucheEgout());
+                new Dupliquer().executer(personnages.get(0), map.getCaseFromCoord(0, 0), this, 0);
+                new Dupliquer().executer(personnages.get(1), map.getCaseFromCoord(0, 0), this, 0);
+                new Dupliquer().executer(personnages.get(2), map.getCaseFromCoord(0, 0), this, 0);
                 
 	//	sound = new Music("res/thug.ogg");
 	//	sound.loop();
@@ -200,6 +202,10 @@ public class Jeu extends BasicGame {
 	public void deplacerPersonnage(Personnage p, int delta){		
 		p.deplacer(delta,map.getLargeur(),map.getHauteur());
 	}
+
+    public Map getMap() {
+        return map;
+    }
 
 	
 }

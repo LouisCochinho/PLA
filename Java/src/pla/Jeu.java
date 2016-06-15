@@ -39,6 +39,8 @@ public class Jeu extends BasicGameState {
 	private Image inventaire_bleu,inventaire_bleu_eau,inventaire_bleu_bombe,inventaire_bleu_bike,inventaire_bleu_eau_bike,inventaire_bleu_bombe_bike;
 	private Image score_rouge, score_bleu;
 	
+	int rouge_score, bleu_score;
+	String rouge_score1, bleu_score1;
 	//private static final int P_BAR_X = 15;
 	//private static final int P_BAR_Y = 25;
 
@@ -224,9 +226,18 @@ public class Jeu extends BasicGameState {
 		
 		//afficher score
 		if (gc.getInput().isKeyDown(Input.KEY_TAB)) {
-			g.resetTransform();  
+			g.resetTransform();
+			bleu_score=getPersonnageParType(TypePersonnage.BLEU).compterScore(map);
+			rouge_score=getPersonnageParType(TypePersonnage.ROUGE).compterScore(map);
+			bleu_score1=Integer.toString(bleu_score);
+			rouge_score1=Integer.toString(rouge_score);
 			g.drawImage(this.score_rouge, (gc.getWidth()/2)-80, (gc.getHeight()/2));
 			g.drawImage(this.score_bleu, (gc.getWidth()/2)+80, (gc.getHeight()/2));
+			g.setColor(Color.yellow);
+			g.drawString(this.bleu_score1, (gc.getWidth()/2)+140, (gc.getHeight()/2)+75);
+			g.drawString(this.rouge_score1, (gc.getWidth()/2)-24, (gc.getHeight()/2)+75);
+		
+		
 		}
 	}
 

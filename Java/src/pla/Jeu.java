@@ -3,6 +3,7 @@ package pla;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
 
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -20,12 +21,13 @@ import pla.decor.*;
 
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
 import pla.ihm.Camera;
 import pla.ihm.Case;
 import pla.ihm.Map;
 import pla.util.Musique;
 
-public class Jeu extends BasicGameState {
+public class Jeu extends BasicGameState{
 	private Map map; // carte du jeu
 	private List<Personnage> personnages = new ArrayList<Personnage>(); // Liste
 																		// des
@@ -37,8 +39,10 @@ public class Jeu extends BasicGameState {
 
 	private Image inventaire_rouge,inventaire_rouge_eau,inventaire_rouge_bombe,inventaire_rouge_bike,inventaire_rouge_eau_bike,inventaire_rouge_bombe_bike;
 	private Image inventaire_bleu,inventaire_bleu_eau,inventaire_bleu_bombe,inventaire_bleu_bike,inventaire_bleu_eau_bike,inventaire_bleu_bombe_bike;
-
+	private Image score_rouge, score_bleu;
 	
+	int rouge_score, bleu_score;
+	String rouge_score1, bleu_score1;
 	//private static final int P_BAR_X = 15;
 	//private static final int P_BAR_Y = 25;
 
@@ -47,6 +51,7 @@ public class Jeu extends BasicGameState {
 
 	private int SIZE_WINDOW_X;
 	private int SIZE_WINDOW_Y;
+	static Timer t;
 	// private static final int PAUSE = 25; // temps de latence
 
 	// private float zoom = 0.1f;
@@ -55,6 +60,8 @@ public class Jeu extends BasicGameState {
 	 * private float z1 = 0.01f; private float z2 = 0.01f;
 	 */
 
+	Image timerI;
+	
 	public Jeu(int largeur, int hauteur) {
 		SIZE_WINDOW_X = largeur;
 
@@ -84,7 +91,7 @@ public class Jeu extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame game) throws SlickException {
 
 		this.gc = gc;
-
+		timerI = new Image("res/modif.png");
 		ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate()));
 		ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate()));
 
@@ -125,7 +132,7 @@ public class Jeu extends BasicGameState {
 	//	sound = new Music("res/thug.ogg");
 	//	sound.loop();
 		
-		//code degueulasse
+		//Image inventaire
 		
 		this.inventaire_rouge = new Image("res/hud/rouge/rougevide.png");
 		this.inventaire_rouge_eau = new Image("res/hud/rouge/rougevide_eau.png");
@@ -140,7 +147,9 @@ public class Jeu extends BasicGameState {
 		this.inventaire_bleu_eau_bike  = new Image("res/hud/bleu/bleuvide_eau_bike.png");
 		this.inventaire_bleu_bombe_bike  = new Image("res/hud/bleu/bleuvide_bombe_bike.png");
 		
-				
+		//Image score
+		this.score_rouge=new Image("res/hud/score/scorerouge.png");
+		this.score_bleu=new Image("res/hud/score/scorebleu.png");		
 
 		// map.getCaseFromCoord(0, 0).setDecor(new BoucheEgout());
 		// map.getCaseFromCoord(640, 640).setDecor(new BoucheEgout());
@@ -165,13 +174,11 @@ public class Jeu extends BasicGameState {
 		for (Personnage p : personnages) {
 			p.afficher(g);
 		}
-		/*
-		if (gc.getInput().isKeyDown(Input.KEY_I)) {
-				  g.resetTransform();
-				  g.drawImage(this.inventaire_rouge, 15, 25);
-				  g.drawImage(this.inventaire_bleu, 15, 90);
-		}
-		*/
+
+		TimerFin.afficherTimer( g, timerI);
+		
+
+
 		
 		if (gc.getInput().isKeyDown(Input.KEY_I)) {
 			//rouge
@@ -225,6 +232,23 @@ public class Jeu extends BasicGameState {
 				g.drawImage(this.inventaire_bleu_bombe_bike, 15, 105);
 			}
 		}
+		
+		//afficher score
+		if (gc.getInput().isKeyDown(Input.KEY_TAB)) {
+			g.resetTransform();
+			bleu_score=getPersonnageParType(TypePersonnage.BLEU).compterScore(map);
+			rouge_score=getPersonnageParType(TypePersonnage.ROUGE).compterScore(map);
+			bleu_score1=Integer.toString(bleu_score);
+			rouge_score1=Integer.toString(rouge_score);
+			g.drawImage(this.score_rouge, (gc.getWidth()/2)-80, (gc.getHeight()/2));
+			g.drawImage(this.score_bleu, (gc.getWidth()/2)+80, (gc.getHeight()/2));
+			g.setColor(Color.yellow);
+			g.drawString(this.bleu_score1, (gc.getWidth()/2)+140, (gc.getHeight()/2)+75);
+			g.drawString(this.rouge_score1, (gc.getWidth()/2)-24, (gc.getHeight()/2)+75);
+		
+		
+		}
+
 	}
 
 	// Met � jour les �l�ments de la sc�ne en fonction du delta temps
@@ -236,6 +260,7 @@ public class Jeu extends BasicGameState {
 		for (Personnage p : personnages) {
 			if (p.isDeplacementTermine()) {
 				changerEtatAutomate(p, delta);
+				System.out.println(" nb cases joueur "+p.getTypePersonnage().toString()+" = "+p.compterScore(map));
 			}
 			// A tester
 			map.getCaseFromCoord((int) p.getX(), (int) p.getY()).supprimerPersonnage(p);
@@ -347,6 +372,11 @@ public class Jeu extends BasicGameState {
 	public List<Personnage> getPersonnages() {
 		return personnages;
 	}
+	
+	public static void finDuJeu(){
+	    t = new Timer();
+	    t.schedule(new TimerFin(), 0, 1*1000);
+	}
         
         public Personnage getPersonnageParType(TypePersonnage t) {
             for(Personnage p : personnages) {
@@ -355,5 +385,6 @@ public class Jeu extends BasicGameState {
             }
             return null;
         }
+
 
 }

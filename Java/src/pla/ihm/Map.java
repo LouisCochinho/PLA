@@ -100,10 +100,12 @@ public class Map {
 		int nbSn = (int) ((sn.getFrequence() / 100.0) * nbCasesHorsAutomate);
 		int nbV = (int) ((v.getFrequence() / 100.0) * nbCasesHorsAutomate);
 		Random rand = new Random();
+
 		int r;
 		int binf;
 		int bsup;
-		// D'une saleté incomparable...
+		// D'une saletï¿½ incomparable...
+
 		for (int i = 0; i < nbCasesHauteur; i++) {
 			for (int j = 0; j < nbCasesLargeur; j++) {
 				binf = 0;
@@ -249,11 +251,13 @@ public class Map {
 			autoY = p.getAutomate().getPosY();
 			caseX = c.getIndexJ() * TILE_SIZE;
 			caseY = c.getIndexI() * TILE_SIZE;
-			posCaseX = c.getIndexJ();
-			posCaseY = c.getIndexI();	
-			if (caseX >= autoY && caseY >= autoX
-					&& caseX + TILE_SIZE <= autoY + p.getAutomate().getNbColonnes() * TILE_SIZE
-					&& caseY + TILE_SIZE <= autoX + p.getAutomate().getNbLignes() * TILE_SIZE) {
+
+			//System.out.println("autoX = " + autoX + " autoY = " + autoY + " caseX = " + caseX + " caseY " + caseY);
+
+			if (caseX >= autoX && caseY >= autoY
+					&& caseX + TILE_SIZE <= autoX + p.getAutomate().getNbColonnes() * TILE_SIZE
+					&& caseY + TILE_SIZE <= autoY + p.getAutomate().getNbLignes() * TILE_SIZE) {
+
 				estPresent = true;
 			}
 		}
@@ -406,6 +410,10 @@ public class Map {
 			}
 		}
 		return false;
+	}
+	
+	public Case getCase(int i, int j){
+		return cases[i][j];
 	}
 
 }

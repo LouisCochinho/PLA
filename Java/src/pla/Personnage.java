@@ -6,6 +6,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import pla.decor.*;
+import pla.ihm.Map;
 
 public class Personnage {
 	private float x, y;
@@ -199,4 +200,22 @@ public class Personnage {
 	public Decor getObjet() {
 		return objet;
 	}
+	
+	public int compterScore(Map map){
+		int compteur = 0;
+		for(int i = 0;i<map.getNbCasesHauteur();i++){
+			for(int j = 0; j<map.getNbCasesLargeur();j++){
+				// ROUGE = AMI
+				// BLEU = ENNEMI
+				if(this.getCouleur() == Color.red && DecorSprite.SOL_AMI == map.getCase(i,j).getDecor().getDecorSprite()){
+					compteur++;
+				}
+				if(this.getCouleur() == Color.blue && DecorSprite.SOL_ENNEMI == map.getCase(i,j).getDecor().getDecorSprite()){
+					compteur++;
+				}
+			}
+		}
+		return compteur;
+	}
+	
 }

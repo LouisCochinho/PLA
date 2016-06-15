@@ -6,6 +6,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import pla.decor.*;
+import pla.ihm.Case;
 import pla.ihm.Map;
 
 public class Personnage {
@@ -218,4 +219,13 @@ public class Personnage {
 		return compteur;
 	}
 	
+	public void updateAutomate(Map map){
+		for(int i = 0 ; i< automate.getNbLignes();i++){
+			for(int j = 0; j< automate.getNbColonnes();j++){
+				Case c = map.getCaseFromCoord(automate.getPosY()+(j*64), automate.getPosX()+(i*64));
+				
+				automate.modifierTabActionTransition(i, j,c.getDecor());
+			}
+		}
+	}
 }

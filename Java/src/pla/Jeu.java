@@ -37,7 +37,7 @@ public class Jeu extends BasicGameState {
 
 	private Image inventaire_rouge,inventaire_rouge_eau,inventaire_rouge_bombe,inventaire_rouge_bike,inventaire_rouge_eau_bike,inventaire_rouge_bombe_bike;
 	private Image inventaire_bleu,inventaire_bleu_eau,inventaire_bleu_bombe,inventaire_bleu_bike,inventaire_bleu_eau_bike,inventaire_bleu_bombe_bike;
-
+	private Image score_rouge, score_bleu;
 	
 	//private static final int P_BAR_X = 15;
 	//private static final int P_BAR_Y = 25;
@@ -125,7 +125,7 @@ public class Jeu extends BasicGameState {
 	//	sound = new Music("res/thug.ogg");
 	//	sound.loop();
 		
-		//code degueulasse
+		//Image inventaire
 		
 		this.inventaire_rouge = new Image("res/hud/rouge/rougevide.png");
 		this.inventaire_rouge_eau = new Image("res/hud/rouge/rougevide_eau.png");
@@ -140,7 +140,9 @@ public class Jeu extends BasicGameState {
 		this.inventaire_bleu_eau_bike  = new Image("res/hud/bleu/bleuvide_eau_bike.png");
 		this.inventaire_bleu_bombe_bike  = new Image("res/hud/bleu/bleuvide_bombe_bike.png");
 		
-				
+		//Image score
+		this.score_rouge=new Image("res/hud/score/scorerouge.png");
+		this.score_bleu=new Image("res/hud/score/scorebleu.png");		
 
 		// map.getCaseFromCoord(0, 0).setDecor(new BoucheEgout());
 		// map.getCaseFromCoord(640, 640).setDecor(new BoucheEgout());
@@ -165,13 +167,7 @@ public class Jeu extends BasicGameState {
 		for (Personnage p : personnages) {
 			p.afficher(g);
 		}
-		/*
-		if (gc.getInput().isKeyDown(Input.KEY_I)) {
-				  g.resetTransform();
-				  g.drawImage(this.inventaire_rouge, 15, 25);
-				  g.drawImage(this.inventaire_bleu, 15, 90);
-		}
-		*/
+
 		
 		if (gc.getInput().isKeyDown(Input.KEY_I)) {
 			//rouge
@@ -224,6 +220,13 @@ public class Jeu extends BasicGameState {
 				g.resetTransform();  
 				g.drawImage(this.inventaire_bleu_bombe_bike, 15, 105);
 			}
+		}
+		
+		//afficher score
+		if (gc.getInput().isKeyDown(Input.KEY_TAB)) {
+			g.resetTransform();  
+			g.drawImage(this.score_rouge, (gc.getWidth()/2)-80, (gc.getHeight()/2));
+			g.drawImage(this.score_bleu, (gc.getWidth()/2)+80, (gc.getHeight()/2));
 		}
 	}
 

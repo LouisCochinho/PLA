@@ -8,12 +8,15 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
+
 import pla.action.transition.*;
 import pla.decor.*;
+
 
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -31,7 +34,16 @@ public class Jeu extends BasicGameState {
 	private GameContainer gc; // conteneur
 
 	Musique musique;
+
+	private Image inventaire_rouge,inventaire_rouge_eau,inventaire_rouge_bombe,inventaire_rouge_bike,inventaire_rouge_eau_bike,inventaire_rouge_bombe_bike;
+	private Image inventaire_bleu,inventaire_bleu_eau,inventaire_bleu_bombe,inventaire_bleu_bike,inventaire_bleu_eau_bike,inventaire_bleu_bombe_bike;
+
+	
+	//private static final int P_BAR_X = 15;
+	//private static final int P_BAR_Y = 25;
+
 	private boolean MusicEnable = false;
+
 
 	private int SIZE_WINDOW_X;
 	private int SIZE_WINDOW_Y;
@@ -107,6 +119,28 @@ public class Jeu extends BasicGameState {
 		// System.out.println("Nombre de case total :
 		// "+map.getNbCasesHauteur()*map.getNbCasesLargeur());
 		this.map.placerPersonnageRandom(personnages);
+
+                //new Construire().executer(personnages.get(0), map.getCaseFromCoord(0, 0), 0);
+                //System.out.println(map.getCaseFromCoord(0, 0).getDecor());
+	//	sound = new Music("res/thug.ogg");
+	//	sound.loop();
+		//code sale puissance 1000
+		
+		this.inventaire_rouge = new Image("res/rougevide.png");
+		this.inventaire_rouge_eau = new Image("res/rougevide_eau.png");
+		this.inventaire_rouge_bombe = new Image("res/rougevide_bombe.png");
+		this.inventaire_rouge_bike = new Image("res/rougevide_bike.png");
+		this.inventaire_rouge_eau_bike = new Image("res/rougevide_eau_bike.png");
+		this.inventaire_rouge_bombe_bike = new Image("res/rougevide_bombe_bike.png");
+		this.inventaire_bleu  = new Image("res/bleuvide.png");
+		this.inventaire_bleu_eau   = new Image("res/bleuvide_eau.png");
+		this.inventaire_bleu_bombe = new Image("res/bleuvide_bombe.png");
+		this.inventaire_bleu_bike  = new Image("res/bleuvide_bike.png");
+		this.inventaire_bleu_eau_bike  = new Image("res/bleuvide_eau_bike.png");
+		this.inventaire_bleu_bombe_bike  = new Image("res/bleuvide_bombe_bike.png");
+		
+				
+
 		// map.getCaseFromCoord(0, 0).setDecor(new BoucheEgout());
 		// map.getCaseFromCoord(640, 640).setDecor(new BoucheEgout());
 		// new Dupliquer().executer(personnages.get(0), map.getCaseFromCoord(0,
@@ -116,6 +150,7 @@ public class Jeu extends BasicGameState {
 
 		// sound = new Music("res/thug.ogg");
 		// sound.loop();
+
 
 	}
 
@@ -129,6 +164,35 @@ public class Jeu extends BasicGameState {
 		for (Personnage p : personnages) {
 			p.afficher(g);
 		}
+		/*
+		if (gc.getInput().isKeyDown(Input.KEY_I)) {
+				  g.resetTransform();
+				  g.drawImage(this.inventaire_rouge, 15, 25);
+				  g.drawImage(this.inventaire_bleu, 15, 90);
+		}
+		*/
+		/*
+		if (gc.getInput().isKeyDown(Input.KEY_I)) {
+			if (object==null && !personnage.hasVelo()){
+				  g.drawImage(this.inventaire_rouge, 15, 25);
+			}
+			if (object instanceof BombePeinture && !personnage.hasVelo()){
+				  g.drawImage(this.inventaire_rouge_bombe, 15, 25);
+			}
+			if (object instanceof BombeEau && !personnage.hasVelo()){
+				  g.drawImage(this.inventaire_rouge_eau, 15, 25);
+			}
+			if (personnage.hasVelo()){
+				  g.drawImage(this.inventaire_rouge_bike, 15, 25);
+			}
+			if (object instanceof BombeEau && personnage.hasVelo()){
+				  g.drawImage(this.inventaire_rouge_eau_bike, 15, 25);
+			}
+			if (object instanceof BombePeinture && personnage.hasVelo()){
+				  g.drawImage(this.inventaire_rouge_bombe_bike, 15, 25);
+			}
+		}
+		*/
 	}
 
 	// Met � jour les �l�ments de la sc�ne en fonction du delta temps
@@ -255,5 +319,13 @@ public class Jeu extends BasicGameState {
 	public List<Personnage> getPersonnages() {
 		return personnages;
 	}
+        
+        public Personnage getPersonnageParType(TypePersonnage t) {
+            for(Personnage p : personnages) {
+                if(p.getTypePersonnage() == t)
+                    return p;
+            }
+            return null;
+        }
 
 }

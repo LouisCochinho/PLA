@@ -21,3 +21,7 @@ nbproject/
 build.xml
 /Java/build/
 /Java/dist/
+
+# Ocaml
+.cmi
+.cmo

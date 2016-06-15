@@ -110,14 +110,14 @@ public class Jeu extends BasicGameState {
 			// gc.getGraphics());
 		}
 
-		this.map.placerAutoRandom(personnages, gc.getGraphics());
-		this.map.placerDecorRandom();
+		this.map.placerAutoRandom(personnages, gc.getGraphics());		
 		this.map.setCasesEstDansAutomate(personnages);
 		this.map.setNbCasesHorsAutomate();
 		// System.out.println("nb Cases hors automate :
 		// "+map.getNbCasesHorsAutomate());
 		// System.out.println("Nombre de case total :
 		// "+map.getNbCasesHauteur()*map.getNbCasesLargeur());
+		this.map.placerDecorRandom();
 		this.map.placerPersonnageRandom(personnages);
 
                 //new Construire().executer(personnages.get(0), map.getCaseFromCoord(0, 0), 0);
@@ -304,10 +304,6 @@ public class Jeu extends BasicGameState {
 			// System.out.println("etat suivant :
 			// "+p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());
 			p.setEtatCourant(p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId]);
-
-			/*System.out.println("index choisi : " + indexChoisi);
-			System.out.println(
-					"etat suivant : " + p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());*/
 
 		} else {
 			p.setEtatCourant(p.getAutomate().getEtatInitial());

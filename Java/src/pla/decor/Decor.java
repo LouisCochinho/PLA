@@ -14,7 +14,7 @@ public abstract class Decor {
 	protected SpriteSheet sprite;
 	private float wSprite;
 	private float hSprite;
-	private int frequence;
+	private float frequence;
 	private DecorSprite decorSprite;
 
 	public Decor(int id) {
@@ -78,7 +78,11 @@ public abstract class Decor {
 		return decorSprite.getY();
 	}
 
-	public int getFrequence() {
+	public float getFrequence() {
 		return frequence;
+	}
+	
+	public void setFrequence(float frequence){
+		this.frequence = frequence;
 	}
 }

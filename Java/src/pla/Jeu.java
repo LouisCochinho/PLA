@@ -219,9 +219,9 @@ public class Jeu extends BasicGameState {
 			// "+p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());
 			p.setEtatCourant(p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId]);
 
-			System.out.println("index choisi : " + indexChoisi);
+			/*System.out.println("index choisi : " + indexChoisi);
 			System.out.println(
-					"etat suivant : " + p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());
+					"etat suivant : " + p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());*/
 			p.setEtatCourant(p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId]);
 
 		} else {
@@ -232,7 +232,7 @@ public class Jeu extends BasicGameState {
 		// System.out.println("action etat courant :
 		// "+p.getAutomate().getEtatCourant().getActionEtat().toString());
 
-		System.out.println("action etat courant : " + p.getEtatCourant().getActionEtat().toString());
+		//System.out.println("action etat courant : " + p.getEtatCourant().getActionEtat().toString());
 
 		p.setDeplacementCourant(0);
 

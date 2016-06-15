@@ -14,7 +14,7 @@ import pla.action.transition.*;
 public class SolNormal extends Decor {
     
     public SolNormal() {
-    	super(DecorSprite.SOL_NORMAL, 64, 64, 45);
+    	super(DecorSprite.SOL_NORMAL, 64, 64, 92);
         ajouterAction(new Construire());
         ajouterAction(new PeindreAmi());
         ajouterAction(new PeindreEnnemi());

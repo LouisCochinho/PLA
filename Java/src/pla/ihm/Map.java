@@ -88,31 +88,31 @@ public class Map {
 		Decor g = new Gendarmerie();
 		Decor mur = new Mur();
 		Decor muret = new Muret();
-		Decor sk = new Skatepark();
-		Decor sa = new SolAmi();
-		Decor se = new SolEnnemi();
 		Decor sn = new SolNormal();
 		Decor v = new Velo();
-		int nbBat = (bat.getFrequence() / 100) * nbCasesHorsAutomate;
-		int nbBe = (be.getFrequence() / 100) * nbCasesHorsAutomate;
-		int nbBp = (bp.getFrequence() / 100) * nbCasesHorsAutomate;
-		int nbBoe = (boe.getFrequence() / 100) * nbCasesHorsAutomate;
-		int nbG = (g.getFrequence() / 100) * nbCasesHorsAutomate;
-		int nbMur = (mur.getFrequence() / 100) * nbCasesHorsAutomate;
-		int nbMuret = (muret.getFrequence() / 100) * nbCasesHorsAutomate;
-		int nbSk = (sk.getFrequence() / 100) * nbCasesHorsAutomate;
-		int nbSa = (sa.getFrequence() / 100) * nbCasesHorsAutomate;
-		int nbSe = (se.getFrequence() / 100) * nbCasesHorsAutomate;
-		int nbSn = (sn.getFrequence() / 100) * nbCasesHorsAutomate;
-		int nbV = (v.getFrequence() / 100) * nbCasesHorsAutomate;
+		int nbBat = (int) ((bat.getFrequence() / 100.0) * nbCasesHorsAutomate);
+		int nbBe = (int) ((be.getFrequence() / 100.0) * nbCasesHorsAutomate);
+		int nbBp = (int) ((bp.getFrequence() / 100.0) * nbCasesHorsAutomate);
+		int nbBoe = (int) ((boe.getFrequence() / 100.0) * nbCasesHorsAutomate);
+		int nbG = (int) ((g.getFrequence() / 100.0) * nbCasesHorsAutomate);
+		int nbMur = (int) ((mur.getFrequence() / 100.0) * nbCasesHorsAutomate);
+		int nbMuret = (int) ((muret.getFrequence() / 100.0) * nbCasesHorsAutomate);
+		int nbSn = (int) ((sn.getFrequence() / 100.0) * nbCasesHorsAutomate);
+		int nbV = (int) ((v.getFrequence() / 100.0) * nbCasesHorsAutomate);
 		Random rand = new Random();
-		int r = rand.nextInt(100);
-		int binf = 0;
-		int bsup = nbBat;
+
+		int r;
+		int binf;
+		int bsup;
 		// D'une salet� incomparable...
+
 		for (int i = 0; i < nbCasesHauteur; i++) {
 			for (int j = 0; j < nbCasesLargeur; j++) {
+				binf = 0;
+				bsup = (int) bat.getFrequence();
 				if (!cases[i][j].estDansAutomate()) {
+					//System.out.println(" i = "+i+" j = "+j);
+					r = rand.nextInt(100);
 					if (r >= binf && r < bsup) {
 						if (nbBat > 0) {
 							cases[i][j].setDecor(bat);
@@ -120,7 +120,7 @@ public class Map {
 						}
 					}
 					binf = bsup;
-					bsup = bsup + nbBe;
+					bsup = bsup + (int)be.getFrequence();
 					if (r >= binf && r < bsup) {
 						if (nbBe > 0) {
 							cases[i][j].setDecor(be);
@@ -128,7 +128,15 @@ public class Map {
 						}
 					}
 					binf = bsup;
-					bsup = bsup + nbBoe;
+					bsup = bsup + (int)bp.getFrequence();
+					if (r >= binf && r < bsup) {
+						if (nbBp > 0) {
+							cases[i][j].setDecor(bp);
+							nbBp--;
+						}
+					}
+					binf = bsup;
+					bsup = bsup + (int)boe.getFrequence();
 					if (r >= binf && r < bsup) {
 						if (nbBoe > 0) {
 							cases[i][j].setDecor(boe);
@@ -136,7 +144,7 @@ public class Map {
 						}
 					}
 					binf = bsup;
-					bsup = bsup + nbG;
+					bsup = bsup + (int)g.getFrequence();
 					if (r >= binf && r < bsup) {
 						if (nbG > 0) {
 							cases[i][j].setDecor(g);
@@ -144,7 +152,7 @@ public class Map {
 						}
 					}
 					binf = bsup;
-					bsup = bsup + nbMur;
+					bsup = bsup + (int)mur.getFrequence();
 					if (r >= binf && r < bsup) {
 						if (nbMur > 0) {
 							cases[i][j].setDecor(mur);
@@ -152,39 +160,15 @@ public class Map {
 						}
 					}
 					binf = bsup;
-					bsup = bsup + nbMuret;
+					bsup = bsup + (int)muret.getFrequence();
 					if (r >= binf && r < bsup) {
 						if (nbMuret > 0) {
 							cases[i][j].setDecor(muret);
 							nbMuret--;
 						}
-					}
+					}					
 					binf = bsup;
-					bsup = bsup + nbSk;
-					if (r >= binf && r < bsup) {
-						if (nbSk > 0) {
-							cases[i][j].setDecor(sk);
-							nbSk--;
-						}
-					}
-					binf = bsup;
-					bsup = bsup + nbSa;
-					if (r >= binf && r < bsup) {
-						if (nbSa > 0) {
-							cases[i][j].setDecor(sa);
-							nbSa--;
-						}
-					}
-					binf = bsup;
-					bsup = bsup + nbSe;
-					if (r >= binf && r < bsup) {
-						if (nbSe > 0) {
-							cases[i][j].setDecor(se);
-							nbSe--;
-						}
-					}
-					binf = bsup;
-					bsup = bsup + nbSn;
+					bsup = bsup + (int)sn.getFrequence();
 					if (r >= binf && r < bsup) {
 						if (nbSn > 0) {
 							cases[i][j].setDecor(sn);
@@ -192,7 +176,7 @@ public class Map {
 						}
 					}
 					binf = bsup;
-					bsup = bsup + nbV;
+					bsup = bsup + (int)v.getFrequence();
 					if (r >= binf && r < bsup) {
 						if (nbV > 0) {
 							cases[i][j].setDecor(v);
@@ -256,10 +240,12 @@ public class Map {
 
 	public boolean caseEstDansAutomate(Case c, List<Personnage> personnages) {
 		boolean estPresent = false;
-		float autoX;
-		float autoY;
-		float caseX;
-		float caseY;
+		float autoX=0;
+		float autoY=0;
+		float caseX=0;
+		float caseY=0;
+		float posCaseX=0;
+		float posCaseY=0;
 		for (Personnage p : personnages) {
 			autoX = p.getAutomate().getPosX();
 			autoY = p.getAutomate().getPosY();
@@ -271,6 +257,7 @@ public class Map {
 			if (caseX >= autoX && caseY >= autoY
 					&& caseX + TILE_SIZE <= autoX + p.getAutomate().getNbColonnes() * TILE_SIZE
 					&& caseY + TILE_SIZE <= autoY + p.getAutomate().getNbLignes() * TILE_SIZE) {
+
 				estPresent = true;
 			}
 		}
@@ -423,6 +410,10 @@ public class Map {
 			}
 		}
 		return false;
+	}
+	
+	public Case getCase(int i, int j){
+		return cases[i][j];
 	}
 
 }

@@ -156,7 +156,7 @@ let (action_trans_to_int: action_trans -> int) = function
    | Voler -> 8
    | LaisserTomber -> 9
    | Combattre -> 10
-   | Repliquer -> 11
+   | Dupliquer -> 11
 
 let (action_etat_to_int: action_etat -> int) = function
   | Avancer(cellule) -> cellule_to_int cellule;;
@@ -232,7 +232,7 @@ let list_action_transition =
     (action_trans_to_int Voler,"Voler");
     (action_trans_to_int LaisserTomber,"LaisserTomber");
     (action_trans_to_int Combattre,"Combattre");
-    (action_trans_to_int Repliquer,"Repliquer");
+    (action_trans_to_int Dupliquer,"Dupliquer");
     ];;
 
 let list_symbole =

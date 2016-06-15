@@ -124,20 +124,21 @@ public class Jeu extends BasicGameState {
                 //System.out.println(map.getCaseFromCoord(0, 0).getDecor());
 	//	sound = new Music("res/thug.ogg");
 	//	sound.loop();
-		//code sale puissance 1000
 		
-		this.inventaire_rouge = new Image("res/rougevide.png");
-		this.inventaire_rouge_eau = new Image("res/rougevide_eau.png");
-		this.inventaire_rouge_bombe = new Image("res/rougevide_bombe.png");
-		this.inventaire_rouge_bike = new Image("res/rougevide_bike.png");
-		this.inventaire_rouge_eau_bike = new Image("res/rougevide_eau_bike.png");
-		this.inventaire_rouge_bombe_bike = new Image("res/rougevide_bombe_bike.png");
-		this.inventaire_bleu  = new Image("res/bleuvide.png");
-		this.inventaire_bleu_eau   = new Image("res/bleuvide_eau.png");
-		this.inventaire_bleu_bombe = new Image("res/bleuvide_bombe.png");
-		this.inventaire_bleu_bike  = new Image("res/bleuvide_bike.png");
-		this.inventaire_bleu_eau_bike  = new Image("res/bleuvide_eau_bike.png");
-		this.inventaire_bleu_bombe_bike  = new Image("res/bleuvide_bombe_bike.png");
+		//code degueulasse
+		
+		this.inventaire_rouge = new Image("res/hud/rouge/rougevide.png");
+		this.inventaire_rouge_eau = new Image("res/hud/rouge/rougevide_eau.png");
+		this.inventaire_rouge_bombe = new Image("res/hud/rouge/rougevide_bombe.png");
+		this.inventaire_rouge_bike = new Image("res/hud/rouge/rougevide_bike.png");
+		this.inventaire_rouge_eau_bike = new Image("res/hud/rouge/rougevide_eau_bike.png");
+		this.inventaire_rouge_bombe_bike = new Image("res/hud/rouge/rougevide_bombe_bike.png");
+		this.inventaire_bleu  = new Image("res/hud/bleu/bleuvide.png");
+		this.inventaire_bleu_eau   = new Image("res/hud/bleu/bleuvide_eau.png");
+		this.inventaire_bleu_bombe = new Image("res/hud/bleu/bleuvide_bombe.png");
+		this.inventaire_bleu_bike  = new Image("res/hud/bleu/bleuvide_bike.png");
+		this.inventaire_bleu_eau_bike  = new Image("res/hud/bleu/bleuvide_eau_bike.png");
+		this.inventaire_bleu_bombe_bike  = new Image("res/hud/bleu/bleuvide_bombe_bike.png");
 		
 				
 
@@ -171,28 +172,47 @@ public class Jeu extends BasicGameState {
 				  g.drawImage(this.inventaire_bleu, 15, 90);
 		}
 		*/
-		/*
+		
 		if (gc.getInput().isKeyDown(Input.KEY_I)) {
-			if (object==null && !personnage.hasVelo()){
+			//rouge
+			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet()==null && !getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
 				  g.drawImage(this.inventaire_rouge, 15, 25);
 			}
-			if (object instanceof BombePeinture && !personnage.hasVelo()){
+			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() instanceof BombePeinture && !getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
 				  g.drawImage(this.inventaire_rouge_bombe, 15, 25);
 			}
-			if (object instanceof BombeEau && !personnage.hasVelo()){
+			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() instanceof BombeEau && !getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
 				  g.drawImage(this.inventaire_rouge_eau, 15, 25);
 			}
-			if (personnage.hasVelo()){
+			if (getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
 				  g.drawImage(this.inventaire_rouge_bike, 15, 25);
 			}
-			if (object instanceof BombeEau && personnage.hasVelo()){
+			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() instanceof BombeEau && getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
 				  g.drawImage(this.inventaire_rouge_eau_bike, 15, 25);
 			}
-			if (object instanceof BombePeinture && personnage.hasVelo()){
+			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() instanceof BombePeinture && getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
 				  g.drawImage(this.inventaire_rouge_bombe_bike, 15, 25);
 			}
+			//bleu
+			if (getPersonnageParType(TypePersonnage.BLEU).getObjet()==null && !getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
+				  g.drawImage(this.inventaire_bleu, 15, 90);
+			}
+			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() instanceof BombePeinture && !getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
+				  g.drawImage(this.inventaire_bleu_bombe, 15, 90);
+			}
+			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() instanceof BombeEau && !getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
+				  g.drawImage(this.inventaire_bleu_eau, 15, 90);
+			}
+			if (getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
+				  g.drawImage(this.inventaire_bleu_bike, 15, 90);
+			}
+			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() instanceof BombeEau && getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
+				  g.drawImage(this.inventaire_bleu_eau_bike, 15, 90);
+			}
+			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() instanceof BombePeinture && getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
+				  g.drawImage(this.inventaire_bleu_bombe_bike, 15, 90);
+			}
 		}
-		*/
 	}
 
 	// Met � jour les �l�ments de la sc�ne en fonction du delta temps

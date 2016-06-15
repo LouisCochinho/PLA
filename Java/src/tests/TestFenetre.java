@@ -7,10 +7,12 @@ import pla.Jeu;
 public class TestFenetre {
 
 	// conteneur qui permet de configurer dans quel contexte va tourner notre
-	// jeu et lui dire quznd démarrer, s'arreter, etc.
+	// jeu et lui dire quznd dï¿½marrer, s'arreter, etc.
 	static private AppGameContainer app;
 	private static final int largeur = 1280;
+
 	private static final int hauteur = 768;
+
 	public static void main(String[] args) throws SlickException {
 		// Ce conteneur s'instancie en passant un objet implï¿½mentant Game
 		// (dont

@@ -14,7 +14,7 @@ import pla.action.transition.*;
 public class Velo extends Decor {
     
     public Velo() {
-    	super(DecorSprite.VELO, 64, 64);
+    	super(DecorSprite.VELO, 64, 64, 5);
         ajouterAction(new Voler());
     }
     

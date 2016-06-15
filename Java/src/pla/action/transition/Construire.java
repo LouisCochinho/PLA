@@ -6,9 +6,11 @@
 package pla.action.transition;
 
 import java.util.Random;
+import pla.Jeu;
 import pla.Personnage;
 import pla.decor.*;
 import pla.ihm.Case;
+import pla.ihm.Map;
 
 /**
  *
@@ -17,7 +19,7 @@ import pla.ihm.Case;
 public class Construire extends Action_transition {
 
     @Override
-    public void executer(Personnage p, Case c, int delta) {
+    public void executer(Personnage p, Case c, Jeu j, int delta) {
         Decor d = c.getDecor();
         if(d instanceof SolNormal) {
             c.setDecor(new Muret());

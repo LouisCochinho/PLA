@@ -176,41 +176,41 @@ public class Jeu extends BasicGameState {
 		if (gc.getInput().isKeyDown(Input.KEY_I)) {
 			//rouge
 			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet()==null && !getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
-				  g.drawImage(this.inventaire_rouge, 15, 25);
+				  g.drawImage(this.inventaire_rouge, 15, 40);
 			}
 			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() instanceof BombePeinture && !getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
-				  g.drawImage(this.inventaire_rouge_bombe, 15, 25);
+				  g.drawImage(this.inventaire_rouge_bombe, 15, 40);
 			}
 			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() instanceof BombeEau && !getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
-				  g.drawImage(this.inventaire_rouge_eau, 15, 25);
+				  g.drawImage(this.inventaire_rouge_eau, 15, 40);
 			}
 			if (getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
-				  g.drawImage(this.inventaire_rouge_bike, 15, 25);
+				  g.drawImage(this.inventaire_rouge_bike, 15, 40);
 			}
 			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() instanceof BombeEau && getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
-				  g.drawImage(this.inventaire_rouge_eau_bike, 15, 25);
+				  g.drawImage(this.inventaire_rouge_eau_bike, 15, 40);
 			}
 			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() instanceof BombePeinture && getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
-				  g.drawImage(this.inventaire_rouge_bombe_bike, 15, 25);
+				  g.drawImage(this.inventaire_rouge_bombe_bike, 15, 40);
 			}
 			//bleu
 			if (getPersonnageParType(TypePersonnage.BLEU).getObjet()==null && !getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
-				  g.drawImage(this.inventaire_bleu, 15, 90);
+				  g.drawImage(this.inventaire_bleu, 15, 105);
 			}
 			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() instanceof BombePeinture && !getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
-				  g.drawImage(this.inventaire_bleu_bombe, 15, 90);
+				  g.drawImage(this.inventaire_bleu_bombe, 15, 105);
 			}
 			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() instanceof BombeEau && !getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
-				  g.drawImage(this.inventaire_bleu_eau, 15, 90);
+				  g.drawImage(this.inventaire_bleu_eau, 15, 105);
 			}
 			if (getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
-				  g.drawImage(this.inventaire_bleu_bike, 15, 90);
+				  g.drawImage(this.inventaire_bleu_bike, 15, 105);
 			}
 			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() instanceof BombeEau && getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
-				  g.drawImage(this.inventaire_bleu_eau_bike, 15, 90);
+				  g.drawImage(this.inventaire_bleu_eau_bike, 15, 105);
 			}
 			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() instanceof BombePeinture && getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
-				  g.drawImage(this.inventaire_bleu_bombe_bike, 15, 90);
+				  g.drawImage(this.inventaire_bleu_bombe_bike, 15, 105);
 			}
 		}
 	}

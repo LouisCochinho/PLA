@@ -3,11 +3,13 @@ package pla;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
 
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
@@ -17,12 +19,13 @@ import pla.decor.*;
 
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
 import pla.ihm.Camera;
 import pla.ihm.Case;
 import pla.ihm.Map;
 import pla.util.Musique;
 
-public class Jeu extends BasicGameState {
+public class Jeu extends BasicGameState{
 	private Map map; // carte du jeu
 	private List<Personnage> personnages = new ArrayList<Personnage>(); // Liste
 																		// des
@@ -35,6 +38,7 @@ public class Jeu extends BasicGameState {
 
 	private int SIZE_WINDOW_X;
 	private int SIZE_WINDOW_Y;
+	static Timer t;
 	// private static final int PAUSE = 25; // temps de latence
 
 	// private float zoom = 0.1f;
@@ -43,6 +47,8 @@ public class Jeu extends BasicGameState {
 	 * private float z1 = 0.01f; private float z2 = 0.01f;
 	 */
 
+	Image timerI;
+	
 	public Jeu(int largeur, int hauteur) {
 		SIZE_WINDOW_X = largeur;
 
@@ -72,7 +78,7 @@ public class Jeu extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame game) throws SlickException {
 
 		this.gc = gc;
-
+		timerI = new Image("res/modif.png");
 		ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate()));
 		ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate()));
 
@@ -129,6 +135,8 @@ public class Jeu extends BasicGameState {
 		for (Personnage p : personnages) {
 			p.afficher(g);
 		}
+		TimerFin.afficherTimer( g, timerI);
+		
 	}
 
 	// Met � jour les �l�ments de la sc�ne en fonction du delta temps
@@ -219,9 +227,9 @@ public class Jeu extends BasicGameState {
 			// "+p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());
 			p.setEtatCourant(p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId]);
 
-			System.out.println("index choisi : " + indexChoisi);
-			System.out.println(
-					"etat suivant : " + p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());
+			//System.out.println("index choisi : " + indexChoisi);
+			//System.out.println(
+			//		"etat suivant : " + p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());
 			p.setEtatCourant(p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId]);
 
 		} else {
@@ -232,7 +240,7 @@ public class Jeu extends BasicGameState {
 		// System.out.println("action etat courant :
 		// "+p.getAutomate().getEtatCourant().getActionEtat().toString());
 
-		System.out.println("action etat courant : " + p.getEtatCourant().getActionEtat().toString());
+		//System.out.println("action etat courant : " + p.getEtatCourant().getActionEtat().toString());
 
 		p.setDeplacementCourant(0);
 
@@ -253,6 +261,11 @@ public class Jeu extends BasicGameState {
 
 	public List<Personnage> getPersonnages() {
 		return personnages;
+	}
+	
+	public static void finDuJeu(){
+	    t = new Timer();
+	    t.schedule(new TimerFin(), 0, 1*1000);
 	}
 
 }

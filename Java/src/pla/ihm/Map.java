@@ -109,7 +109,7 @@ public class Map {
 		int r = rand.nextInt(100);
 		int binf = 0;
 		int bsup = nbBat;
-		// D'une saleté incomparable...
+		// D'une saletï¿½ incomparable...
 		for (int i = 0; i < nbCasesHauteur; i++) {
 			for (int j = 0; j < nbCasesLargeur; j++) {
 				if (!cases[i][j].estDansAutomate()) {
@@ -266,7 +266,7 @@ public class Map {
 			caseX = c.getIndexJ() * TILE_SIZE;
 			caseY = c.getIndexI() * TILE_SIZE;
 
-			System.out.println("autoX = " + autoX + " autoY = " + autoY + " caseX = " + caseX + " caseY " + caseY);
+			//System.out.println("autoX = " + autoX + " autoY = " + autoY + " caseX = " + caseX + " caseY " + caseY);
 
 			if (caseX >= autoX && caseY >= autoY
 					&& caseX + TILE_SIZE <= autoX + p.getAutomate().getNbColonnes() * TILE_SIZE

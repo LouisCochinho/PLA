@@ -173,22 +173,22 @@ public class Jeu extends BasicGameState {
 		*/
 		/*
 		if (gc.getInput().isKeyDown(Input.KEY_I)) {
-			if (object instanceof BombePeinture){
+			if (object==null && !personnage.hasVelo()){
 				  g.drawImage(this.inventaire_rouge, 15, 25);
 			}
-			if (object instanceof BombePeinture){
+			if (object instanceof BombePeinture && !personnage.hasVelo()){
 				  g.drawImage(this.inventaire_rouge_bombe, 15, 25);
 			}
-			if (object instanceof BombeEau){
+			if (object instanceof BombeEau && !personnage.hasVelo()){
 				  g.drawImage(this.inventaire_rouge_eau, 15, 25);
 			}
-			if (object instanceof Velo){
+			if (personnage.hasVelo()){
 				  g.drawImage(this.inventaire_rouge_bike, 15, 25);
 			}
-			if (object instanceof BombeEau && object instanceof Velo){
+			if (object instanceof BombeEau && personnage.hasVelo()){
 				  g.drawImage(this.inventaire_rouge_eau_bike, 15, 25);
 			}
-			if (object instanceof BombePeinture && object instanceof Velo){
+			if (object instanceof BombePeinture && personnage.hasVelo()){
 				  g.drawImage(this.inventaire_rouge_bombe_bike, 15, 25);
 			}
 		}

@@ -318,5 +318,13 @@ public class Jeu extends BasicGameState {
 	public List<Personnage> getPersonnages() {
 		return personnages;
 	}
+        
+        public Personnage getPersonnageParType(TypePersonnage t) {
+            for(Personnage p : personnages) {
+                if(p.getTypePersonnage() == t)
+                    return p;
+            }
+            return null;
+        }
 
 }

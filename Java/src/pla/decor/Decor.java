@@ -85,4 +85,8 @@ public abstract class Decor {
 	public void setFrequence(float frequence){
 		this.frequence = frequence;
 	}
+
+	public DecorSprite getDecorSprite() {
+		return decorSprite;
+	}
 }

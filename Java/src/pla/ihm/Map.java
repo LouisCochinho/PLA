@@ -407,5 +407,9 @@ public class Map {
 		}
 		return false;
 	}
+	
+	public Case getCase(int i, int j){
+		return cases[i][j];
+	}
 
 }

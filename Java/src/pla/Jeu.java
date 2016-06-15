@@ -239,6 +239,7 @@ public class Jeu extends BasicGameState {
 		for (Personnage p : personnages) {
 			if (p.isDeplacementTermine()) {
 				changerEtatAutomate(p, delta);
+				System.out.println(" nb cases joueur "+p.getTypePersonnage().toString()+" = "+p.compterScore(map));
 			}
 			// A tester
 			map.getCaseFromCoord((int) p.getX(), (int) p.getY()).supprimerPersonnage(p);

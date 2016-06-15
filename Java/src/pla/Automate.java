@@ -31,7 +31,7 @@ public class Automate {
 	}
 
 	public Automate(int posX, int posY) {
-		this("../Ocaml/test.xml", posX, posY);
+		this("../Ocaml/xml/automate1.xml", posX, posY);
 	}
 
 	public Automate(String fileName) {

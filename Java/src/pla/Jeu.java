@@ -298,14 +298,12 @@ public class Jeu extends BasicGameState {
 		if (!indexPossibles.isEmpty()) {
 			// Prendre un index au hasard dans la liste
 			indexChoisi = indexPossibles.get(r.nextInt(indexPossibles.size()));
+                        
+                        p.getAutomate().getTabActionTransition()[indexChoisi][etatCourantId].executer(p, map.getCaseFromCoord((int)p.getX(), (int)p.getY()), this, 0);
 			// System.out.println("index choisi : "+indexChoisi);
 			// System.out.println("etat suivant :
 			// "+p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());
 			p.setEtatCourant(p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId]);
-
-			//System.out.println("index choisi : " + indexChoisi);
-			//System.out.println("etat suivant : " + p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());
-			//p.setEtatCourant(p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId]);
 
 		} else {
 			p.setEtatCourant(p.getAutomate().getEtatInitial());

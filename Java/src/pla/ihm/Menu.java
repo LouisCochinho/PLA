@@ -13,7 +13,7 @@ public class Menu extends BasicGameState {
 	// private Image fond;
 	private StateBasedGame game;
 	Image background;
-	Image titreMenu, play, play2, play3, play4, play5, play6, play7, play8, fouad;
+	Image titreMenu, play, play2, play3, play4, play5, play6, play7, play8, fouad, timerI;
 	Image exitGame;
 	Musique musique;
 	MouseOverArea ms, ms2, ms3, ms4, ms5, ms6, ms7, ms8, msTouche, msCredit;
@@ -36,7 +36,7 @@ public class Menu extends BasicGameState {
 		play6 = new Image("res/menu/image/bleu/creditbleu.png");
 		play7 = new Image("res/menu/image/doree/quitterdoree.png");
 		play8 = new Image("res/menu/image/bleu/quitterbleu.png");
-
+		
 		fouad = new Image("res/Fouad.png");
 		
 		 ms = new MouseOverArea(gc, play, (gc.getWidth()/2)-100, 300, 200, 100);
@@ -99,7 +99,8 @@ public class Menu extends BasicGameState {
 					musique.stopMenu();
 					musique.jouerJeu();
 				}
-
+				System.out.println("start");
+				Jeu.finDuJeu();
 				sbg.enterState(1);
 			}
 		}

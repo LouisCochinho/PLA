@@ -38,7 +38,17 @@ public class Menu extends BasicGameState {
 		play8 = new Image("res/menu/image/bleu/quitterbleu.png");
 
 		fouad = new Image("res/Fouad.png");
-
+		
+		 ms = new MouseOverArea(gc, play, (gc.getWidth()/2)-100, 300, 200, 100);
+		 ms2 = new MouseOverArea(gc, play2, (gc.getWidth()/2)-100, 300, 200, 100);
+		 ms3 = new MouseOverArea(gc, play3, (gc.getWidth()/2)-100, 400, 200, 100);
+		 ms4 = new MouseOverArea(gc, play4, (gc.getWidth()/2)-100, 400, 200, 100);
+		 ms5 = new MouseOverArea(gc, play5, (gc.getWidth()/2)-100, 500, 200, 100);
+		 ms6 = new MouseOverArea(gc, play6, (gc.getWidth()/2)-100, 500, 200, 100);
+		 ms7 = new MouseOverArea(gc, play7, (gc.getWidth()/2)-100, 600, 200, 100);
+		 ms8 = new MouseOverArea(gc, play8, (gc.getWidth()/2)-100, 600, 200, 100);
+		 msTouche = new MouseOverArea(gc, fouad, (gc.getWidth()/6)-186, 400, 372, 475);
+		 msCredit = new MouseOverArea(gc, fouad, (5*gc.getWidth()/6)-186, 400, 372, 475);
 		if (MusicEnable) {
 			musique = new Musique();
 			musique.jouerMenu();

@@ -14,7 +14,7 @@ import pla.action.transition.*;
 public class BoucheEgout extends Decor {
     
     public BoucheEgout() {
-    	super(DecorSprite.BOUCHE_EGOUT, 64, 64);
+    	super(DecorSprite.BOUCHE_EGOUT, 64, 64, 5);
         ajouterAction(new Voyager());
     }
     

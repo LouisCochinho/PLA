@@ -8,7 +8,7 @@ import org.newdawn.slick.SpriteSheet;
 import pla.decor.*;
 
 public class Personnage {
-	private float x,y;
+	private float x, y;
 	private int direction;
 	private boolean bouge = true;
 	private Animation[] animations = new Animation[8];
@@ -18,21 +18,22 @@ public class Personnage {
 	private float wSprite;
 	private float hSprite;
 	private float deplacementCourant;
-        private boolean inverse;
-        private String ref;
-        private TypePersonnage typePersonnage;
+	private boolean vitesse;
+	private boolean inverse;
+	private String ref;
+	private TypePersonnage typePersonnage;
 	private static int distanceDeplacement = 64;
 	private Etat etatCourant;
-        private int nbToursVelo = 0;
-        private Decor objet = null;
-        
-	
-	public Personnage(TypePersonnage typePersonnage,int direction,int wSprite,int hSprite,Automate a) throws SlickException {
-                this.typePersonnage = typePersonnage;
-                this.ref = typePersonnage.getRef();
+	private int nbToursVelo = 0;
+	private Decor objet = null;
+
+	public Personnage(TypePersonnage typePersonnage, int direction, int wSprite, int hSprite, Automate a)
+			throws SlickException {
+		this.typePersonnage = typePersonnage;
+		this.ref = typePersonnage.getRef();
 		this.direction = direction;
 		this.automate = a;
-                etatCourant = a.getEtatInitial();
+		etatCourant = a.getEtatInitial();
 		this.couleur = typePersonnage.getColor();
 		this.wSprite = wSprite;
 		this.hSprite = hSprite;
@@ -40,11 +41,11 @@ public class Personnage {
 			this.sperso = new SpriteSheet(ref, wSprite, hSprite);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			System.out.println("le fichier "+ref+ " n'a pas pu �tre trouv�");
+			System.out.println("le fichier " + ref + " n'a pas pu �tre trouv�");
 		}
-                this.inverse = typePersonnage.isInverse();
-                if(inverse)
-                    a.inverser();
+		this.inverse = typePersonnage.isInverse();
+		if (inverse)
+			a.inverser();
 	}
 
 	public void init() throws SlickException {
@@ -57,8 +58,6 @@ public class Personnage {
 		this.animations[6] = chargerAnimation(sperso, 1, 9, 10);
 		this.animations[7] = chargerAnimation(sperso, 1, 9, 11);
 	}
-	
-
 
 	private Animation chargerAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
 		Animation animation = new Animation();
@@ -72,13 +71,14 @@ public class Personnage {
 		g.setColor(new Color(0, 0, 0, .5f));
 		g.fillOval(x - 16, y - 8, 32, 16);
 		g.drawAnimation(animations[direction + (bouge ? 4 : 0)], x - 32, y - 60);
-		g.setColor(couleur);		
-		g.drawRect(automate.getPosY(), automate.getPosX(), automate.getNbColonnes()*wSprite, automate.getNbLignes()*hSprite);
+		g.setColor(couleur);
+		g.drawRect(automate.getPosY(), automate.getPosX(), automate.getNbColonnes() * wSprite,
+				automate.getNbLignes() * hSprite);
 	}
 
-	public void deplacer(int delta,int modulo_tore_x,int modulo_tore_y) {
-		
-		getEtatCourant().getActionEtat().executer(this,delta, modulo_tore_x, modulo_tore_y);
+	public void deplacer(int delta, int modulo_tore_x, int modulo_tore_y) {
+
+		getEtatCourant().getActionEtat().executer(this, delta, modulo_tore_x, modulo_tore_y);
 	}
 
 	public float getX() {
@@ -112,13 +112,15 @@ public class Personnage {
 	public void setbouge(boolean bouge) {
 		this.bouge = bouge;
 	}
-	public Automate getAutomate(){
+
+	public Automate getAutomate() {
 		return this.automate;
 	}
-	
-	public Color getCouleur(){
+
+	public Color getCouleur() {
 		return this.couleur;
 	}
+
 	public float getDeplacementCourant() {
 		return deplacementCourant;
 	}
@@ -126,40 +128,45 @@ public class Personnage {
 	public void setDeplacementCourant(float deplacementCourant) {
 		this.deplacementCourant = deplacementCourant;
 	}
-	
-	public boolean isDeplacementTermine(){
+
+	public boolean isDeplacementTermine() {
 		return this.deplacementCourant >= distanceDeplacement;
-		//return Math.round(x)%32==0 && Math.round(x)%64!=0 && Math.round(y)%32==0 && Math.round(y)%64!=0;
-		
-	}
-	
-	public String toString(){
-		String str="";
-		str = "personnage "+this.couleur.toString()+"\n";
-		str = "position : X = "+x+" Y = "+y;	
-		str = str+"\netat courant automate : "+this.getEtatCourant().getId();
-		return str; 
+		// return Math.round(x)%32==0 && Math.round(x)%64!=0 &&
+		// Math.round(y)%32==0 && Math.round(y)%64!=0;
+
 	}
 
-    public boolean isInverse() {
-        return inverse;
-    }
+	public String toString() {
+		String str = "";
+		str = "personnage " + this.couleur.toString() + "\n";
+		str = "position : X = " + x + " Y = " + y;
+		str = str + "\netat courant automate : " + this.getEtatCourant().getId();
+		return str;
+	}
 
-    public String getRef() {
-        return ref;
-    }
+	public boolean isVitesse() {
+		return vitesse;
+	}
 
-    public float getwSprite() {
-        return wSprite;
-    }
+	public boolean isInverse() {
+		return inverse;
+	}
 
-    public float gethSprite() {
-        return hSprite;
-    }
+	public String getRef() {
+		return ref;
+	}
 
-    public TypePersonnage getTypePersonnage() {
-        return typePersonnage;
-    }
+	public float getwSprite() {
+		return wSprite;
+	}
+
+	public float gethSprite() {
+		return hSprite;
+	}
+
+	public TypePersonnage getTypePersonnage() {
+		return typePersonnage;
+	}
 
 	public Etat getEtatCourant() {
 		return etatCourant;
@@ -169,27 +176,27 @@ public class Personnage {
 		this.etatCourant = etatCourant;
 	}
 
-    public void addVelo() {
-        nbToursVelo += 10;
-    }
+	public void addVelo() {
+		nbToursVelo += 10;
+	}
 
-    public boolean hasVelo() {
-        return nbToursVelo > 0;
-    }
+	public boolean hasVelo() {
+		return nbToursVelo > 0;
+	}
 
-    public void decrementeToursVelo() {
-        nbToursVelo--;
-    }
+	public void decrementeToursVelo() {
+		nbToursVelo--;
+	}
 
-    public void setObjet(Decor objet) {
-        this.objet = objet;
-    }
-    
-    public void removeObjet() {
-        objet = null;
-    }
+	public void setObjet(Decor objet) {
+		this.objet = objet;
+	}
 
-    public Decor getObjet() {
-        return objet;
-    }
+	public void removeObjet() {
+		objet = null;
+	}
+
+	public Decor getObjet() {
+		return objet;
+	}
 }

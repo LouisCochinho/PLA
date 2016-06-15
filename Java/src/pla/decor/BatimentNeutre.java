@@ -16,7 +16,7 @@ import pla.action.transition.*;
 public class BatimentNeutre extends Decor {
     
     public BatimentNeutre() {
-    	super(DecorSprite.BATIMENT_NEUTRE, 64, 64);
+    	super(DecorSprite.BATIMENT_NEUTRE, 64, 64,3);
         ajouterAction(new Demolir());
     }
     

@@ -14,7 +14,7 @@ import pla.action.transition.*;
 public class SolEnnemi extends Decor {
     
     public SolEnnemi() {
-    	super(DecorSprite.SOL_ENNEMI, 64, 64);
+    	super(DecorSprite.SOL_ENNEMI, 64, 64, 0);
         ajouterAction(new PeindreAmi());
         ajouterAction(new PeindreNeutre());
     }

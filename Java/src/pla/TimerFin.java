@@ -14,11 +14,9 @@ import org.newdawn.slick.SlickException;
 
 public class TimerFin extends TimerTask{
 	static boolean fin=false;
-<<<<<<< HEAD
+
 	private static int currentTime=10;
-=======
-	private static int currentTime=2;
->>>>>>> origin/master
+
 	//private static int currentTime=0;
 	
 	@Override

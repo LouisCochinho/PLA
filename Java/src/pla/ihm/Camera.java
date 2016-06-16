@@ -8,7 +8,7 @@ public class Camera {
 	private static float camY;
 	private static float zoomX=1;
 	private static float zoomY=1;
-	private final static float DEPLACEMENT = 13;
+	private final static float DEPLACEMENT = 5;
 	private static int SIZE_WINDOW_X ;
 	private static int SIZE_WINDOW_Y ;
 	private static float currentSizeMapX ;

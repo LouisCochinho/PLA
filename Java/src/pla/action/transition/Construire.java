@@ -27,19 +27,16 @@ public class Construire extends Action_transition {
             c.setDecor(new Mur());
         } else if(d instanceof Mur) {
             Random r = new Random();
-            int i = r.nextInt(3);
+            int i = r.nextInt(4);
             switch(i) {
                 case 0:
-                    c.setDecor(new BatimentNeutre());
-                    break;
-                case 1:
                     c.setDecor(new Gendarmerie());
                     break;
-                case 2:
+                case 1:
                     c.setDecor(new Skatepark());
                     break;
                 default:
-                    break;
+                    c.setDecor(new BatimentNeutre());
             }
         }
     }

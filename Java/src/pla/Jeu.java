@@ -55,7 +55,7 @@ public class Jeu extends BasicGameState{
 	private Image inventaire_rouge,inventaire_rouge_eau,inventaire_rouge_bombe,inventaire_rouge_bike,inventaire_rouge_eau_bike,inventaire_rouge_bombe_bike;
 	private Image inventaire_bleu,inventaire_bleu_eau,inventaire_bleu_bombe,inventaire_bleu_bike,inventaire_bleu_eau_bike,inventaire_bleu_bombe_bike;
 	private Image score_rouge, score_bleu;
-	private Image rougegagnant, bleugagnant;
+	private Image rougegagnant, bleugagnant,egaliter;
 	private Image bouton_fin;
 	
 	int rouge_score, bleu_score;
@@ -180,10 +180,11 @@ public class Jeu extends BasicGameState{
 		//Image fin jeu
 		this.rougegagnant  = new Image("res/rougegagnant.png");
 		this.bleugagnant  = new Image("res/bleugagnant.png");
+		this.egaliter  = new Image("res/egaliter.png");
 		this.bouton_fin  = new Image("res/bouton_fin.png");
 
 		//bouton fin cliquable
-		 ms = new MouseOverArea(gc, bouton_fin, (gc.getWidth()/2)-80, (gc.getHeight()/2)+150, 245, 110);
+		// ms = new MouseOverArea(gc, bouton_fin, (gc.getWidth()/2)-80, (gc.getHeight()/2)+150, 245, 110);
 
 
 
@@ -193,7 +194,7 @@ public class Jeu extends BasicGameState{
 	// Affiche le contenu du jeu
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
-		
+		TimerFin.getFinJeu();
 		
 		if (!gc.isPaused()) {
 			Camera.moveCamera(g);
@@ -295,7 +296,8 @@ public class Jeu extends BasicGameState{
 			g.drawString(this.rouge_score1, (gc.getWidth()/2)-24, (gc.getHeight()/2)+75);
 		}
 		//fin jeu
-		TimerFin.getFinJeu();
+
+		
 		if(TimerFin.getFinJeu()){
 			gc.pause();
 			if(rouge_score<bleu_score){
@@ -311,12 +313,27 @@ public class Jeu extends BasicGameState{
 				//	ms.render(gc, g);
 				//}
 			}
-			else{
+			else if(rouge_score>bleu_score){
 				g.resetTransform();  
 				g.drawImage(this.bleugagnant, (gc.getWidth()/2)-220, (gc.getHeight()/2)-350);
 				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-80, (gc.getHeight()/2)+150);
 				g.drawImage(this.score_rouge, (gc.getWidth()/2)-250, (gc.getHeight()/2));
 				g.drawImage(this.score_bleu, (gc.getWidth()/2)+200, (gc.getHeight()/2));
+				g.setColor(Color.yellow);
+				g.drawString(this.bleu_score1, (gc.getWidth()/2)+260, (gc.getHeight()/2)+75);
+				g.drawString(this.rouge_score1, (gc.getWidth()/2)-194, (gc.getHeight()/2)+75);
+
+				//if (ms.isMouseOver()) {
+				//	ms.render(gc, g);
+				//}
+			}
+			else if(rouge_score==bleu_score){
+				g.resetTransform();  
+				g.drawImage(this.egaliter, (gc.getWidth()/2)-220, (gc.getHeight()/2)-350);
+				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-80, (gc.getHeight()/2)+150);
+				g.drawImage(this.score_rouge, (gc.getWidth()/2)-250, (gc.getHeight()/2));
+				g.drawImage(this.score_bleu, (gc.getWidth()/2)+200, (gc.getHeight()/2));
+				g.setColor(Color.yellow);
 				g.drawString(this.bleu_score1, (gc.getWidth()/2)+260, (gc.getHeight()/2)+75);
 				g.drawString(this.rouge_score1, (gc.getWidth()/2)-194, (gc.getHeight()/2)+75);
 

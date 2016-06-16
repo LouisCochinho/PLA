@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
@@ -17,8 +19,8 @@ import pla.decor.*;
 
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import pla.ihm.Camera;
 
+import pla.ihm.Camera;
 import pla.ihm.Map;
 import pla.util.Musique;
 
@@ -31,9 +33,14 @@ public class Jeu extends BasicGameState {
 	
 	private GameContainer gc; // conteneur
 
-	Musique musique;
-	private boolean MusicEnable = false;    
-		
+	Image ImageNoire;
+	
+	Music test2;
+	
+	private boolean MusicEnable = true; 
+	Image play, play2, play3;
+	
+
 	private int SIZE_WINDOW_X ;
 	private int SIZE_WINDOW_Y ;
 	// private static final int PAUSE = 25; // temps de latence
@@ -76,6 +83,8 @@ public class Jeu extends BasicGameState {
 
 		this.gc = gc;
 		
+		ImageNoire = new Image("res/ImageNoire.png");
+		
 		ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate()));
 		ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate()));
 
@@ -90,16 +99,12 @@ public class Jeu extends BasicGameState {
 			p.init();
 
 		
-		// this.map.placerPersonnageRandom(personnages);
-		if (MusicEnable) {
-			musique = new Musique();
+
 		}
 		
-
-			//this.map.placerAutomate(p.getAutomate(), p.getCouleur(), gc.getGraphics());
-
-
-			//this.map.placerAutomate(p.getAutomate(), p.getCouleur(), gc.getGraphics());
+		if (MusicEnable) {
+			test2 = new Music("res/thug.ogg");
+			//test2.loop();
 		}
 
         this.map.placerAutoRandom(personnages, gc.getGraphics());
@@ -109,20 +114,43 @@ public class Jeu extends BasicGameState {
                 //new Dupliquer().executer(personnages.get(0), map.getCaseFromCoord(0, 0), this, 0);
                 //new Dupliquer().executer(personnages.get(1), map.getCaseFromCoord(0, 0), this, 0);
                 
-	//	sound = new Music("res/thug.ogg");
-	//	sound.loop();
+		play = new Image("res/menu/pause/reprendre.png");
+		play2 = new Image("res/menu/pause/accueil.png");
+		play3 = new Image("res/menu/pause/quitter.png");
 
 	}
 
 	// Affiche le contenu du jeu
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
+		
+		if (!gc.isPaused()) {
+			Camera.moveCamera(g);
 
-		Camera.moveCamera(g);
+			this.map.afficher();
+			for (Personnage p : personnages) {
+				p.afficher(g);
+			}
+			g.drawString(Mouse.getX() + " " +  Mouse.getY(), 10,30);
+			
+		} else {
 
-		this.map.afficher();
-		for (Personnage p : personnages) {
-			p.afficher(g);
+			Camera.moveCamera(g);
+
+			this.map.afficher();
+			for (Personnage p : personnages) {
+				p.afficher(g);
+			}
+			g.resetTransform();
+			ImageNoire.setAlpha(0.7f);
+			ImageNoire.draw(0,0,gc.getWidth(),gc.getHeight());   // Taille de la fenetre modifiée par Antoine
+			play.draw(gc.getWidth()/2-175,12*gc.getHeight()/20-37);
+			play2.draw(gc.getWidth()/2-175,15*gc.getHeight()/20-37);
+			play3.draw(gc.getWidth()/2-175,18*gc.getHeight()/20-37);
+			g.setColor(Color.white);
+			g.drawString("PAUSE",gc.getWidth()/2-20,4*gc.getHeight()/10);
+			g.drawString(Mouse.getX() + " " +  Mouse.getY(), 10,30);
+			
 		}
 	}
 
@@ -132,6 +160,10 @@ public class Jeu extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
 		// TODO Auto-generated method stub
+		int posX = Mouse.getX();
+		int posY = Mouse.getY();
+		
+		
 		for (Personnage p : personnages) {
 			if(p.isDeplacementTermine()){
 				changerEtatAutomate(p, delta);
@@ -142,13 +174,11 @@ public class Jeu extends BasicGameState {
 
 
 		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn() && MusicEnable) {
-			musique.resumeJeu();
+			test2.resume();
 		}
-		if (gc.getInput().isKeyPressed(Input.KEY_S) && MusicEnable) {
-			musique.stopJeu();
-		}
+
 		if (gc.getInput().isKeyPressed(Input.KEY_P) && MusicEnable) {
-			musique.pauseJeu();
+			test2.pause();
 		}	
 		if (gc.getInput().isKeyDown(Input.KEY_UP)) {
 			Camera.cameraUP();		
@@ -169,8 +199,32 @@ public class Jeu extends BasicGameState {
 		if (gc.getInput().isKeyDown(Input.KEY_B)) {
 			Camera.cameraDezoom(map);
 		}
+		
 		if(gc.getInput().isKeyPressed(Input.KEY_F1)){
 			gc.setPaused(!gc.isPaused());
+		}
+		
+		if(gc.isPaused()) {
+			
+			if((posX>gc.getWidth()/2-175 && posX<gc.getWidth()/2+175)&&(posY>8*gc.getHeight()/20-37 && posY<8*gc.getHeight()/20+37)){ // Reprendre
+				if(Mouse.isButtonDown(0)){
+					gc.setPaused(!gc.isPaused());
+				}
+			}
+			
+			if((posX>gc.getWidth()/2-175 && posX<gc.getWidth()/2+175)&&(posY>5*gc.getHeight()/20-37 && posY<5*gc.getHeight()/20+37)){ // Accueil
+				if(Mouse.isButtonDown(0)){
+					gc.setPaused(!gc.isPaused());
+					game.enterState(0);
+					gc.reinit();
+				}
+			}
+			
+			if((posX>gc.getWidth()/2-175 && posX<gc.getWidth()/2+175)&&(posY>2*gc.getHeight()/20-37 && posY<2*gc.getHeight()/20+37)){ // Quitter
+				if(Mouse.isButtonDown(0)){
+					gc.exit();
+				}
+			}
 		}
 
 	}
@@ -210,21 +264,21 @@ public class Jeu extends BasicGameState {
 		}
 		
 		// Affichage test
-		System.out.println(p.toString());
-		System.out.println(this.map.getCaseFromCoord((int)p.getX(), (int)p.getY()).getDecor().toString());
+		//System.out.println(p.toString());
+		//System.out.println(this.map.getCaseFromCoord((int)p.getX(), (int)p.getY()).getDecor().toString());
 		
 		if (!indexPossibles.isEmpty()) {
 			// Prendre un index au hasard dans la liste
 			indexChoisi = indexPossibles.get(r.nextInt(indexPossibles.size()));	
-			System.out.println("index choisi : "+indexChoisi);
-			System.out.println("etat suivant : "+p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());
+			//System.out.println("index choisi : "+indexChoisi);
+			//System.out.println("etat suivant : "+p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());
 			p.setEtatCourant(p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId]);
 		}
 		else{
 			p.setEtatCourant(p.getAutomate().getEtatInitial());
 		}			
 		// initier le mouvement
-		System.out.println("action etat courant : "+p.getEtatCourant().getActionEtat().toString());
+		//System.out.println("action etat courant : "+p.getEtatCourant().getActionEtat().toString());
 		p.setDeplacementCourant(0);	
 		
 	}
@@ -246,5 +300,16 @@ public class Jeu extends BasicGameState {
         return personnages;
     }
 
-	
+    public void enter(GameContainer gc, StateBasedGame game) {
+    	
+    	test2.loop();
+    	System.out.println(">>>>>>> ENTRER DANS JEU <<<<<<<"); 
+    }
+    
+    public void leave(GameContainer gc, StateBasedGame game) {
+    	System.out.println(">>>>>>> SORTIE DE JEU <<<<<<<");
+    }
+
+   
+    
 }

@@ -33,6 +33,14 @@ public class Musique {
 		soundMenu.stop();
 	}
 	
+	public void pauseMenu() {
+		soundMenu.pause();
+	}
+	
+	public void resumeMenu() {
+		soundMenu.resume();
+	}
+	
 	public void jouerJeu() {
 
 		soundJeu.play();

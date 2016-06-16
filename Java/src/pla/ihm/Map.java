@@ -254,9 +254,9 @@ public class Map {
 
 			//System.out.println("autoX = " + autoX + " autoY = " + autoY + " caseX = " + caseX + " caseY " + caseY);
 
-			if (caseX >= autoX && caseY >= autoY
-					&& caseX + TILE_SIZE <= autoX + p.getAutomate().getNbColonnes() * TILE_SIZE
-					&& caseY + TILE_SIZE <= autoY + p.getAutomate().getNbLignes() * TILE_SIZE) {
+			if (caseX >= autoY && caseY >= autoX
+					&& caseX + TILE_SIZE <= autoY + p.getAutomate().getNbColonnes() * TILE_SIZE
+					&& caseY + TILE_SIZE <= autoX + p.getAutomate().getNbLignes() * TILE_SIZE) {
 
 				estPresent = true;
 			}

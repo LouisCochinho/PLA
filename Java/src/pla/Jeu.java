@@ -291,15 +291,15 @@ public class Jeu extends BasicGameState{
 		// TODO Auto-generated method stub
 		for (Personnage p : personnages) {
 			if (p.isDeplacementTermine()) {
-				changerEtatAutomate(p, delta);
-				System.out.println(" nb cases joueur "+p.getTypePersonnage().toString()+" = "+p.compterScore(map));
+				changerEtatAutomate(p, delta);				
 			}
 			// A tester
 			map.getCaseFromCoord((int) p.getX(), (int) p.getY()).supprimerPersonnage(p);
 			deplacerPersonnage(p, delta);
 			map.getCaseFromCoord((int) p.getX(), (int) p.getY()).ajouterPersonnage(p);
+		
 		}
-
+		personnages.get(0).getAutomate().afficher();
 		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn() && MusicEnable) {
 
 			musique.resumeJeu();
@@ -324,11 +324,16 @@ public class Jeu extends BasicGameState{
 		}
 		if (gc.getInput().isKeyPressed(Input.KEY_F1)) {
 			gc.setPaused(!gc.isPaused());
+
 		}
 		
 		
-	}
 
+		}	
+
+
+	
+	
 	public void mouseWheelMoved(int change) {
 		if (change < 0) {
 			Camera.cameraDezoom(map);

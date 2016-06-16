@@ -10,7 +10,6 @@ let (list_etat:etat list)=
 
 let autTest =
   [ (0, Decor(Mur,C), Construire, 0) ;
-    (0, Decor(SolNormal,C), Construire,1);
     (0, Decor(Sol(Ami),C), PeindreNeutre,2);
     (0, Decor(Sol(Ennemi),C), PeindreNeutre,1);
     (0, Decor(Muret,C), Construire,2);
@@ -31,8 +30,6 @@ let autTest =
     (1, Decor(Skatepark,C), Demolir,0);
     (1, Decor(BatimentDesaffecte,C), Admirer, 1);
     (1, Decor(BoucheEgout,C), Admirer ,3);
-    (1, Decor(Velo,C), Admirer, 1);
-    (1, Decor(BombePeinture,C), Admirer , 0);
     (1, Decor(BombeEau,C), Prendre, 3);
 
     (2, Decor(Mur,C), Construire, 3) ;
@@ -44,8 +41,6 @@ let autTest =
     (2, Decor(Skatepark,C), Demolir,0);
     (2, Decor(BatimentDesaffecte,C), Admirer, 3);
     (2, Decor(BoucheEgout,C), Admirer ,2);
-    (2, Decor(Velo,C), Admirer, 0);
-    (2, Decor(BombePeinture,C), Admirer , 2);
     (2, Decor(BombeEau,C), Prendre, 3);
 
     (3, Decor(Mur,C), Construire, 2) ;

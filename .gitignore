@@ -25,3 +25,4 @@ build.xml
 # Ocaml
 .cmi
 .cmo
+/Java/log

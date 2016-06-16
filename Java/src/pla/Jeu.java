@@ -63,6 +63,8 @@ public class Jeu extends BasicGameState{
 	
 	MouseOverArea ms;
 	
+	public boolean fouad = true;
+	
 	//private static final int P_BAR_X = 15;
 	//private static final int P_BAR_Y = 25;
 
@@ -195,6 +197,7 @@ public class Jeu extends BasicGameState{
 	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
 		
 		
+		
 		if (!gc.isPaused()) {
 			Camera.moveCamera(g);
 
@@ -204,7 +207,33 @@ public class Jeu extends BasicGameState{
 			}
 			g.drawString(Mouse.getX() + " " +  Mouse.getY(), 10,30);
 			
-		} else {
+		} else if (gc.isPaused() && TimerFin.getFinJeu() ) {
+			
+			
+			if(rouge_score>bleu_score){
+				g.resetTransform();  
+				g.drawImage(this.rougegagnant, (gc.getWidth()/2)-250, (gc.getHeight()/2)-350);
+				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-122.5f, (6*gc.getHeight()/10)+100);
+				g.drawImage(this.score_rouge, (gc.getWidth()/2)-250-125, (gc.getHeight()/2));
+				g.drawImage(this.score_bleu, (gc.getWidth()/2)+250, (gc.getHeight()/2));
+				g.setColor(Color.yellow);
+				g.drawString(this.bleu_score1, (gc.getWidth()/2)+250+64, (gc.getHeight()/2)+75);
+				g.drawString(this.rouge_score1, gc.getWidth()/2-250-63, (gc.getHeight()/2)+75);
+
+			}
+			else{
+				g.resetTransform();  
+				g.drawImage(this.bleugagnant, (gc.getWidth()/2)-250, (gc.getHeight()/2)-350);
+				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-80, (gc.getHeight()/2)+150);
+				g.drawImage(this.score_rouge, (gc.getWidth()/2)-250, (gc.getHeight()/2));
+				g.drawImage(this.score_bleu, (gc.getWidth()/2)+200, (gc.getHeight()/2));
+				g.drawString(this.bleu_score1, (gc.getWidth()/2)+260, (gc.getHeight()/2)+75);
+				g.drawString(this.rouge_score1, (gc.getWidth()/2)-194, (gc.getHeight()/2)+75);
+
+			}
+			
+			
+		} else if (gc.isPaused() && !TimerFin.getFinJeu() ) {
 
 
 			Camera.moveCamera(g);
@@ -295,36 +324,7 @@ public class Jeu extends BasicGameState{
 			g.drawString(this.rouge_score1, (gc.getWidth()/2)-24, (gc.getHeight()/2)+75);
 		}
 		//fin jeu
-		TimerFin.getFinJeu();
-		if(TimerFin.getFinJeu()){
-			gc.pause();
-			if(rouge_score<bleu_score){
-				g.resetTransform();  
-				g.drawImage(this.rougegagnant, (gc.getWidth()/2)-220, (gc.getHeight()/2)-350);
-				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-80, (gc.getHeight()/2)+150);
-				g.drawImage(this.score_rouge, (gc.getWidth()/2)-250, (gc.getHeight()/2));
-				g.drawImage(this.score_bleu, (gc.getWidth()/2)+200, (gc.getHeight()/2));
-				g.setColor(Color.yellow);
-				g.drawString(this.bleu_score1, (gc.getWidth()/2)+260, (gc.getHeight()/2)+75);
-				g.drawString(this.rouge_score1, (gc.getWidth()/2)-194, (gc.getHeight()/2)+75);
-				//if (ms.isMouseOver()) {
-				//	ms.render(gc, g);
-				//}
-			}
-			else{
-				g.resetTransform();  
-				g.drawImage(this.bleugagnant, (gc.getWidth()/2)-220, (gc.getHeight()/2)-350);
-				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-80, (gc.getHeight()/2)+150);
-				g.drawImage(this.score_rouge, (gc.getWidth()/2)-250, (gc.getHeight()/2));
-				g.drawImage(this.score_bleu, (gc.getWidth()/2)+200, (gc.getHeight()/2));
-				g.drawString(this.bleu_score1, (gc.getWidth()/2)+260, (gc.getHeight()/2)+75);
-				g.drawString(this.rouge_score1, (gc.getWidth()/2)-194, (gc.getHeight()/2)+75);
 
-				//if (ms.isMouseOver()) {
-				//	ms.render(gc, g);
-				//}
-			}
-		}
 
 	}
 
@@ -334,6 +334,9 @@ public class Jeu extends BasicGameState{
 	@Override
 	public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
 		// TODO Auto-generated method stub
+		
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>"+TimerFin.getFinJeu()+"<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
 		
@@ -408,6 +411,11 @@ public class Jeu extends BasicGameState{
 		rouge_score=getPersonnageParType(TypePersonnage.ROUGE).compterScore(map);
 		bleu_score1=Integer.toString(bleu_score);
 		rouge_score1=Integer.toString(rouge_score);
+		
+		if (TimerFin.getFinJeu() && fouad) {
+			gc.setPaused(!gc.isPaused());
+			fouad = false;
+		}
 	
 		}	
 

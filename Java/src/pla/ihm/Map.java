@@ -318,9 +318,9 @@ public class Map {
 		lmax = largeurMax(lPersonnage);
 
 		if (hmax <= lmax) {
-			rayonCercle = (lmax * (nbAutomate) / 3);
+			rayonCercle = (lmax * (nbAutomate) / 4);
 		} else {
-			rayonCercle = (hmax * (nbAutomate) / 3);
+			rayonCercle = (hmax * (nbAutomate) / 4);
 		}
 		centreCercleX = nbCasesLargeur / 2;
 		centreCercleY = nbCasesHauteur / 2;

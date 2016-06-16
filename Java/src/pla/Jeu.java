@@ -298,10 +298,15 @@ public class Jeu extends BasicGameState{
 		TimerFin.getFinJeu();
 		if(TimerFin.getFinJeu()){
 			gc.pause();
-			if(rouge_score>bleu_score){
+			if(rouge_score<bleu_score){
 				g.resetTransform();  
 				g.drawImage(this.rougegagnant, (gc.getWidth()/2)-220, (gc.getHeight()/2)-350);
 				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-80, (gc.getHeight()/2)+150);
+				g.drawImage(this.score_rouge, (gc.getWidth()/2)-250, (gc.getHeight()/2));
+				g.drawImage(this.score_bleu, (gc.getWidth()/2)+200, (gc.getHeight()/2));
+				g.setColor(Color.yellow);
+				g.drawString(this.bleu_score1, (gc.getWidth()/2)+260, (gc.getHeight()/2)+75);
+				g.drawString(this.rouge_score1, (gc.getWidth()/2)-194, (gc.getHeight()/2)+75);
 				//if (ms.isMouseOver()) {
 				//	ms.render(gc, g);
 				//}
@@ -310,6 +315,11 @@ public class Jeu extends BasicGameState{
 				g.resetTransform();  
 				g.drawImage(this.bleugagnant, (gc.getWidth()/2)-220, (gc.getHeight()/2)-350);
 				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-80, (gc.getHeight()/2)+150);
+				g.drawImage(this.score_rouge, (gc.getWidth()/2)-250, (gc.getHeight()/2));
+				g.drawImage(this.score_bleu, (gc.getWidth()/2)+200, (gc.getHeight()/2));
+				g.drawString(this.bleu_score1, (gc.getWidth()/2)+260, (gc.getHeight()/2)+75);
+				g.drawString(this.rouge_score1, (gc.getWidth()/2)-194, (gc.getHeight()/2)+75);
+
 				//if (ms.isMouseOver()) {
 				//	ms.render(gc, g);
 				//}

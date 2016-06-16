@@ -66,17 +66,6 @@
 <etat_depart>0</etat_depart>
 <condition>
 <condition_simple>
-<decor id="0">0</decor>
-<cellule id="0">0</cellule>
-</condition_simple>
-</condition>
-<action_transition>3</action_transition>
-<etat_arrivee>1</etat_arrivee>
-</transition>
-<transition>
-<etat_depart>0</etat_depart>
-<condition>
-<condition_simple>
 <decor id="0">1</decor>
 <cellule id="0">0</cellule>
 </condition_simple>
@@ -286,28 +275,6 @@
 <etat_depart>1</etat_depart>
 <condition>
 <condition_simple>
-<decor id="0">9</decor>
-<cellule id="0">0</cellule>
-</condition_simple>
-</condition>
-<action_transition>5</action_transition>
-<etat_arrivee>1</etat_arrivee>
-</transition>
-<transition>
-<etat_depart>1</etat_depart>
-<condition>
-<condition_simple>
-<decor id="0">10</decor>
-<cellule id="0">0</cellule>
-</condition_simple>
-</condition>
-<action_transition>5</action_transition>
-<etat_arrivee>0</etat_arrivee>
-</transition>
-<transition>
-<etat_depart>1</etat_depart>
-<condition>
-<condition_simple>
 <decor id="0">11</decor>
 <cellule id="0">0</cellule>
 </condition_simple>
@@ -408,28 +375,6 @@
 <condition>
 <condition_simple>
 <decor id="0">8</decor>
-<cellule id="0">0</cellule>
-</condition_simple>
-</condition>
-<action_transition>5</action_transition>
-<etat_arrivee>2</etat_arrivee>
-</transition>
-<transition>
-<etat_depart>2</etat_depart>
-<condition>
-<condition_simple>
-<decor id="0">9</decor>
-<cellule id="0">0</cellule>
-</condition_simple>
-</condition>
-<action_transition>5</action_transition>
-<etat_arrivee>0</etat_arrivee>
-</transition>
-<transition>
-<etat_depart>2</etat_depart>
-<condition>
-<condition_simple>
-<decor id="0">10</decor>
 <cellule id="0">0</cellule>
 </condition_simple>
 </condition>

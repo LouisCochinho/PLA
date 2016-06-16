@@ -23,13 +23,16 @@ public class Menu extends BasicGameState {
 	 private boolean CreditOn = false;
 	 private boolean ToucheOn = false;
 	 
-	 private boolean MusicEnable = false;
+	 private boolean MusicEnable = true;
 
 
 	public Menu() {
 
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////// INIT //////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void init(GameContainer gc, StateBasedGame game) throws SlickException {
 
 		this.background = new Image("res/test.png");
@@ -61,9 +64,12 @@ public class Menu extends BasicGameState {
 		}
 
 
-		
-		
+			
 	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////// RENDER ////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void render(GameContainer gc,StateBasedGame sbg, Graphics g) throws SlickException {
 		
 
@@ -109,15 +115,19 @@ public class Menu extends BasicGameState {
 	
 	
 	
-	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////// UPDATE ////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void update(GameContainer gc,StateBasedGame sbg, int delta) throws SlickException {
+		System.out.println("CHRISTOPHER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
 		
 		
 		
 		if((posX>541 && posX<740)&&(posY>369 && posY<466) && !(ToucheOn || CreditOn)){   // BOUTON JOUER
-			if(Mouse.isButtonDown(0)){
+			if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				if (MusicEnable) {
 					test1.stop();
 
@@ -132,27 +142,27 @@ public class Menu extends BasicGameState {
 		}
 
 		if((posX>541 && posX<740)&&(posY>268 && posY<367) && !CreditOn){   // BOUTON TOUCHES
-			if(Mouse.isButtonDown(0)){
+			if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				ToucheOn = true;
 			}
 		}
 
 		
 		if((posX>541 && posX<740)&&(posY>168 && posY<267) && !ToucheOn){   // BOUTON CREDIT
-			if(Mouse.isButtonDown(0)){
+			if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 
 				CreditOn = true;
 			}
 		}
 		
 		if((posX>541 && posX<740)&&(posY>70 && posY<167) && !(ToucheOn || CreditOn)){   // BOUTON QUITTER
-			if(Mouse.isButtonDown(0)){
+			if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				gc.exit();
 			}
 		}
 		
 		if((posX>890 && posX<1210)&&(posY>40 && posY<92)){   // BOUTON ACCUEIL_DANS_CREDIT
-			if(Mouse.isButtonDown(0)){
+			if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				CreditOn = false;
 				ToucheOn = false;
 			}
@@ -172,7 +182,7 @@ public class Menu extends BasicGameState {
 	
 
     public void enter(GameContainer gc, StateBasedGame game) {
-    	
+    	gc.getInput().clearMousePressedRecord();
     	if (MusicEnable) {
     		test1.loop();
     	}

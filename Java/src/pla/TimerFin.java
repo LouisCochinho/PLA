@@ -13,24 +13,30 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class TimerFin extends TimerTask{
-	static boolean fin=false;
+	private static boolean fin=false;
 
-	private static int currentTime=300;
+	private static int temps_timer = 10;
+	private static int currentTime = temps_timer;
+	private static boolean pause = false;
+
 
 	//private static int currentTime=0;
-	
+
 	@Override
 	public void run() {
-		
-		if(currentTime>0){
-			currentTime--;
+		if(!pause){
+			if(currentTime>0){
+				currentTime--;
+				fin = false;
+			}
+			else{
+				Jeu.t.cancel();
+				currentTime = temps_timer;
+				fin=true;
+			}	
 		}
-		else{
-			Jeu.t.cancel();
-			fin=true;
-		}	
 	}
-	
+
 	public static boolean getFinJeu(){
 		return fin;
 	}
@@ -38,7 +44,7 @@ public class TimerFin extends TimerTask{
 		int min, seconde, centrerX=1205, centrerY=62;
 		min = currentTime/60;
 		seconde = currentTime%60;
-		
+
 		if(seconde<10 && min<10){
 			centrerX = 1200;
 		}
@@ -48,16 +54,24 @@ public class TimerFin extends TimerTask{
 		else{
 			centrerX = 1190;
 		}
-		
-		
-		
+
+
+
 		g.resetTransform();
 		g.drawImage( timerI, 1170, 25);
 		//g.scale(2, 2);
 		g.setColor(Color.orange);	
 		g.drawString(Integer.toString(min)+":"+Integer.toString(seconde) ,centrerX, centrerY);
 	}
-	
-	
+
+	public static void pause(){
+		pause = !pause;
+	}
+
+	public static void resume(){
+		pause = false;
+	}
+
+
 
 }

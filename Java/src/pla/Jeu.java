@@ -1,5 +1,6 @@
 package pla;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,10 +15,11 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.gui.MouseOverArea;
 
 import pla.action.transition.*;
 import pla.decor.*;
+import org.newdawn.slick.gui.MouseOverArea;
+
 import pla.TimerFin;
 
 import org.newdawn.slick.state.BasicGameState;
@@ -30,12 +32,10 @@ import pla.ihm.Case;
 import pla.ihm.Map;
 import pla.util.Musique;
 
-public class Jeu extends BasicGameState{
+public class Jeu extends BasicGameState {
 	private Map map; // carte du jeu
-	private List<Personnage> personnages = new ArrayList<Personnage>(); // Liste
-																		// des
+	private List<Personnage> personnages = new ArrayList<Personnage>(); // Liste																	// des
 	public static final int ID = 1; // personnages
-
 	private GameContainer gc; // conteneur
 
 
@@ -50,12 +50,20 @@ public class Jeu extends BasicGameState{
 	private int SIZE_WINDOW_X ;
 	private int SIZE_WINDOW_Y ;
 
-	Musique musique;
 
-	private Image inventaire_rouge,inventaire_rouge_eau,inventaire_rouge_bombe,inventaire_rouge_bike,inventaire_rouge_eau_bike,inventaire_rouge_bombe_bike;
-	private Image inventaire_bleu,inventaire_bleu_eau,inventaire_bleu_bombe,inventaire_bleu_bike,inventaire_bleu_eau_bike,inventaire_bleu_bombe_bike;
+	Musique musique;
+	private Image inventaire_rouge, inventaire_rouge_eau, inventaire_rouge_bombe, inventaire_rouge_bike,
+			inventaire_rouge_eau_bike, inventaire_rouge_bombe_bike;
+	private Image inventaire_bleu, inventaire_bleu_eau, inventaire_bleu_bombe, inventaire_bleu_bike,
+			inventaire_bleu_eau_bike, inventaire_bleu_bombe_bike;
 	private Image score_rouge, score_bleu;
+
 	private Image rougegagnant, bleugagnant,egaliter;
+
+
+	
+
+
 	private Image bouton_fin;
 	
 	int rouge_score, bleu_score;
@@ -79,8 +87,11 @@ public class Jeu extends BasicGameState{
 	 * private float z1 = 0.01f; private float z2 = 0.01f;
 	 */
 
+
 	Image timerI;
-	
+        
+        String cheminXML = "../Ocaml/xml/";
+        
 	public Jeu(int largeur, int hauteur) {
 		SIZE_WINDOW_X = largeur;
 
@@ -116,58 +127,24 @@ public class Jeu extends BasicGameState{
 		
 
 		timerI = new Image("res/modif.png");
-
-		ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate()));
-		ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate()));
-
-		// Marche pas => Revoir sprite policier
-		ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate()));
-
-		map = new Map((int) SIZE_WINDOW_X, (int) SIZE_WINDOW_Y, personnages);
-
-		this.map.init();
-		Camera.initCamera(map, SIZE_WINDOW_X, SIZE_WINDOW_Y);
-		for (Personnage p : personnages) {
-			p.init();
-
-
-		
-
-		}
 		
 		if (MusicEnable) {
 			test2 = new Music("res/thug.ogg");
 			//test2.loop();
-
 		}
-
-		this.map.placerAutoRandom(personnages, gc.getGraphics());		
-		this.map.setCasesEstDansAutomate(personnages);
-		this.map.setNbCasesHorsAutomate();
-		// System.out.println("nb Cases hors automate :
-		// "+map.getNbCasesHorsAutomate());
-		// System.out.println("Nombre de case total :
-		// "+map.getNbCasesHauteur()*map.getNbCasesLargeur());
-		this.map.placerDecorRandom();
-		this.map.placerPersonnageRandom(personnages);
-
                 
 		play = new Image("res/menu/pause/reprendre.png");
 		play2 = new Image("res/menu/pause/accueil.png");
 		play3 = new Image("res/menu/pause/quitter.png");
-
- 
-		
-		//Image inventaire
-		
+                
 		this.inventaire_rouge = new Image("res/hud/rouge/rougevide.png");
 		this.inventaire_rouge_eau = new Image("res/hud/rouge/rougevide_eau.png");
 		this.inventaire_rouge_bombe = new Image("res/hud/rouge/rougevide_bombe.png");
 		this.inventaire_rouge_bike = new Image("res/hud/rouge/rougevide_bike.png");
 		this.inventaire_rouge_eau_bike = new Image("res/hud/rouge/rougevide_eau_bike.png");
 		this.inventaire_rouge_bombe_bike = new Image("res/hud/rouge/rougevide_bombe_bike.png");
-		this.inventaire_bleu  = new Image("res/hud/bleu/bleuvide.png");
-		this.inventaire_bleu_eau   = new Image("res/hud/bleu/bleuvide_eau.png");
+		this.inventaire_bleu = new Image("res/hud/bleu/bleuvide.png");
+		this.inventaire_bleu_eau = new Image("res/hud/bleu/bleuvide_eau.png");
 		this.inventaire_bleu_bombe = new Image("res/hud/bleu/bleuvide_bombe.png");
 		this.inventaire_bleu_bike  = new Image("res/hud/bleu/bleuvide_bike.png");
 		this.inventaire_bleu_eau_bike  = new Image("res/hud/bleu/bleuvide_eau_bike.png");
@@ -175,7 +152,7 @@ public class Jeu extends BasicGameState{
 		
 		//Image score
 		this.score_rouge=new Image("res/hud/score/scorerouge.png");
-		this.score_bleu=new Image("res/hud/score/scorebleu.png");		
+		this.score_bleu=new Image("res/hud/score/scorebleu.png");
 		
 		//Image fin jeu
 		this.rougegagnant  = new Image("res/rougegagnant.png");
@@ -186,10 +163,29 @@ public class Jeu extends BasicGameState{
 		//bouton fin cliquable
 		// ms = new MouseOverArea(gc, bouton_fin, (gc.getWidth()/2)-80, (gc.getHeight()/2)+150, 245, 110);
 
-
-
-
 	}
+        
+        public void initAutomates() throws SlickException {
+            ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "automate1.xml")));
+            ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "automate1.xml")));
+
+            ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "automate1.xml")));
+
+
+            map = new Map((int) SIZE_WINDOW_X, (int) SIZE_WINDOW_Y, personnages);
+
+            this.map.init();
+            Camera.initCamera(map, SIZE_WINDOW_X, SIZE_WINDOW_Y);
+            for (Personnage p : personnages) {
+                    p.init();
+            }
+
+            this.map.placerAutoRandom(personnages, gc.getGraphics());		
+            this.map.setCasesEstDansAutomate(personnages);
+            this.map.setNbCasesHorsAutomate();
+            this.map.placerDecorRandom();
+            this.map.placerPersonnageRandom(personnages);
+        }
 
 	// Affiche le contenu du jeu
 	@Override
@@ -229,64 +225,72 @@ public class Jeu extends BasicGameState{
 		}
 
 		TimerFin.afficherTimer( g, timerI);
-		
-
 		//inventaire
 		
 		if (gc.getInput().isKeyDown(Input.KEY_I)) {
-			//rouge
-			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet()==null && !getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
-				g.resetTransform(); 
+			// rouge
+			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() == null
+					&& !getPersonnageParType(TypePersonnage.ROUGE).hasVelo()) {
+				g.resetTransform();
 				g.drawImage(this.inventaire_rouge, 15, 40);
 			}
-			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() instanceof BombePeinture && !getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
-				g.resetTransform();  
+			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() instanceof BombePeinture
+					&& !getPersonnageParType(TypePersonnage.ROUGE).hasVelo()) {
+				g.resetTransform();
 				g.drawImage(this.inventaire_rouge_bombe, 15, 40);
 			}
-			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() instanceof BombeEau && !getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
-				g.resetTransform();  
+			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() instanceof BombeEau
+					&& !getPersonnageParType(TypePersonnage.ROUGE).hasVelo()) {
+				g.resetTransform();
 				g.drawImage(this.inventaire_rouge_eau, 15, 40);
 			}
-			if (getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
-				g.resetTransform();  
+			if (getPersonnageParType(TypePersonnage.ROUGE).hasVelo()) {
+				g.resetTransform();
 				g.drawImage(this.inventaire_rouge_bike, 15, 40);
 			}
-			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() instanceof BombeEau && getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
-				g.resetTransform();  
+			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() instanceof BombeEau
+					&& getPersonnageParType(TypePersonnage.ROUGE).hasVelo()) {
+				g.resetTransform();
 				g.drawImage(this.inventaire_rouge_eau_bike, 15, 40);
 			}
-			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() instanceof BombePeinture && getPersonnageParType(TypePersonnage.ROUGE).hasVelo()){
-				g.resetTransform();  
+			if (getPersonnageParType(TypePersonnage.ROUGE).getObjet() instanceof BombePeinture
+					&& getPersonnageParType(TypePersonnage.ROUGE).hasVelo()) {
+				g.resetTransform();
 				g.drawImage(this.inventaire_rouge_bombe_bike, 15, 40);
 			}
-			//bleu
-			if (getPersonnageParType(TypePersonnage.BLEU).getObjet()==null && !getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
-				g.resetTransform();  
+			// bleu
+			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() == null
+					&& !getPersonnageParType(TypePersonnage.BLEU).hasVelo()) {
+				g.resetTransform();
 				g.drawImage(this.inventaire_bleu, 15, 105);
 			}
-			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() instanceof BombePeinture && !getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
-				g.resetTransform();  
+			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() instanceof BombePeinture
+					&& !getPersonnageParType(TypePersonnage.BLEU).hasVelo()) {
+				g.resetTransform();
 				g.drawImage(this.inventaire_bleu_bombe, 15, 105);
 			}
-			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() instanceof BombeEau && !getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
-				g.resetTransform();  
+			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() instanceof BombeEau
+					&& !getPersonnageParType(TypePersonnage.BLEU).hasVelo()) {
+				g.resetTransform();
 				g.drawImage(this.inventaire_bleu_eau, 15, 105);
 			}
-			if (getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
-				g.resetTransform();  
+			if (getPersonnageParType(TypePersonnage.BLEU).hasVelo()) {
+				g.resetTransform();
 				g.drawImage(this.inventaire_bleu_bike, 15, 105);
 			}
-			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() instanceof BombeEau && getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
-				g.resetTransform();  
+			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() instanceof BombeEau
+					&& getPersonnageParType(TypePersonnage.BLEU).hasVelo()) {
+				g.resetTransform();
 				g.drawImage(this.inventaire_bleu_eau_bike, 15, 105);
 			}
-			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() instanceof BombePeinture && getPersonnageParType(TypePersonnage.BLEU).hasVelo()){
-				g.resetTransform();  
+			if (getPersonnageParType(TypePersonnage.BLEU).getObjet() instanceof BombePeinture
+					&& getPersonnageParType(TypePersonnage.BLEU).hasVelo()) {
+				g.resetTransform();
 				g.drawImage(this.inventaire_bleu_bombe_bike, 15, 105);
 			}
 		}
-		
-		//afficher score
+
+		// afficher score
 		if (gc.getInput().isKeyDown(Input.KEY_TAB)) {
 			g.resetTransform();
 			g.drawImage(this.score_rouge, (gc.getWidth()/2)-80, (gc.getHeight()/2));
@@ -357,15 +361,19 @@ public class Jeu extends BasicGameState{
 		
 		for (Personnage p : personnages) {
 			if (p.isDeplacementTermine()) {
-				changerEtatAutomate(p, delta);				
+				System.out.println("Tableau avant : \n");
+				p.getAutomate().afficher();
+				changerEtatAutomate(p, delta);
+				System.out.println("Tableau apr�s : \n");
+				p.getAutomate().afficher();
 			}
-			// A tester
+
 			map.getCaseFromCoord((int) p.getX(), (int) p.getY()).supprimerPersonnage(p);
 			deplacerPersonnage(p, delta);
 			map.getCaseFromCoord((int) p.getX(), (int) p.getY()).ajouterPersonnage(p);
-		
+
 		}
-		personnages.get(0).getAutomate().afficher();
+
 		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn() && MusicEnable) {
 
 			test2.resume();
@@ -394,6 +402,7 @@ public class Jeu extends BasicGameState{
 		if(gc.getInput().isKeyPressed(Input.KEY_F1)){
 
 			gc.setPaused(!gc.isPaused());
+
 
 		}
 		
@@ -424,12 +433,8 @@ public class Jeu extends BasicGameState{
 		bleu_score=getPersonnageParType(TypePersonnage.BLEU).compterScore(map);
 		rouge_score=getPersonnageParType(TypePersonnage.ROUGE).compterScore(map);
 		bleu_score1=Integer.toString(bleu_score);
-		rouge_score1=Integer.toString(rouge_score);
-	
+		rouge_score1=Integer.toString(rouge_score);	
 		}	
-
-
-	
 	
 	public void mouseWheelMoved(int change) {
 		if (change < 0) {
@@ -462,34 +467,35 @@ public class Jeu extends BasicGameState{
 			}
 		}
 
-		// Affichage test
-
-	
-
-		
-
 		if (!indexPossibles.isEmpty()) {
 			// Prendre un index au hasard dans la liste
 			indexChoisi = indexPossibles.get(r.nextInt(indexPossibles.size()));
-                        
-                        p.getAutomate().getTabActionTransition()[indexChoisi][etatCourantId].executer(p, map.getCaseFromCoord((int)p.getX(), (int)p.getY()), this, 0);
-			// System.out.println("index choisi : "+indexChoisi);
-			// System.out.println("etat suivant :
-			
 
+			Case c1 = map.getCaseFromCoord((int) p.getX(), (int) p.getY());
+			Decor d1 = c1.getDecor();
+			p.getAutomate().getTabActionTransition()[indexChoisi][etatCourantId].executer(p,
+					map.getCaseFromCoord((int) p.getX(), (int) p.getY()), this, 0);
+			
+			Case c2 = map.getCaseFromCoord((int) p.getX(), (int) p.getY());
+			Decor d2 = c2.getDecor();
+	
+			if(!(d1.toString().equals(d2.toString())) && c1.estDansAutomate() && c2.estDansAutomate()){
+				Automate a = null;
+				for(Personnage pers : personnages){
+					if(map.caseEstDansAutomate(c2, pers.getAutomate())){
+						a = pers.getAutomate();
+						if(a.getPosX()!=p.getAutomate().getPosX() && a.getPosY()!=p.getAutomate().getPosY()){
+							pers.getAutomate().modifierTabActionTransition((c2.getIndexI()-a.getPosX()/64),(c2.getIndexJ()-a.getPosY()/64), c2.getDecor());
+						}						
+						break;
+					}
+				}				
+			}
 			p.setEtatCourant(p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId]);
 
 		} else {
 			p.setEtatCourant(p.getAutomate().getEtatInitial());
 		}
-		// initier le mouvement
-
-
-		// System.out.println("action etat courant :
-		
-
-		//System.out.println("action etat courant : " + p.getEtatCourant().getActionEtat().toString());
-
 		p.setDeplacementCourant(0);
 
 
@@ -523,25 +529,32 @@ public class Jeu extends BasicGameState{
     
     public void leave(GameContainer gc, StateBasedGame game) {
     	System.out.println(">>>>>>> SORTIE DE JEU <<<<<<<");
-    }
-
-   
-    
-
-
-	
+    }	
 	public static void finDuJeu(){
 	    t = new Timer();
 	    t.schedule(new TimerFin(), 0, 1*1000);
+
 	}
-        
-        public Personnage getPersonnageParType(TypePersonnage t) {
-            for(Personnage p : personnages) {
-                if(p.getTypePersonnage() == t)
-                    return p;
+
+
+        public ArrayList<String> getFichiersAutomate() {
+            ArrayList<String> noms = new ArrayList<String>();
+            File repertoire = new File("../Ocaml/xml/");
+            File[] fichiers = repertoire.listFiles();
+            for(File f : fichiers) {
+                noms.add(f.getName().substring(0, f.getName().lastIndexOf(".")));
+                System.out.println(noms.get(noms.size()-1));
             }
-            return null;
+            return noms;
         }
+
+	public Personnage getPersonnageParType(TypePersonnage t) {
+		for (Personnage p : personnages) {
+			if (p.getTypePersonnage() == t)
+				return p;
+		}
+		return null;
+	}
 
 
         	

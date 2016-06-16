@@ -133,9 +133,6 @@ public class Personnage {
 
 	public boolean isDeplacementTermine() {
 		return this.deplacementCourant >= distanceDeplacement;
-		// return Math.round(x)%32==0 && Math.round(x)%64!=0 &&
-		// Math.round(y)%32==0 && Math.round(y)%64!=0;
-
 	}
 
 	public String toString() {
@@ -217,15 +214,5 @@ public class Personnage {
 			}
 		}
 		return compteur;
-	}
-	
-	public void updateAutomate(Map map){
-		for(int i = 0 ; i< automate.getNbLignes();i++){
-			for(int j = 0; j< automate.getNbColonnes();j++){
-				Case c = map.getCaseFromCoord(automate.getPosY()+(j*64), automate.getPosX()+(i*64));
-				
-				automate.modifierTabActionTransition(i, j,c.getDecor());
-			}
-		}
 	}
 }

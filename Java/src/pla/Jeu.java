@@ -457,7 +457,7 @@ public class Jeu extends BasicGameState {
 				if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 					gc.setPaused(!gc.isPaused());
 					game.enterState(0);
-					gc.reinit();
+					//gc.reinit();
 				}
 			}
 			

@@ -119,7 +119,6 @@ public class Menu extends BasicGameState {
 	//////////////////////////////////////////////////////////// UPDATE ////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void update(GameContainer gc,StateBasedGame sbg, int delta) throws SlickException {
-		System.out.println("CHRISTOPHER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
@@ -133,9 +132,9 @@ public class Menu extends BasicGameState {
 
 				}
 				System.out.println("start");
-				Jeu.finDuJeu();
-                                Jeu jeu = (Jeu)sbg.getState(1);
-                                jeu.initAutomates();
+			    Jeu.finDuJeu();
+                Jeu jeu = (Jeu)sbg.getState(1);
+                jeu.initAutomates();
 				sbg.enterState(1);
 				//gc.reinit();
 			}

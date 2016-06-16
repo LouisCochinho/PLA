@@ -23,7 +23,7 @@ let autTest =
     (0, Decor(BombeEau,C), Prendre, 0);
     
     (1, Decor(Mur,C), Construire, 3) ;
-    (1, Decor(SolNormal,C), Admirer,0);
+    (1, Decor(SolNormal,C), Admirer,1);
     (1, Decor(Sol(Ami),C), PeindreNeutre,1);
     (1, Decor(Sol(Ennemi),C), PeindreNeutre,0);
     (1, Decor(Muret,C), Construire,3);
@@ -36,9 +36,9 @@ let autTest =
     (1, Decor(BombeEau,C), Prendre, 3);
 
     (2, Decor(Mur,C), Construire, 3) ;
-    (2, Decor(SolNormal,C), Admirer,0);
+    (2, Decor(SolNormal,C), Admirer,2);
     (2, Decor(Sol(Ami),C), PeindreNeutre,2);
-    (2, Decor(Sol(Ennemi),C), PeindreNeutre,2);
+    (2, Decor(Sol(Ennemi),C), PeindreNeutre,0);
     (2, Decor(Muret,C), Construire,0);
     (2, Decor(Gendarmerie,C), Dupliquer,3);
     (2, Decor(Skatepark,C), Demolir,0);
@@ -49,7 +49,7 @@ let autTest =
     (2, Decor(BombeEau,C), Prendre, 3);
 
     (3, Decor(Mur,C), Construire, 2) ;
-    (3, Decor(SolNormal,C), Admirer,1);
+    (3, Decor(SolNormal,C), Admirer,3);
     (3, Decor(Sol(Ami),C), PeindreNeutre,3);
     (3, Decor(Sol(Ennemi),C), PeindreNeutre,2);
     (3, Decor(Muret,C), Construire,2);

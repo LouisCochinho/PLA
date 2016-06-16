@@ -14,7 +14,7 @@ import org.newdawn.slick.Color;
 public enum TypePersonnage {
     ROUGE("res/thugRouge.png", Color.red, false),
     BLEU("res/thugBleu.png", Color.blue, true),
-    BERNARD("res/Bernard.png", Color.black, false);
+    BERNARD("res/Bernard.png", Color.yellow, false);
     
     private final String ref;
     private final Color color;

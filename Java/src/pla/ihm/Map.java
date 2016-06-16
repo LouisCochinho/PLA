@@ -36,8 +36,10 @@ public class Map {
 
 	public Map(int largeur, int hauteur, List<Personnage> personnages) {
 
-		this.nbCasesLargeur = largeurMax(personnages) * personnages.size() * 2;
-		this.nbCasesHauteur = hauteurMax(personnages) * personnages.size() * 2;
+	//	this.nbCasesLargeur = largeurMax(personnages) * personnages.size();
+	//	this.nbCasesHauteur = hauteurMax(personnages) * personnages.size();
+		this.nbCasesHauteur = (Math.max(largeurMax(personnages),hauteurMax(personnages))*personnages.size());
+		this.nbCasesLargeur = (Math.max(largeurMax(personnages),hauteurMax(personnages))*personnages.size());
 		cases = new Case[this.nbCasesHauteur][this.nbCasesLargeur];
 		// Cr�ation de la matrice des cases
 		for (int i = 0; i < this.nbCasesHauteur; i++) {
@@ -316,12 +318,12 @@ public class Map {
 		lmax = largeurMax(lPersonnage);
 
 		if (hmax <= lmax) {
-			rayonCercle = (lmax * (nbAutomate) / 2);
+			rayonCercle = (lmax * (nbAutomate) / 3);
 		} else {
-			rayonCercle = (hmax * (nbAutomate) / 2);
+			rayonCercle = (hmax * (nbAutomate) / 3);
 		}
-		centreCercleX = getNbCasesLargeur() / 2 - lmax;
-		centreCercleY = getNbCasesHauteur() / 2;
+		centreCercleX = nbCasesLargeur / 2;
+		centreCercleY = nbCasesHauteur / 2;
 
 		anglePersonnage = CERCLE / nbAutomate;
 		firstAngle = rand.nextInt(CERCLE + 1);

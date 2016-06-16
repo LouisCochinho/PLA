@@ -43,7 +43,7 @@ public class Jeu extends BasicGameState{
 	
 	Music test2;
 	
-	private boolean MusicEnable = true; 
+	private boolean MusicEnable = false; 
 	Image play, play2, play3;
 	
 
@@ -488,7 +488,9 @@ public class Jeu extends BasicGameState{
 
     public void enter(GameContainer gc, StateBasedGame game) {
     	
-    	test2.loop();
+    	if (MusicEnable) {
+    		test2.loop();
+    	}
     	System.out.println(">>>>>>> ENTRER DANS JEU <<<<<<<"); 
     }
     

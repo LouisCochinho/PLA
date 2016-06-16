@@ -23,7 +23,7 @@ public class Menu extends BasicGameState {
 	 private boolean CreditOn = false;
 	 private boolean ToucheOn = false;
 	 
-	 private boolean MusicEnable = true;
+	 private boolean MusicEnable = false;
 
 
 	public Menu() {
@@ -171,17 +171,20 @@ public class Menu extends BasicGameState {
 
     public void enter(GameContainer gc, StateBasedGame game) {
     	
-    	//musique.jouerMenu();
-    	test1.loop();
+    	if (MusicEnable) {
+    		test1.loop();
+    	}
     	System.out.println(">>>>>>> ENTRER DANS MENU <<<<<<<"); 
     }
     
 public void leave(GameContainer gc, StateBasedGame game) {
     	
-    	//musique.jouerMenu();
-    	test1.loop();
+    	
+		if (MusicEnable) {
+			test1.loop();
+		}
     	System.out.println(">>>>>>> SORTIE DE MENU <<<<<<<"); 
-    }
+    	}
 
 
 }

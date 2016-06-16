@@ -11,8 +11,9 @@ public class DeplacerBas extends Action_etat {
 
 	@Override
 	public void executer(Personnage p, int delta,int modulo_tore_x,int modulo_tore_y) {
+                float dep = p.hasVelo()?2.0f*deplacement:deplacement;
 		p.setDirection(2);
-		float currdepl = 0.1f*delta;
+		float currdepl = dep*delta;
 		float newPos = (p.getY()+currdepl)%modulo_tore_y;
 		p.setY(newPos);
 		p.setDeplacementCourant(p.getDeplacementCourant()+currdepl);

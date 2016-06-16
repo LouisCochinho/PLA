@@ -11,9 +11,10 @@ public class DeplacerGauche extends Action_etat {
 
 	@Override
 	public void executer(Personnage p, int delta,int modulo_tore_x,int modulo_tore_y) {
+                float dep = p.hasVelo()?2.0f*deplacement:deplacement;
 		p.setDirection(1);	
 		float tmp = p.getX();
-		float depl = (p.getX()-0.1f*delta)%modulo_tore_x;
+		float depl = (p.getX()-dep*delta)%modulo_tore_x;
 		p.setX(depl);
 		p.setDeplacementCourant(p.getDeplacementCourant()+Math.abs(depl-tmp));
 		if(p.getX() < 0){

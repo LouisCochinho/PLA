@@ -1,5 +1,6 @@
 package pla;
 
+import java.io.IOException;
 import pla.action.transition.Admirer;
 import pla.action.transition.Action_transition;
 import java.util.ArrayList;
@@ -26,27 +27,27 @@ public class Automate {
 	private Condition conditionParDefaut;
 
 	// automate par defaut
-	public Automate() {
+	public Automate() throws IOException {
 		this(0, 0);
 	}
 
-	public Automate(int posX, int posY) {
+	public Automate(int posX, int posY) throws IOException {
 		this("../Ocaml/xml/automate1.xml", posX, posY);
 	}
 
-	public Automate(String fileName) {
+	public Automate(String fileName) throws IOException {
 		this(fileName, 5, 6);
 	}
 
 	// automate avec parsing
-	public Automate(String fileName, int posX, int posY) {
+	public Automate(String fileName, int posX, int posY) throws IOException {
 		this.posX = posX;
 		this.posY = posY;
 
 		etats = new ArrayList<Etat>();
 		transitions = new ArrayList<Transition>();
 
-		XMLParser.parse(this, fileName);
+                XMLParser.parse(this, fileName);
 
 		nbLignes = getNbTransitionsMax();
 		nbColonnes = etats.size();

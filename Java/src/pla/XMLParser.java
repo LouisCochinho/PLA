@@ -154,7 +154,7 @@ public class XMLParser {
         setTransitions();
     }
 
-    public static void parse(Automate automate, String fileName) {
+    public static void parse(Automate automate, String fileName) throws IOException {
         XMLParser.automate = automate;
         // Création d'une instance de SAXBuilder
         SAXBuilder sxb = new SAXBuilder();
@@ -166,8 +166,6 @@ public class XMLParser {
           
         }
         catch(JDOMException e){
-            System.out.println(e.getMessage());
-        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 

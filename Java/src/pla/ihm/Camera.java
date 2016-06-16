@@ -8,7 +8,7 @@ public class Camera {
 	private static float camY;
 	private static float zoomX=1;
 	private static float zoomY=1;
-	private final static float DEPLACEMENT = 13;
+	private final static float DEPLACEMENT = 5;
 	private static int SIZE_WINDOW_X ;
 	private static int SIZE_WINDOW_Y ;
 	private static float currentSizeMapX ;
@@ -55,26 +55,30 @@ public class Camera {
 	}
 
 	public static void cameraDown(){
-		if(camY-DEPLACEMENT >= -currentSizeMapY+SIZE_WINDOW_Y-bordure_centrageY*2){camY-=DEPLACEMENT;}
-		else{camY = camY - (camY +currentSizeMapY-SIZE_WINDOW_Y-bordure_centrageY*2);}		
+	/*	if(camY-DEPLACEMENT >= -currentSizeMapY+SIZE_WINDOW_Y-bordure_centrageY*2){camY-=DEPLACEMENT;}
+		else{camY = camY - (camY +currentSizeMapY-SIZE_WINDOW_Y-bordure_centrageY*2);}	*/
+		camY-=DEPLACEMENT;
 
 	}
 
 	public static void cameraUP(){
-		if(camY+DEPLACEMENT <= -bordure_centrageY){camY+=DEPLACEMENT;}
-		else{camY = -bordure_centrageY;}
+		/*if(camY+DEPLACEMENT <= -bordure_centrageY){camY+=DEPLACEMENT;}
+		else{camY = -bordure_centrageY;}*/
+		camY+=DEPLACEMENT;
 
 	}
 
 	public static void cameraLEFT(){
-		if(camX+DEPLACEMENT <= -bordure_centrageX){camX+=DEPLACEMENT;}
-		else{camX = -bordure_centrageX;}
+		/*if(camX+DEPLACEMENT <= -bordure_centrageX){camX+=DEPLACEMENT;}
+		else{camX = -bordure_centrageX;}*/
+		camX+=DEPLACEMENT;
 
 	}
 
 	public static void cameraRIGHT(){
-		if(camX-DEPLACEMENT >= -currentSizeMapX+SIZE_WINDOW_X+bordure_centrageX){camX-= DEPLACEMENT;}
-		else{camX = camX - (camX +currentSizeMapX-SIZE_WINDOW_X)+bordure_centrageX;}
+		/*if(camX-DEPLACEMENT >= -currentSizeMapX+SIZE_WINDOW_X+bordure_centrageX){camX-= DEPLACEMENT;}
+		else{camX = camX - (camX +currentSizeMapX-SIZE_WINDOW_X)+bordure_centrageX;}*/
+		camX-= DEPLACEMENT;
 
 	}
 /*
@@ -110,7 +114,8 @@ public class Camera {
 	}
 	*/
 	public static void cameraDezoom(Map map){
-		float lastSizeMapX = currentSizeMapX;
+		zoomX -= ZOOM; zoomY -= ZOOM;
+		/*float lastSizeMapX = currentSizeMapX;
 		float lastSizeMapY = currentSizeMapY;
 		if((zoomX-ZOOM)*currentSizeMapX >= SIZE_WINDOW_X && 
 				(zoomY-ZOOM)*currentSizeMapY >= SIZE_WINDOW_Y){
@@ -139,11 +144,11 @@ public class Camera {
 		if(currentSizeMapX+camX<SIZE_WINDOW_X){camX = camX+(SIZE_WINDOW_X-currentSizeMapX-camX)+bordure_centrageX;}
 		if(currentSizeMapY+camY<SIZE_WINDOW_Y){camY = camY+(SIZE_WINDOW_Y-currentSizeMapY-camY)+bordure_centrageY;}
 		if(currentSizeMapX-camX>=SIZE_WINDOW_X){camX = -bordure_centrageX;}
-		if(currentSizeMapY-camY>=SIZE_WINDOW_Y){camY = -bordure_centrageY;}
+		if(currentSizeMapY-camY>=SIZE_WINDOW_Y){camY = -bordure_centrageY;}*/
 	}
 
 	public static void cameraZoom(Map map){
-		float lastSizeMapX = currentSizeMapX;
+		/*float lastSizeMapX = currentSizeMapX;
 		float lastSizeMapY = currentSizeMapY;
 		if(zoomX<=ZOOM_MAX && zoomY<=ZOOM_MAX){
 			zoomX += ZOOM; zoomY += ZOOM;
@@ -151,6 +156,7 @@ public class Camera {
 			currentSizeMapY = zoomY*(map.getHauteur()-bordure_centrageY);
 			camX = camX-(currentSizeMapX-lastSizeMapX)/2;
 			camY = camY-(currentSizeMapY-lastSizeMapY)/2;
-		}		
+		}	*/
+		zoomX += ZOOM; zoomY += ZOOM;
 	}
 }

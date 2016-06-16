@@ -176,7 +176,7 @@ public class Personnage {
 	}
 
 	public void addVelo() {
-		nbToursVelo += 10;
+		nbToursVelo += 20;
 	}
 
 	public boolean hasVelo() {
@@ -184,7 +184,10 @@ public class Personnage {
 	}
 
 	public void decrementeToursVelo() {
+            if(nbToursVelo > 0) {
 		nbToursVelo--;
+                System.out.println(nbToursVelo);
+            }
 	}
 
 	public void setObjet(Decor objet) {

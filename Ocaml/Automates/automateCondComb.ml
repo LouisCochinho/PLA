@@ -9,11 +9,11 @@ let (list_etat:etat list)=
   ];;
 
 let autTest =
-  [ (0, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),N)),PeindreNeutre(Ami),3);
-    (0, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),N)),PeindreNeutre(Ami),3);
-    (0, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),E)),PeindreNeutre(Ami),2);
-    (0, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),E)),PeindreNeutre(Ami),2);
-    (0, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),O)),PeindreNeutre(Ami),1);
-    (0, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),O)),PeindreNeutre(Ami),1);
-    (0, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),S)),PeindreNeutre(Ami),0);
-    (0, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),S)),PeindreNeutre(Ami),0);]
+  [ (0, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),N)),PeindreNeutre,3);
+    (0, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),N)),PeindreNeutre,3);
+    (0, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),E)),PeindreNeutre,2);
+    (0, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),E)),PeindreNeutre,2);
+    (0, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),O)),PeindreNeutre,1);
+    (0, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),O)),PeindreNeutre,1);
+    (0, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),S)),PeindreNeutre,0);
+    (0, Et(Decor(Sol(Ennemi),C),Decor(Sol(Ennemi),S)),PeindreNeutre,0);]

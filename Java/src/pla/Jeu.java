@@ -171,7 +171,7 @@ public class Jeu extends BasicGameState {
             ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "automateJ1.xml")));
             ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "automateJ1.xml")));
 
-            ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "automateBernard.xml")));
+            ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "automateCondComb.xml")));
 
 
             map = new Map((int) SIZE_WINDOW_X, (int) SIZE_WINDOW_Y, personnages);
@@ -356,7 +356,7 @@ public class Jeu extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
 		// TODO Auto-generated method stub
 		
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>"+TimerFin.getFinJeu()+"<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>>"+TimerFin.getFinJeu()+"<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
@@ -364,11 +364,11 @@ public class Jeu extends BasicGameState {
 		ArrayList<Personnage> personnages = new ArrayList<Personnage>(this.personnages);
 		for (Personnage p : personnages) {
 			if (p.isDeplacementTermine()) {
-				System.out.println("Tableau avant : \n");
-				p.getAutomate().afficher();
+				//System.out.println("Tableau avant : \n");
+				//p.getAutomate().afficher();
 				changerEtatAutomate(p, delta);
-				System.out.println("Tableau apr�s : \n");
-				p.getAutomate().afficher();
+				///System.out.println("Tableau apr�s : \n");
+				//p.getAutomate().afficher();
 			}
 
 			map.getCaseFromCoord((int) p.getX(), (int) p.getY()).supprimerPersonnage(p);

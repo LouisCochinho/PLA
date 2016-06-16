@@ -14,23 +14,24 @@ public abstract class Decor {
 	protected SpriteSheet sprite;
 	private float wSprite;
 	private float hSprite;
-        private DecorSprite decorSprite;
-	
+	private float frequence;
+	private DecorSprite decorSprite;
+
 	public Decor(int id) {
 		actions = new ArrayList<Action_transition>();
 		this.id = id;
 	}
-	
-	public Decor(DecorSprite decorSprite, int wSprite, int hSprite){
+
+	public Decor(DecorSprite decorSprite, int wSprite, int hSprite, int frequence) {
 		actions = new ArrayList<Action_transition>();
-                ajouterAction(new Admirer());
-                ajouterAction(new Combattre());
-                ajouterAction(new LaisserTomber());
+		ajouterAction(new Admirer());
+		ajouterAction(new Combattre());
+		ajouterAction(new LaisserTomber());
 		this.wSprite = wSprite;
 		this.hSprite = hSprite;
-                this.decorSprite = decorSprite;
+		this.decorSprite = decorSprite;
+		this.frequence = frequence;
 	}
-	
 
 	public Decor() {
 		actions = new ArrayList<Action_transition>();
@@ -69,11 +70,23 @@ public abstract class Decor {
 		return this.getClass().getSimpleName();
 	}
 
-    public int getX() {
-        return decorSprite.getX();
-    }
+	public int getX() {
+		return decorSprite.getX();
+	}
 
-    public int getY() {
-        return decorSprite.getY();
-    }
+	public int getY() {
+		return decorSprite.getY();
+	}
+
+	public float getFrequence() {
+		return frequence;
+	}
+	
+	public void setFrequence(float frequence){
+		this.frequence = frequence;
+	}
+
+	public DecorSprite getDecorSprite() {
+		return decorSprite;
+	}
 }

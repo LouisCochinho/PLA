@@ -12,14 +12,13 @@ public class DeplacerHaut extends Action_etat {
 	@Override
 	public void executer(Personnage p, int delta,int modulo_tore_x, int modulo_tore_y) {
 		p.setDirection(0);		
-		float tmp = p.getY();
-		float depl = (p.getY()-0.1f*delta)%modulo_tore_y;
-		p.setY(depl);
-		p.setDeplacementCourant(p.getDeplacementCourant()+Math.abs(depl-tmp));
-		if(p.getY() < 0){
-			p.setY(modulo_tore_y - 32);
-			p.setDeplacementCourant(0);
-		}   			
+		float currdepl = 0.1f*delta;
+		float newPos = (p.getY()-currdepl);
+		if(newPos < 0){
+			newPos+=modulo_tore_y;
+		}
+		p.setY(newPos);
+		p.setDeplacementCourant(p.getDeplacementCourant()+currdepl);  			
 	}
 
 	@Override

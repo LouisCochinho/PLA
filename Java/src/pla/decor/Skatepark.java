@@ -14,7 +14,7 @@ import pla.action.transition.*;
 public class Skatepark extends Decor {
     
     public Skatepark() {
-    	super(DecorSprite.SKATEPARK, 64, 64);
+    	super(DecorSprite.SKATEPARK, 64, 64, 0);
         ajouterAction(new Demolir());
         ajouterAction(new Dupliquer());
     }

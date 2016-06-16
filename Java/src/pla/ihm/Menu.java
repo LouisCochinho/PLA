@@ -9,11 +9,12 @@ import pla.Jeu;
 import pla.util.Musique;
 
 public class Menu extends BasicGameState {
+
 	 public static final int ID = 0;
 	 //private Image fond;
 	 private StateBasedGame game;
 	 Image background;
-	 Image titreMenu, play, play2, play3, play4, play5, play6, play7, play8, accueil;
+	 Image titreMenu, play, play2, play3, play4, play5, play6, play7, play8, accueil, timerI;
 	 Image exitGame;
 	 //Musique musique = new Musique();
 	 Music test1;
@@ -24,11 +25,13 @@ public class Menu extends BasicGameState {
 	 
 	 private boolean MusicEnable = true;
 
+
 	public Menu() {
 
 	}
-	public void init(GameContainer gc, StateBasedGame game) throws SlickException{
-	    
+
+	public void init(GameContainer gc, StateBasedGame game) throws SlickException {
+
 		this.background = new Image("res/test.png");
 		titreMenu = new Image("res/titre/titreGold.png");
 		play = new Image("res/menu/image/doree/jouerdoree.png");
@@ -39,6 +42,7 @@ public class Menu extends BasicGameState {
 		play6 = new Image("res/menu/image/bleu/creditbleu.png");
 		play7 = new Image("res/menu/image/doree/quitterdoree.png");
 		play8 = new Image("res/menu/image/bleu/quitterbleu.png");
+
 		accueil = new Image("res/menu/pause/accueil.png");
 		ms = new MouseOverArea(gc, play, (gc.getWidth()/2)-100, 300, 200, 100);
 		ms2 = new MouseOverArea(gc, play2, (gc.getWidth()/2)-100, 300, 200, 100);
@@ -49,11 +53,13 @@ public class Menu extends BasicGameState {
 		ms7 = new MouseOverArea(gc, play7, (gc.getWidth()/2)-100, 600, 200, 100);
 		ms8 = new MouseOverArea(gc, play8, (gc.getWidth()/2)-100, 600, 200, 100);
 
+
 		if (MusicEnable) {
 			
 			test1 = new Music("res/thugMenu.ogg");
 			//test1.loop();
 		}
+
 
 		
 		
@@ -114,7 +120,10 @@ public class Menu extends BasicGameState {
 			if(Mouse.isButtonDown(0)){
 				if (MusicEnable) {
 					test1.stop();
+
 				}
+				System.out.println("start");
+				Jeu.finDuJeu();
 				sbg.enterState(1);
 				//gc.reinit();
 			}
@@ -125,6 +134,7 @@ public class Menu extends BasicGameState {
 				ToucheOn = true;
 			}
 		}
+
 		
 		if((posX>541 && posX<740)&&(posY>168 && posY<267) && !ToucheOn){   // BOUTON CREDIT
 			if(Mouse.isButtonDown(0)){
@@ -146,14 +156,17 @@ public class Menu extends BasicGameState {
 			}
 		}
 		
+
 	}
+
 	public void keyReleased(int key, char c) {
-		//game.enterState(1);
+		// game.enterState(1);
 	}
-	
+
 	public int getID() {
 		return ID;
 	}
+
 	
 
     public void enter(GameContainer gc, StateBasedGame game) {
@@ -169,5 +182,6 @@ public void leave(GameContainer gc, StateBasedGame game) {
     	test1.loop();
     	System.out.println(">>>>>>> SORTIE DE MENU <<<<<<<"); 
     }
+
 
 }

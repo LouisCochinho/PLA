@@ -16,7 +16,7 @@ import pla.action.transition.*;
 public class BombeEau extends Decor {
     
     public BombeEau() {
-    	super(DecorSprite.BOMBE_EAU, 64, 64);
+    	super(DecorSprite.BOMBE_EAU, 64, 64, 1);
         ajouterAction(new Prendre());
     }
     

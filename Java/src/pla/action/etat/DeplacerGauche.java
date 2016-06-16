@@ -20,6 +20,20 @@ public class DeplacerGauche extends Action_etat {
 			p.setX(modulo_tore_x-32);
 			p.setDeplacementCourant(0);
 		}
+		
+		/* p.setDirection(1);			
+		float currdepl = 0.1f*delta;
+		float newPos = (p.getX()-currdepl);
+		System.out.println("posX = "+p.getX());
+		System.out.println("currdepl = "+currdepl);
+		System.out.println("newPos  1 = "+newPos);
+		if(newPos < 0){
+			newPos+=modulo_tore_x;
+		}
+		System.out.println("newPos 2= "+newPos);
+		p.setY(newPos);
+		p.setDeplacementCourant(p.getDeplacementCourant()+currdepl);
+		*/		
 	}
 
 	@Override

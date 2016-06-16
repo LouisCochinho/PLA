@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import pla.action.transition.PeindreAmi;
 import pla.action.transition.PeindreEnnemi;
+import pla.decor.Decor;
 
 public class Automate {
 	private Transition tabTransition[][];
-	private Etat tabEtatSuivant[][]; 
-	private Action_transition tabActionTransition[][]; 
-	//private int tabActionTransition[][];
+	private Etat tabEtatSuivant[][];
+	private Action_transition tabActionTransition[][];
+	// private int tabActionTransition[][];
 	private Condition tabCondition[][];
 	private int nbLignes = 0;
 	private int nbColonnes = 0;
@@ -30,9 +31,8 @@ public class Automate {
 	}
 
 	public Automate(int posX, int posY) {
-		this("../Ocaml/test.xml", posX, posY);
+		this("../Ocaml/xml/automate1.xml", posX, posY);
 	}
-	
 
 	public Automate(String fileName) {
 		this(fileName, 5, 6);
@@ -55,7 +55,7 @@ public class Automate {
 		etatInitial = etats.get(0);
 		conditionParDefaut = new Condition();
 		transitionParDefaut = new Transition(etatInitial, conditionParDefaut, actionParDefaut, etatInitial);
-	
+
 		initTabTransition();
 		initTabActionTransition();
 		initTabEtatSuivant();
@@ -75,13 +75,12 @@ public class Automate {
 	private int max(int tab[]) {
 		int max = tab[0];
 		for (int i = 1; i < tab.length; i++) {
-			if(tab[i] > max){
+			if (tab[i] > max) {
 				max = tab[i];
 			}
 		}
 		return max;
 	}
-	
 
 	private void initTabTransition() {
 		tabTransition = new Transition[nbLignes][nbColonnes];
@@ -99,8 +98,8 @@ public class Automate {
 
 	// remplissage du tableau des actions transitions en dur => a changer
 	private void initTabActionTransition() {
-		
-		//tabActionTransition = new int[4][4];
+
+		// tabActionTransition = new int[4][4];
 		tabActionTransition = new Action_transition[nbLignes][nbColonnes];
 		for (Action_transition[] row : tabActionTransition) {
 			Arrays.fill(row, actionParDefaut);
@@ -114,24 +113,18 @@ public class Automate {
 				}
 			}
 		}
-		
-		/*tabActionTransition[0][0] = 0;
-		tabActionTransition[0][1] = 1;
-		tabActionTransition[0][2] = 3;
-		tabActionTransition[0][3] = 1;
-		tabActionTransition[1][0] = 1;
-		tabActionTransition[1][1] = 0;
-		tabActionTransition[1][2] = 0;
-		tabActionTransition[1][3] = 0;
-		tabActionTransition[2][0] = 0;
-		tabActionTransition[2][1] = 0;
-		tabActionTransition[2][2] = 0;
-		tabActionTransition[2][3] = 1;
-		tabActionTransition[3][0] = 4;
-		tabActionTransition[3][1] = 4;
-		tabActionTransition[3][2] = 4;
-		tabActionTransition[3][3] = 0;*/
-		
+
+		/*
+		 * tabActionTransition[0][0] = 0; tabActionTransition[0][1] = 1;
+		 * tabActionTransition[0][2] = 3; tabActionTransition[0][3] = 1;
+		 * tabActionTransition[1][0] = 1; tabActionTransition[1][1] = 0;
+		 * tabActionTransition[1][2] = 0; tabActionTransition[1][3] = 0;
+		 * tabActionTransition[2][0] = 0; tabActionTransition[2][1] = 0;
+		 * tabActionTransition[2][2] = 0; tabActionTransition[2][3] = 1;
+		 * tabActionTransition[3][0] = 4; tabActionTransition[3][1] = 4;
+		 * tabActionTransition[3][2] = 4; tabActionTransition[3][3] = 0;
+		 */
+
 	}
 
 	private void initTabCondition() {
@@ -153,17 +146,17 @@ public class Automate {
 	public Action_transition[][] getTabActionTransition() {
 		return tabActionTransition;
 	}
-	/*public int[][] getTabActionTransition(){
-		return tabActionTransition;
-	}*/
+	/*
+	 * public int[][] getTabActionTransition(){ return tabActionTransition; }
+	 */
 
-        public Etat[][] getTabEtatSuivant() {
-            return tabEtatSuivant;
-        }
+	public Etat[][] getTabEtatSuivant() {
+		return tabEtatSuivant;
+	}
 
-        public Condition[][] getTabCondition() {
-            return tabCondition;
-        }
+	public Condition[][] getTabCondition() {
+		return tabCondition;
+	}
 
 	public int getPosX() {
 		return posX;
@@ -241,8 +234,8 @@ public class Automate {
 			System.out.println();
 		}
 	}
-	
-	public Etat getEtatSuivant(int i, int j){
+
+	public Etat getEtatSuivant(int i, int j) {
 		return tabEtatSuivant[i][j];
 	}
 
@@ -253,27 +246,30 @@ public class Automate {
 	public void setEtatInitial(Etat etatInitial) {
 		this.etatInitial = etatInitial;
 	}
-	
-	public int getNbEtats(){
+
+	public int getNbEtats() {
 		return this.etats.size();
 	}
-        
-        // Inverse SolAmi/SolEnnemi et PeindreAmi/PeindreEnnemi
-        public void inverser() {
-            for (int i = 0; i < nbLignes; i++) {
-                for (int j = 0; j < nbColonnes; j++) {
-                    if(tabActionTransition[i][j] instanceof PeindreAmi) {
-                        tabActionTransition[i][j] = new PeindreEnnemi();
-                    } else if(tabActionTransition[i][j] instanceof PeindreEnnemi) {
-                        tabActionTransition[i][j] = new PeindreAmi();
-                    }
-                }
-            }
-            for (int i = 0; i < nbLignes; i++) {
-                for (int j = 0; j < nbColonnes; j++) {
-                    tabCondition[i][j].inverser();
-                }
-            }
-        }
+
+	// Inverse SolAmi/SolEnnemi et PeindreAmi/PeindreEnnemi
+	public void inverser() {
+		for (int i = 0; i < nbLignes; i++) {
+			for (int j = 0; j < nbColonnes; j++) {
+				if (tabActionTransition[i][j] instanceof PeindreAmi) {
+					tabActionTransition[i][j] = new PeindreEnnemi();
+				} else if (tabActionTransition[i][j] instanceof PeindreEnnemi) {
+					tabActionTransition[i][j] = new PeindreAmi();
+				}
+			}
+		}
+		for (int i = 0; i < nbLignes; i++) {
+			for (int j = 0; j < nbColonnes; j++) {
+				tabCondition[i][j].inverser();
+			}
+		}
+	}
 	
+	public void modifierTabActionTransition(int i, int j,Decor decor){
+		tabActionTransition[i][j] = Association.getAction(decor);
+	}
 }

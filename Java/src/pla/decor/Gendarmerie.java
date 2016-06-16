@@ -11,7 +11,7 @@ import pla.action.transition.*;
 public class Gendarmerie extends Decor {
     
     public Gendarmerie() {
-    	super(DecorSprite.GENDARMERIE, 64, 64);
+    	super(DecorSprite.GENDARMERIE, 64, 64, 1);
         ajouterAction(new Demolir());
         ajouterAction(new Dupliquer());
     }

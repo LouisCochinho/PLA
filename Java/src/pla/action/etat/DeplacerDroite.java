@@ -12,10 +12,10 @@ public class DeplacerDroite extends Action_etat {
 	@Override
 	public void executer(Personnage p, int delta,int modulo_tore_x,int modulo_tore_y) {
 		p.setDirection(3);	
-		float tmp = p.getX();
-		float depl = (p.getX()+0.1f*delta)%modulo_tore_x;
-		p.setX(depl);
-		p.setDeplacementCourant(p.getDeplacementCourant()+Math.abs(depl-tmp));
+		float currdepl = 0.1f*delta;
+		float newPos = (p.getX()+currdepl)%modulo_tore_x;
+		p.setX(newPos);
+		p.setDeplacementCourant(p.getDeplacementCourant()+currdepl);
 	}
 
 	@Override

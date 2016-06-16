@@ -36,10 +36,10 @@ public class Map {
 
 	public Map(int largeur, int hauteur, List<Personnage> personnages) {
 
-	//	this.nbCasesLargeur = largeurMax(personnages) * personnages.size();
-	//	this.nbCasesHauteur = hauteurMax(personnages) * personnages.size();
-		this.nbCasesHauteur = (Math.max(largeurMax(personnages),hauteurMax(personnages))*personnages.size());
-		this.nbCasesLargeur = (Math.max(largeurMax(personnages),hauteurMax(personnages))*personnages.size());
+	int lmax = largeurMax(personnages) * (personnages.size()+1);
+	int hmax = hauteurMax(personnages) * (personnages.size()+1);
+		this.nbCasesHauteur = (Math.max(lmax,hmax));//*(personnages.size()/2+1);
+		this.nbCasesLargeur = (Math.max(lmax,hmax));//*(personnages.size()/2+1);
 		cases = new Case[this.nbCasesHauteur][this.nbCasesLargeur];
 		// Cr�ation de la matrice des cases
 		for (int i = 0; i < this.nbCasesHauteur; i++) {
@@ -322,23 +322,23 @@ public class Map {
 		} else {
 			rayonCercle = (hmax * (nbAutomate) / 4);
 		}
-		centreCercleX = nbCasesLargeur / 2;
-		centreCercleY = nbCasesHauteur / 2;
+		centreCercleX = nbCasesLargeur / 2-lmax;
+		centreCercleY = nbCasesHauteur / 2-hmax+2;
 
 		anglePersonnage = CERCLE / nbAutomate;
 		firstAngle = rand.nextInt(CERCLE + 1);
 		lPersonnage.get(0).getAutomate()
-				.setPosX((int) (rayonCercle * Math.cos(firstAngle * 2 * Math.PI / 360) + centreCercleX) * TILE_SIZE);
+				.setPosX((int) (rayonCercle * Math.cos(firstAngle * 2 * Math.PI / 360) + centreCercleY) * TILE_SIZE);
 		lPersonnage.get(0).getAutomate()
-				.setPosY((int) (rayonCercle * Math.sin(firstAngle * 2 * Math.PI / 360) + centreCercleY) * TILE_SIZE);
+				.setPosY((int) (rayonCercle * Math.sin(firstAngle * 2 * Math.PI / 360) + centreCercleX) * TILE_SIZE);
 		placerAutomate(lPersonnage.get(0).getAutomate(), lPersonnage.get(0).getCouleur(), g);
-
+		
 		for (int i = 1; i < nbAutomate; i++) {
 			firstAngle = (anglePersonnage + firstAngle) % CERCLE;
 			lPersonnage.get(i).getAutomate().setPosX(
-					(int) (rayonCercle * Math.cos(firstAngle * 2 * Math.PI / 360) + centreCercleX) * TILE_SIZE);
+					(int) (rayonCercle * Math.cos(firstAngle * 2 * Math.PI / 360) + centreCercleY) * TILE_SIZE);
 			lPersonnage.get(i).getAutomate().setPosY(
-					(int) (rayonCercle * Math.sin(firstAngle * 2 * Math.PI / 360) + centreCercleY) * TILE_SIZE);
+					(int) (rayonCercle * Math.sin(firstAngle * 2 * Math.PI / 360) + centreCercleX) * TILE_SIZE);
 			placerAutomate(lPersonnage.get(i).getAutomate(), lPersonnage.get(i).getCouleur(), g);
 		}
 	}

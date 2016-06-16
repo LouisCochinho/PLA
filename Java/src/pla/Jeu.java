@@ -356,7 +356,7 @@ public class Jeu extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
 		// TODO Auto-generated method stub
 		
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>"+TimerFin.getFinJeu()+"<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>>"+TimerFin.getFinJeu()+"<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
@@ -364,11 +364,11 @@ public class Jeu extends BasicGameState {
 		ArrayList<Personnage> personnages = new ArrayList<Personnage>(this.personnages);
 		for (Personnage p : personnages) {
 			if (p.isDeplacementTermine()) {
-				System.out.println("Tableau avant : \n");
-				p.getAutomate().afficher();
+				//System.out.println("Tableau avant : \n");
+				//p.getAutomate().afficher();
 				changerEtatAutomate(p, delta);
-				System.out.println("Tableau apr�s : \n");
-				p.getAutomate().afficher();
+				//System.out.println("Tableau apr�s : \n");
+				//p.getAutomate().afficher();
 			}
 
 			map.getCaseFromCoord((int) p.getX(), (int) p.getY()).supprimerPersonnage(p);
@@ -534,11 +534,11 @@ public class Jeu extends BasicGameState {
     	if (MusicEnable) {
     		test2.loop();
     	}
-    	System.out.println(">>>>>>> ENTRER DANS JEU <<<<<<<"); 
+    	//System.out.println(">>>>>>> ENTRER DANS JEU <<<<<<<"); 
     }
     
     public void leave(GameContainer gc, StateBasedGame game) {
-    	System.out.println(">>>>>>> SORTIE DE JEU <<<<<<<");
+    	//System.out.println(">>>>>>> SORTIE DE JEU <<<<<<<");
     }	
 	public static void finDuJeu(){
 	    t = new Timer();

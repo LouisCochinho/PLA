@@ -176,7 +176,7 @@ public class Menu extends BasicGameState {
     	if (MusicEnable) {
     		test1.loop();
     	}
-    	System.out.println(">>>>>>> ENTRER DANS MENU <<<<<<<"); 
+    	//System.out.println(">>>>>>> ENTRER DANS MENU <<<<<<<"); 
     }
     
 public void leave(GameContainer gc, StateBasedGame game) {
@@ -185,7 +185,7 @@ public void leave(GameContainer gc, StateBasedGame game) {
 		if (MusicEnable) {
 			test1.loop();
 		}
-    	System.out.println(">>>>>>> SORTIE DE MENU <<<<<<<"); 
+    	//System.out.println(">>>>>>> SORTIE DE MENU <<<<<<<"); 
     	}
 
 

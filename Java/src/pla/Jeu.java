@@ -1,10 +1,13 @@
 package pla;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.BasicGame;
@@ -168,10 +171,30 @@ public class Jeu extends BasicGameState {
 	}
         
         public void initAutomates() throws SlickException {
-            ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "automateJ1.xml")));
-            ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "automateJ1.xml")));
+            try {
+                ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "joueur1.xml")));
+            } catch (IOException ex) {
+                try {
+                    ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "defaut.xml")));
+                } catch (IOException ex1) {
+                    Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            }
+            try {
+                ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "joueur2.xml")));
+            } catch (IOException ex) {
+                try {
+                    ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "defaut.xml")));
+                } catch (IOException ex1) {
+                    Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            }
 
-            ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "automateCondComb.xml")));
+            try {
+                ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "automateBernard.xml")));
+            } catch (IOException ex) {
+                Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
 
             map = new Map((int) SIZE_WINDOW_X, (int) SIZE_WINDOW_Y, personnages);

@@ -392,6 +392,7 @@ public class Jeu extends BasicGameState {
 				changerEtatAutomate(p, delta);
 				///System.out.println("Tableau apr�s : \n");
 				//p.getAutomate().afficher();
+                                p.decrementeToursVelo();
 			}
 
 			map.getCaseFromCoord((int) p.getX(), (int) p.getY()).supprimerPersonnage(p);

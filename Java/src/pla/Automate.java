@@ -146,9 +146,6 @@ public class Automate {
 	public Action_transition[][] getTabActionTransition() {
 		return tabActionTransition;
 	}
-	/*
-	 * public int[][] getTabActionTransition(){ return tabActionTransition; }
-	 */
 
 	public Etat[][] getTabEtatSuivant() {
 		return tabEtatSuivant;
@@ -218,6 +215,7 @@ public class Automate {
 			System.out.println();
 		}
 		System.out.println();
+	
 		System.out.println("Tableau action transition :");
 		for (int i = 0; i < nbLignes; i++) {
 			for (int j = 0; j < nbColonnes; j++) {
@@ -225,6 +223,7 @@ public class Automate {
 			}
 			System.out.println();
 		}
+		
 		System.out.println();
 		System.out.println("Tableau condition :");
 		for (int i = 0; i < nbLignes; i++) {
@@ -233,6 +232,7 @@ public class Automate {
 			}
 			System.out.println();
 		}
+		
 	}
 
 	public Etat getEtatSuivant(int i, int j) {

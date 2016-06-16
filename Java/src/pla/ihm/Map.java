@@ -234,18 +234,31 @@ public class Map {
 	public void setCasesEstDansAutomate(List<Personnage> personnages) {
 		for (int i = 0; i < nbCasesHauteur; i++)
 			for (int j = 0; j < nbCasesLargeur; j++) {
-				cases[i][j].setEstDansAutomate(caseEstDansAutomate(cases[i][j], personnages));
+				cases[i][j].setEstDansAutomate(caseEstDansUnAutomate(cases[i][j], personnages));
 			}
 	}
 
-	public boolean caseEstDansAutomate(Case c, List<Personnage> personnages) {
+	public boolean caseEstDansAutomate(Case c, Automate a){
+		boolean estPresent = false;
+		float autoX=a.getPosX();
+		float autoY=a.getPosY();
+		float caseX=c.getIndexJ()*TILE_SIZE;
+		float caseY=c.getIndexI()*TILE_SIZE;
+		
+		if (caseX >= autoY && caseY >= autoX
+				&& caseX + TILE_SIZE <= autoY + a.getNbColonnes() * TILE_SIZE
+				&& caseY + TILE_SIZE <= autoX + a.getNbLignes() * TILE_SIZE) {
+			estPresent = true;
+		}
+		return estPresent;
+	}
+	
+	public boolean caseEstDansUnAutomate(Case c, List<Personnage> personnages) {
 		boolean estPresent = false;
 		float autoX=0;
 		float autoY=0;
 		float caseX=0;
 		float caseY=0;
-		float posCaseX=0;
-		float posCaseY=0;
 		for (Personnage p : personnages) {
 			autoX = p.getAutomate().getPosX();
 			autoY = p.getAutomate().getPosY();

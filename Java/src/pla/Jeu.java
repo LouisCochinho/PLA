@@ -1,5 +1,6 @@
 package pla;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -61,6 +62,8 @@ public class Jeu extends BasicGameState{
 	 */
 
 	Image timerI;
+        
+        String cheminXML = "../Ocaml/xml/";
 	
 	public Jeu(int largeur, int hauteur) {
 		SIZE_WINDOW_X = largeur;
@@ -92,47 +95,10 @@ public class Jeu extends BasicGameState{
 
 		this.gc = gc;
 		timerI = new Image("res/modif.png");
-		ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate()));
-		ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate()));
-
-		// Marche pas => Revoir sprite policier
-		ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate()));
-
-		map = new Map((int) SIZE_WINDOW_X, (int) SIZE_WINDOW_Y, personnages);
-
-		this.map.init();
-		Camera.initCamera(map, SIZE_WINDOW_X, SIZE_WINDOW_Y);
-		for (Personnage p : personnages) {
-			p.init();
-
-			// this.map.placerPersonnageRandom(personnages);
-			if (MusicEnable) {
-				musique = new Musique();
-			}
-
-			// this.map.placerAutomate(p.getAutomate(), p.getCouleur(),
-			// gc.getGraphics());
-
-			// this.map.placerAutomate(p.getAutomate(), p.getCouleur(),
-			// gc.getGraphics());
-		}
-
-		this.map.placerAutoRandom(personnages, gc.getGraphics());		
-		this.map.setCasesEstDansAutomate(personnages);
-		this.map.setNbCasesHorsAutomate();
-		// System.out.println("nb Cases hors automate :
-		// "+map.getNbCasesHorsAutomate());
-		// System.out.println("Nombre de case total :
-		// "+map.getNbCasesHauteur()*map.getNbCasesLargeur());
-		this.map.placerDecorRandom();
-		this.map.placerPersonnageRandom(personnages);
-
-                //new Construire().executer(personnages.get(0), map.getCaseFromCoord(0, 0), 0);
-                //System.out.println(map.getCaseFromCoord(0, 0).getDecor());
-	//	sound = new Music("res/thug.ogg");
-	//	sound.loop();
 		
-		//Image inventaire
+                if (MusicEnable) {
+                        musique = new Musique();
+                }
 		
 		this.inventaire_rouge = new Image("res/hud/rouge/rougevide.png");
 		this.inventaire_rouge_eau = new Image("res/hud/rouge/rougevide_eau.png");
@@ -149,20 +115,30 @@ public class Jeu extends BasicGameState{
 		
 		//Image score
 		this.score_rouge=new Image("res/hud/score/scorerouge.png");
-		this.score_bleu=new Image("res/hud/score/scorebleu.png");		
-
-		// map.getCaseFromCoord(0, 0).setDecor(new BoucheEgout());
-		// map.getCaseFromCoord(640, 640).setDecor(new BoucheEgout());
-		// new Dupliquer().executer(personnages.get(0), map.getCaseFromCoord(0,
-		// 0), this, 0);
-		// new Dupliquer().executer(personnages.get(1), map.getCaseFromCoord(0,
-		// 0), this, 0);
-
-		// sound = new Music("res/thug.ogg");
-		// sound.loop();
-
+		this.score_bleu=new Image("res/hud/score/scorebleu.png");
 
 	}
+        
+        public void initAutomates() throws SlickException {
+            ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "automate1.xml")));
+            ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "automate1.xml")));
+
+            ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "automate1.xml")));
+
+            map = new Map((int) SIZE_WINDOW_X, (int) SIZE_WINDOW_Y, personnages);
+
+            this.map.init();
+            Camera.initCamera(map, SIZE_WINDOW_X, SIZE_WINDOW_Y);
+            for (Personnage p : personnages) {
+                    p.init();
+            }
+
+            this.map.placerAutoRandom(personnages, gc.getGraphics());		
+            this.map.setCasesEstDansAutomate(personnages);
+            this.map.setNbCasesHorsAutomate();
+            this.map.placerDecorRandom();
+            this.map.placerPersonnageRandom(personnages);
+        }
 
 	// Affiche le contenu du jeu
 	@Override
@@ -388,5 +364,15 @@ public class Jeu extends BasicGameState{
             return null;
         }
 
+        public ArrayList<String> getFichiersAutomate() {
+            ArrayList<String> noms = new ArrayList<String>();
+            File repertoire = new File("../Ocaml/xml/");
+            File[] fichiers = repertoire.listFiles();
+            for(File f : fichiers) {
+                noms.add(f.getName().substring(0, f.getName().lastIndexOf(".")));
+                System.out.println(noms.get(noms.size()-1));
+            }
+            return noms;
+        }
 
 }

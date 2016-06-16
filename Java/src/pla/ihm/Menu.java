@@ -101,6 +101,8 @@ public class Menu extends BasicGameState {
 				}
 				System.out.println("start");
 				Jeu.finDuJeu();
+                                Jeu jeu = (Jeu)sbg.getState(1);
+                                jeu.initAutomates();
 				sbg.enterState(1);
 			}
 		}

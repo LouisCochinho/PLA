@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 public class TimerFin extends TimerTask{
 	private static boolean fin=false;
 
-	private static int temps_timer = 10;
+	private static int temps_timer = 300;
 	private static int currentTime = temps_timer;
 	private static boolean pause = false;
 

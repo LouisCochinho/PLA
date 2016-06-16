@@ -169,7 +169,7 @@ public class Jeu extends BasicGameState {
             ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "automate1.xml")));
             ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "automate1.xml")));
 
-            ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "automate1.xml")));
+            ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "automateBernard.xml")));
 
 
             map = new Map((int) SIZE_WINDOW_X, (int) SIZE_WINDOW_Y, personnages);
@@ -358,7 +358,7 @@ public class Jeu extends BasicGameState {
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
 		
-		
+		ArrayList<Personnage> personnages = new ArrayList<Personnage>(this.personnages);
 		for (Personnage p : personnages) {
 			if (p.isDeplacementTermine()) {
 				System.out.println("Tableau avant : \n");

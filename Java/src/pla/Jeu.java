@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -14,17 +15,19 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
-
+import org.newdawn.slick.gui.MouseOverArea;
 
 import pla.action.transition.*;
 import pla.decor.*;
-
+import pla.TimerFin;
 
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import pla.ihm.Camera;
+
 import pla.ihm.Case;
+
 import pla.ihm.Map;
 import pla.util.Musique;
 
@@ -36,23 +39,39 @@ public class Jeu extends BasicGameState{
 
 	private GameContainer gc; // conteneur
 
+
+	Image ImageNoire;
+	
+	Music test2;
+	
+	private boolean MusicEnable = false; 
+	Image play, play2, play3;
+	
+
+	private int SIZE_WINDOW_X ;
+	private int SIZE_WINDOW_Y ;
+
 	Musique musique;
 
 	private Image inventaire_rouge,inventaire_rouge_eau,inventaire_rouge_bombe,inventaire_rouge_bike,inventaire_rouge_eau_bike,inventaire_rouge_bombe_bike;
 	private Image inventaire_bleu,inventaire_bleu_eau,inventaire_bleu_bombe,inventaire_bleu_bike,inventaire_bleu_eau_bike,inventaire_bleu_bombe_bike;
 	private Image score_rouge, score_bleu;
+	private Image rougegagnant, bleugagnant;
+	private Image bouton_fin;
 	
 	int rouge_score, bleu_score;
 	String rouge_score1, bleu_score1;
+	
+	MouseOverArea ms;
+	
 	//private static final int P_BAR_X = 15;
 	//private static final int P_BAR_Y = 25;
 
-	private boolean MusicEnable = false;
 
 
-	private int SIZE_WINDOW_X;
-	private int SIZE_WINDOW_Y;
+
 	static Timer t;
+
 	// private static final int PAUSE = 25; // temps de latence
 
 	// private float zoom = 0.1f;
@@ -94,7 +113,23 @@ public class Jeu extends BasicGameState{
 	public void init(GameContainer gc, StateBasedGame game) throws SlickException {
 
 		this.gc = gc;
+
+		
+		ImageNoire = new Image("res/ImageNoire.png");
+		
+
 		timerI = new Image("res/modif.png");
+		
+		if (MusicEnable) {
+			test2 = new Music("res/thug.ogg");
+			//test2.loop();
+
+		}
+
+                
+		play = new Image("res/menu/pause/reprendre.png");
+		play2 = new Image("res/menu/pause/accueil.png");
+		play3 = new Image("res/menu/pause/quitter.png");
 		
                 if (MusicEnable) {
                         musique = new Musique();
@@ -116,6 +151,14 @@ public class Jeu extends BasicGameState{
 		//Image score
 		this.score_rouge=new Image("res/hud/score/scorerouge.png");
 		this.score_bleu=new Image("res/hud/score/scorebleu.png");
+		
+		//Image fin jeu
+		this.rougegagnant  = new Image("res/rougegagnant.png");
+		this.bleugagnant  = new Image("res/bleugagnant.png");
+		this.bouton_fin  = new Image("res/bouton_fin.png");
+
+		//bouton fin cliquable
+		 ms = new MouseOverArea(gc, bouton_fin, (gc.getWidth()/2)-80, (gc.getHeight()/2)+150, 245, 110);
 
 	}
         
@@ -124,6 +167,7 @@ public class Jeu extends BasicGameState{
             ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "automate1.xml")));
 
             ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "automate1.xml")));
+
 
             map = new Map((int) SIZE_WINDOW_X, (int) SIZE_WINDOW_Y, personnages);
 
@@ -143,18 +187,44 @@ public class Jeu extends BasicGameState{
 	// Affiche le contenu du jeu
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
+		
+		
+		if (!gc.isPaused()) {
+			Camera.moveCamera(g);
 
-		Camera.moveCamera(g);
+			this.map.afficher();
+			for (Personnage p : personnages) {
+				p.afficher(g);
+			}
+			g.drawString(Mouse.getX() + " " +  Mouse.getY(), 10,30);
+			
+		} else {
 
-		this.map.afficher();
-		for (Personnage p : personnages) {
-			p.afficher(g);
+
+			Camera.moveCamera(g);
+
+			this.map.afficher();
+			for (Personnage p : personnages) {
+				p.afficher(g);
+			}
+			g.resetTransform();
+			ImageNoire.setAlpha(0.7f);
+			ImageNoire.draw(0,0,gc.getWidth(),gc.getHeight());   // Taille de la fenetre modifiée par Antoine
+			play.draw(gc.getWidth()/2-175,12*gc.getHeight()/20-37);
+			play2.draw(gc.getWidth()/2-175,15*gc.getHeight()/20-37);
+			play3.draw(gc.getWidth()/2-175,18*gc.getHeight()/20-37);
+			g.setColor(Color.white);
+			g.drawString("PAUSE",gc.getWidth()/2-20,4*gc.getHeight()/10);
+			g.drawString(Mouse.getX() + " " +  Mouse.getY(), 10,30);
+		
+		
+
 		}
 
 		TimerFin.afficherTimer( g, timerI);
 		
 
-
+		//inventaire
 		
 		if (gc.getInput().isKeyDown(Input.KEY_I)) {
 			//rouge
@@ -212,17 +282,42 @@ public class Jeu extends BasicGameState{
 		//afficher score
 		if (gc.getInput().isKeyDown(Input.KEY_TAB)) {
 			g.resetTransform();
-			bleu_score=getPersonnageParType(TypePersonnage.BLEU).compterScore(map);
-			rouge_score=getPersonnageParType(TypePersonnage.ROUGE).compterScore(map);
-			bleu_score1=Integer.toString(bleu_score);
-			rouge_score1=Integer.toString(rouge_score);
 			g.drawImage(this.score_rouge, (gc.getWidth()/2)-80, (gc.getHeight()/2));
 			g.drawImage(this.score_bleu, (gc.getWidth()/2)+80, (gc.getHeight()/2));
 			g.setColor(Color.yellow);
 			g.drawString(this.bleu_score1, (gc.getWidth()/2)+140, (gc.getHeight()/2)+75);
 			g.drawString(this.rouge_score1, (gc.getWidth()/2)-24, (gc.getHeight()/2)+75);
-		
-		
+		}
+		//fin jeu
+		TimerFin.getFinJeu();
+		if(TimerFin.getFinJeu()){
+			gc.pause();
+			if(rouge_score<bleu_score){
+				g.resetTransform();  
+				g.drawImage(this.rougegagnant, (gc.getWidth()/2)-220, (gc.getHeight()/2)-350);
+				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-80, (gc.getHeight()/2)+150);
+				g.drawImage(this.score_rouge, (gc.getWidth()/2)-250, (gc.getHeight()/2));
+				g.drawImage(this.score_bleu, (gc.getWidth()/2)+200, (gc.getHeight()/2));
+				g.setColor(Color.yellow);
+				g.drawString(this.bleu_score1, (gc.getWidth()/2)+260, (gc.getHeight()/2)+75);
+				g.drawString(this.rouge_score1, (gc.getWidth()/2)-194, (gc.getHeight()/2)+75);
+				//if (ms.isMouseOver()) {
+				//	ms.render(gc, g);
+				//}
+			}
+			else{
+				g.resetTransform();  
+				g.drawImage(this.bleugagnant, (gc.getWidth()/2)-220, (gc.getHeight()/2)-350);
+				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-80, (gc.getHeight()/2)+150);
+				g.drawImage(this.score_rouge, (gc.getWidth()/2)-250, (gc.getHeight()/2));
+				g.drawImage(this.score_bleu, (gc.getWidth()/2)+200, (gc.getHeight()/2));
+				g.drawString(this.bleu_score1, (gc.getWidth()/2)+260, (gc.getHeight()/2)+75);
+				g.drawString(this.rouge_score1, (gc.getWidth()/2)-194, (gc.getHeight()/2)+75);
+
+				//if (ms.isMouseOver()) {
+				//	ms.render(gc, g);
+				//}
+			}
 		}
 
 	}
@@ -233,6 +328,10 @@ public class Jeu extends BasicGameState{
 	@Override
 	public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
 		// TODO Auto-generated method stub
+		int posX = Mouse.getX();
+		int posY = Mouse.getY();
+		
+		
 		for (Personnage p : personnages) {
 			if (p.isDeplacementTermine()) {
 				changerEtatAutomate(p, delta);				
@@ -246,14 +345,15 @@ public class Jeu extends BasicGameState{
 		personnages.get(0).getAutomate().afficher();
 		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn() && MusicEnable) {
 
-			musique.resumeJeu();
+			test2.resume();
+
 		}
-		if (gc.getInput().isKeyPressed(Input.KEY_S) && MusicEnable) {
-			musique.stopJeu();
-		}
+
 		if (gc.getInput().isKeyPressed(Input.KEY_P) && MusicEnable) {
-			musique.pauseJeu();
-		}
+
+			test2.pause();
+		}	
+
 		if (gc.getInput().isKeyDown(Input.KEY_UP)) {
 			Camera.cameraUP();
 		}
@@ -266,13 +366,47 @@ public class Jeu extends BasicGameState{
 		if (gc.getInput().isKeyDown(Input.KEY_LEFT)) {
 			Camera.cameraLEFT();
 		}
-		if (gc.getInput().isKeyPressed(Input.KEY_F1)) {
+
+		
+		if(gc.getInput().isKeyPressed(Input.KEY_F1)){
+
 			gc.setPaused(!gc.isPaused());
+
+		}
+		
+
+		if(gc.isPaused()) {
+			
+			if((posX>gc.getWidth()/2-175 && posX<gc.getWidth()/2+175)&&(posY>8*gc.getHeight()/20-37 && posY<8*gc.getHeight()/20+37)){ // Reprendre
+				if(Mouse.isButtonDown(0)){
+					gc.setPaused(!gc.isPaused());
+				}
+			}
+			
+			if((posX>gc.getWidth()/2-175 && posX<gc.getWidth()/2+175)&&(posY>5*gc.getHeight()/20-37 && posY<5*gc.getHeight()/20+37)){ // Accueil
+				if(Mouse.isButtonDown(0)){
+					gc.setPaused(!gc.isPaused());
+					game.enterState(0);
+					gc.reinit();
+				}
+			}
+			
+			if((posX>gc.getWidth()/2-175 && posX<gc.getWidth()/2+175)&&(posY>2*gc.getHeight()/20-37 && posY<2*gc.getHeight()/20+37)){ // Quitter
+				if(Mouse.isButtonDown(0)){
+					gc.exit();
+				}
+			}
+		}
+
+		bleu_score=getPersonnageParType(TypePersonnage.BLEU).compterScore(map);
+		rouge_score=getPersonnageParType(TypePersonnage.ROUGE).compterScore(map);
+		bleu_score1=Integer.toString(bleu_score);
+		rouge_score1=Integer.toString(rouge_score);
+	
 		}	
-/*		for(Personnage p : personnages){
-			p.updateAutomate(map);
-		}*/ 
-	}
+
+
+	
 	
 	public void mouseWheelMoved(int change) {
 		if (change < 0) {
@@ -306,9 +440,10 @@ public class Jeu extends BasicGameState{
 		}
 
 		// Affichage test
-		// System.out.println(p.toString());
-		// System.out.println(this.map.getCaseFromCoord((int)p.getX(),
-		// (int)p.getY()).getDecor().toString());
+
+	
+
+		
 
 		if (!indexPossibles.isEmpty()) {
 			// Prendre un index au hasard dans la liste
@@ -317,7 +452,8 @@ public class Jeu extends BasicGameState{
                         p.getAutomate().getTabActionTransition()[indexChoisi][etatCourantId].executer(p, map.getCaseFromCoord((int)p.getX(), (int)p.getY()), this, 0);
 			// System.out.println("index choisi : "+indexChoisi);
 			// System.out.println("etat suivant :
-			// "+p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId].getId());
+			
+
 			p.setEtatCourant(p.getAutomate().getTabEtatSuivant()[indexChoisi][etatCourantId]);
 
 		} else {
@@ -325,12 +461,14 @@ public class Jeu extends BasicGameState{
 		}
 		// initier le mouvement
 
+
 		// System.out.println("action etat courant :
-		// "+p.getAutomate().getEtatCourant().getActionEtat().toString());
+		
 
 		//System.out.println("action etat courant : " + p.getEtatCourant().getActionEtat().toString());
 
 		p.setDeplacementCourant(0);
+
 
 	}
 
@@ -347,9 +485,27 @@ public class Jeu extends BasicGameState{
 		return ID;
 	}
 
-	public List<Personnage> getPersonnages() {
-		return personnages;
-	}
+
+    public List<Personnage> getPersonnages() {
+        return personnages;
+    }
+
+    public void enter(GameContainer gc, StateBasedGame game) {
+    	
+    	if (MusicEnable) {
+    		test2.loop();
+    	}
+    	System.out.println(">>>>>>> ENTRER DANS JEU <<<<<<<"); 
+    }
+    
+    public void leave(GameContainer gc, StateBasedGame game) {
+    	System.out.println(">>>>>>> SORTIE DE JEU <<<<<<<");
+    }
+
+   
+    
+
+
 	
 	public static void finDuJeu(){
 	    t = new Timer();
@@ -375,4 +531,5 @@ public class Jeu extends BasicGameState{
             return noms;
         }
 
+        	
 }

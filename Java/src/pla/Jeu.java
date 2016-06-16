@@ -13,11 +13,11 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
-
+import org.newdawn.slick.gui.MouseOverArea;
 
 import pla.action.transition.*;
 import pla.decor.*;
-
+import pla.TimerFin;
 
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -40,9 +40,14 @@ public class Jeu extends BasicGameState{
 	private Image inventaire_rouge,inventaire_rouge_eau,inventaire_rouge_bombe,inventaire_rouge_bike,inventaire_rouge_eau_bike,inventaire_rouge_bombe_bike;
 	private Image inventaire_bleu,inventaire_bleu_eau,inventaire_bleu_bombe,inventaire_bleu_bike,inventaire_bleu_eau_bike,inventaire_bleu_bombe_bike;
 	private Image score_rouge, score_bleu;
+	private Image rougegagnant, bleugagnant;
+	private Image bouton_fin;
 	
 	int rouge_score, bleu_score;
 	String rouge_score1, bleu_score1;
+	
+	MouseOverArea ms;
+	
 	//private static final int P_BAR_X = 15;
 	//private static final int P_BAR_Y = 25;
 
@@ -150,6 +155,15 @@ public class Jeu extends BasicGameState{
 		//Image score
 		this.score_rouge=new Image("res/hud/score/scorerouge.png");
 		this.score_bleu=new Image("res/hud/score/scorebleu.png");		
+		
+		//Image fin jeu
+		this.rougegagnant  = new Image("res/rougegagnant.png");
+		this.bleugagnant  = new Image("res/bleugagnant.png");
+		this.bouton_fin  = new Image("res/bouton_fin.png");
+
+		//bouton fin cliquable
+		 ms = new MouseOverArea(gc, bouton_fin, (gc.getWidth()/2)-80, (gc.getHeight()/2)+150, 245, 110);
+
 
 		// map.getCaseFromCoord(0, 0).setDecor(new BoucheEgout());
 		// map.getCaseFromCoord(640, 640).setDecor(new BoucheEgout());
@@ -169,7 +183,10 @@ public class Jeu extends BasicGameState{
 	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
 
 		Camera.moveCamera(g);
-
+		bleu_score=getPersonnageParType(TypePersonnage.BLEU).compterScore(map);
+		rouge_score=getPersonnageParType(TypePersonnage.ROUGE).compterScore(map);
+		bleu_score1=Integer.toString(bleu_score);
+		rouge_score1=Integer.toString(rouge_score);
 		this.map.afficher();
 		for (Personnage p : personnages) {
 			p.afficher(g);
@@ -178,7 +195,7 @@ public class Jeu extends BasicGameState{
 		TimerFin.afficherTimer( g, timerI);
 		
 
-
+		//inventaire
 		
 		if (gc.getInput().isKeyDown(Input.KEY_I)) {
 			//rouge
@@ -236,17 +253,32 @@ public class Jeu extends BasicGameState{
 		//afficher score
 		if (gc.getInput().isKeyDown(Input.KEY_TAB)) {
 			g.resetTransform();
-			bleu_score=getPersonnageParType(TypePersonnage.BLEU).compterScore(map);
-			rouge_score=getPersonnageParType(TypePersonnage.ROUGE).compterScore(map);
-			bleu_score1=Integer.toString(bleu_score);
-			rouge_score1=Integer.toString(rouge_score);
 			g.drawImage(this.score_rouge, (gc.getWidth()/2)-80, (gc.getHeight()/2));
 			g.drawImage(this.score_bleu, (gc.getWidth()/2)+80, (gc.getHeight()/2));
 			g.setColor(Color.yellow);
 			g.drawString(this.bleu_score1, (gc.getWidth()/2)+140, (gc.getHeight()/2)+75);
 			g.drawString(this.rouge_score1, (gc.getWidth()/2)-24, (gc.getHeight()/2)+75);
-		
-		
+		}
+		//fin jeu
+		TimerFin.getFinJeu();
+		if(TimerFin.getFinJeu()){
+			gc.pause();
+			if(rouge_score>bleu_score){
+				g.resetTransform();  
+				g.drawImage(this.rougegagnant, (gc.getWidth()/2)-220, (gc.getHeight()/2)-350);
+				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-80, (gc.getHeight()/2)+150);
+				//if (ms.isMouseOver()) {
+				//	ms.render(gc, g);
+				//}
+			}
+			else{
+				g.resetTransform();  
+				g.drawImage(this.bleugagnant, (gc.getWidth()/2)-220, (gc.getHeight()/2)-350);
+				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-80, (gc.getHeight()/2)+150);
+				//if (ms.isMouseOver()) {
+				//	ms.render(gc, g);
+				//}
+			}
 		}
 
 	}
@@ -293,7 +325,8 @@ public class Jeu extends BasicGameState{
 		if (gc.getInput().isKeyPressed(Input.KEY_F1)) {
 			gc.setPaused(!gc.isPaused());
 		}
-
+		
+		
 	}
 
 	public void mouseWheelMoved(int change) {

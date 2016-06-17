@@ -21,6 +21,7 @@ import org.newdawn.slick.SlickException;
 
 import pla.action.transition.*;
 import pla.decor.*;
+
 import org.newdawn.slick.gui.MouseOverArea;
 
 import pla.TimerFin;
@@ -29,9 +30,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import pla.ihm.Camera;
-
 import pla.ihm.Case;
-
 import pla.ihm.Map;
 import pla.util.Musique;
 
@@ -46,7 +45,7 @@ public class Jeu extends BasicGameState {
 	
 	Music test2;
 	
-	private boolean MusicEnable = true; 
+	private boolean MusicEnable = false; 
 	Image play, play2, play3;
 	
 
@@ -260,7 +259,7 @@ public class Jeu extends BasicGameState {
 			if(rouge_score>bleu_score){
 				g.resetTransform();  
 				g.drawImage(this.rougegagnant, (gc.getWidth()/2)-162.5f, (gc.getHeight()/2)-350);
-				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-122.5f, (6*gc.getHeight()/10)+100);
+				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-122.5f, (7.5f*gc.getHeight()/10));
 				g.drawImage(this.score_rouge, (gc.getWidth()/2)-162.5f-125, (gc.getHeight()/2));
 				g.drawImage(this.score_bleu, (gc.getWidth()/2)+162.5f, (gc.getHeight()/2));
 				g.setColor(Color.yellow);
@@ -271,7 +270,7 @@ public class Jeu extends BasicGameState {
 			else if(rouge_score<bleu_score){
 				g.resetTransform();  
 				g.drawImage(this.bleugagnant, (gc.getWidth()/2)-162.5f, (gc.getHeight()/2)-350);
-				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-122.5f, (6*gc.getHeight()/10)+100);
+				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-122.5f, (7.5f*gc.getHeight()/10));
 				g.drawImage(this.score_rouge, (gc.getWidth()/2)-162.5f-125, (gc.getHeight()/2));
 				g.drawImage(this.score_bleu, (gc.getWidth()/2)+162.5f, (gc.getHeight()/2));
 				g.setColor(Color.yellow);
@@ -281,7 +280,7 @@ public class Jeu extends BasicGameState {
 			} else if(rouge_score==bleu_score){
 				g.resetTransform();  
 				g.drawImage(this.egaliter, (gc.getWidth()/2)-162.5f, (gc.getHeight()/2)-350);
-				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-122.5f, (6*gc.getHeight()/10)+100);
+				g.drawImage(this.bouton_fin, (gc.getWidth()/2)-122.5f, (7.5f*gc.getHeight()/10));
 				g.drawImage(this.score_rouge, (gc.getWidth()/2)-162.5f-125, (gc.getHeight()/2));
 				g.drawImage(this.score_bleu, (gc.getWidth()/2)+162.5f, (gc.getHeight()/2));
 				g.setColor(Color.yellow);
@@ -367,6 +366,7 @@ public class Jeu extends BasicGameState {
 			g.setColor(Color.yellow);
 			g.drawString(this.bleu_score1, (gc.getWidth()/2)+140, (gc.getHeight()/2)+75);
 			g.drawString(this.rouge_score1, (gc.getWidth()/2)-24, (gc.getHeight()/2)+75);
+
 		}
 
 
@@ -437,8 +437,9 @@ public class Jeu extends BasicGameState {
 		}
 
 		
-		if(gc.getInput().isKeyPressed(Input.KEY_F1)){
-			TimerFin.pause();
+		if(gc.getInput().isKeyPressed(Input.KEY_ESCAPE)){
+		
+			if (!TimerFin.getPause()) { TimerFin.pause(); } else { TimerFin.resume(); } 
 			gc.setPaused(!gc.isPaused());
 
 
@@ -449,6 +450,7 @@ public class Jeu extends BasicGameState {
 			
 			if((posX>gc.getWidth()/2-175 && posX<gc.getWidth()/2+175)&&(posY>8*gc.getHeight()/20-37 && posY<8*gc.getHeight()/20+37)){ // Reprendre
 				if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+					if (!TimerFin.getPause()) { TimerFin.pause(); } else { TimerFin.resume(); } 
 					gc.setPaused(!gc.isPaused());
 				}
 			}
@@ -457,7 +459,10 @@ public class Jeu extends BasicGameState {
 				if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 					gc.setPaused(!gc.isPaused());
 					game.enterState(0);
-					//gc.reinit();
+					t.cancel(); 
+					TimerFin.resume();
+					TimerFin.resetTimer();
+					gc.reinit();
 				}
 			}
 			
@@ -470,13 +475,14 @@ public class Jeu extends BasicGameState {
 		
 		if(TimerFin.getFinJeu()) {
 			
-			if((posX>gc.getWidth()/2-122.5f && posX<gc.getWidth()/2+122.5f) && (posY>4*gc.getHeight()/10-100 && posY<4*gc.getHeight()/10+100)){ // Quitter
+			if((posX>gc.getWidth()/2-122.5f && posX<gc.getWidth()/2+122.5f) && (posY>2.5*gc.getHeight()/10-100	 && posY<2.5*gc.getHeight()/10)){ // Accueil depuis menu fin
 				if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 					gc.setPaused(!gc.isPaused());
 					game.enterState(0);
 					gc.reinit();
 				}
 			
+			}
 		}
 		
 		bleu_score=getPersonnageParType(TypePersonnage.BLEU).compterScore(map);
@@ -484,6 +490,7 @@ public class Jeu extends BasicGameState {
 		bleu_score1=Integer.toString(bleu_score);
 		rouge_score1=Integer.toString(rouge_score);
 		
+
 		
 		if (TimerFin.getFinJeu() && fouad) {
 			gc.setPaused(!gc.isPaused());
@@ -491,7 +498,7 @@ public class Jeu extends BasicGameState {
 		}
 		}
 
-		}	
+	
 	
 	public void mouseWheelMoved(int change) {
 		if (change < 0) {
@@ -505,9 +512,7 @@ public class Jeu extends BasicGameState {
 	@Override
 	public void keyReleased(int key, char c) {
 
-		if (Input.KEY_ESCAPE == key) {
-			gc.exit();
-		}
+
 	}
 
 	public void changerEtatAutomate(Personnage p, int delta) {
@@ -577,6 +582,8 @@ public class Jeu extends BasicGameState {
     }
 
     public void enter(GameContainer gc, StateBasedGame game) {
+    	
+
     	gc.getInput().clearMousePressedRecord();
     	if (MusicEnable) {
     		test2.loop();
@@ -587,11 +594,11 @@ public class Jeu extends BasicGameState {
     public void leave(GameContainer gc, StateBasedGame game) {
     	//System.out.println(">>>>>>> SORTIE DE JEU <<<<<<<");
     }	
-	public static void finDuJeu(){
-	    t = new Timer();
-	    t.schedule(new TimerFin(), 0, 1*1000);
-
-	}
+		public static void finDuJeu(){
+		    t = new Timer();
+		    t.schedule(new TimerFin(), 0, 1*1000);
+	
+		}
 
 
         public ArrayList<String> getFichiersAutomate() {

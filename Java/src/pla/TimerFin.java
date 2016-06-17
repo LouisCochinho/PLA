@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 public class TimerFin extends TimerTask{
 	private static boolean fin=false;
 
-	private static int temps_timer = 300;
+	private static int temps_timer = 3;
 	private static int currentTime = temps_timer;
 	private static boolean pause = false;
 
@@ -40,6 +40,11 @@ public class TimerFin extends TimerTask{
 	public static boolean getFinJeu(){
 		return fin;
 	}
+	
+	public static void resetTimer() {  
+		currentTime = temps_timer;
+	}
+	
 	public static void afficherTimer(Graphics g, Image timerI) throws SlickException{
 		int min, seconde, centrerX=1205, centrerY=62;
 		min = currentTime/60;
@@ -65,11 +70,15 @@ public class TimerFin extends TimerTask{
 	}
 
 	public static void pause(){
-		pause = !pause;
+		pause = true;
 	}
 
 	public static void resume(){
 		pause = false;
+	}
+	
+	public static boolean getPause() {
+		return pause;
 	}
 
 

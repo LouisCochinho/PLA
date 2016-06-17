@@ -23,7 +23,7 @@ public class Menu extends BasicGameState {
 	 private boolean CreditOn = false;
 	 private boolean ToucheOn = false;
 	 
-	 private boolean MusicEnable = true;
+	 private boolean MusicEnable = false;
 
 
 	public Menu() {

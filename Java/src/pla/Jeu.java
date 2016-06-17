@@ -468,40 +468,45 @@ public class Jeu extends BasicGameState {
 		
 		//Si le jeu est en pause et le timer du jeu n'est pas encore fini ...
 		if (gc.isPaused() && !TimerFin.getFinJeu()) {
-			// On delimite une zone pour la souris (zone qui sera cliquable)
-			if ((posX > gc.getWidth() / 2 - 175 && posX < gc.getWidth() / 2 + 175) && (posY > 8 * gc.getHeight() / 20 - 37 && posY < 8 * gc.getHeight() / 20 + 37))  { // Reprendre
-				// Si on clique sur le boutton gauche de la souris
+			// On delimite une zone pour la souris (zone qui sera cliquable: Bouton  "Reprendre" du menu Pause)
+			if ((posX > gc.getWidth() / 2 - 175 && posX < gc.getWidth() / 2 + 175) && (posY > 8 * gc.getHeight() / 20 - 37 && posY < 8 * gc.getHeight() / 20 + 37))  { 
+				// Si on clique sur le bouton gauche de la souris
 				if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-					//Si le timer n'est pas en pause 
+					//Si le timer n'est pas en pause, on met pause ou sinon on le relance
 					if (!TimerFin.getPause()) {
 						TimerFin.pause();
 					} else {
 						TimerFin.resume();
 					}
+					// On met pause au jeu
 					gc.setPaused(!gc.isPaused());
 				}
 			}
 
-			if ((posX > gc.getWidth() / 2 - 175 && posX < gc.getWidth() / 2 + 175)
-					&& (posY > 5 * gc.getHeight() / 20 - 37 && posY < 5 * gc.getHeight() / 20 + 37)) { // Accueil
+			
+			// On delimite une zone pour la souris (zone qui sera cliquable: Bouton "Accueil" du menu Pause)
+			if ((posX > gc.getWidth() / 2 - 175 && posX < gc.getWidth() / 2 + 175) && (posY > 5 * gc.getHeight() / 20 - 37 && posY < 5 * gc.getHeight() / 20 + 37)) { 
+				// Si on clique sur le bouton gauche de la souris
 				if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-					gc.setPaused(!gc.isPaused());
-					game.enterState(0);
-					t.cancel();
-					TimerFin.resume();
-					TimerFin.resetTimer();
-					gc.reinit();
+					gc.setPaused(!gc.isPaused());  // On met le jeu en Pause
+					game.enterState(0);			   // On rentre dans l'etat 0 (Menu)
+					t.cancel();					   // On arrete le timer
+					TimerFin.resume();			   // On change l'etat du timer pour qu'il reparte à la prochaine partie
+					TimerFin.resetTimer();		   // On le reinitialise 
+					gc.reinit();				   // On re init le jeu (état 1)
 				}
 			}
 
+			// On delimite une zone pour la souris (zone qui sera cliquable: Bouton "Quitter" du menu Pause)
 			if ((posX > gc.getWidth() / 2 - 175 && posX < gc.getWidth() / 2 + 175)
 					&& (posY > 2 * gc.getHeight() / 20 - 37 && posY < 2 * gc.getHeight() / 20 + 37)) { 
 				if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-					gc.exit();
+					gc.exit();  // On ferme le jeu entier 
 				}
 			}
 		}
 
+		// Si le timer est fini, la zone cliquable pour revenir au menu apparait
 		if (TimerFin.getFinJeu()) {
 			if ((posX > gc.getWidth() / 2 - 122.5f && posX < gc.getWidth() / 2 + 122.5f)
 					&& (posY > 2.5 * gc.getHeight() / 10 - 100 && posY < 2.5 * gc.getHeight() / 10)) { 
@@ -514,6 +519,7 @@ public class Jeu extends BasicGameState {
 			}
 		}
 
+		// Definition des scores des 2 joueurs (à chaque passage dans update)
 		bleu_score = getPersonnageParType(TypePersonnage.BLEU).compterScore(map);
 		rouge_score = getPersonnageParType(TypePersonnage.ROUGE).compterScore(map);
 		bleu_score1 = Integer.toString(bleu_score);
@@ -525,6 +531,7 @@ public class Jeu extends BasicGameState {
 		}
 	}
 
+	// zoom et dezoom avec la molette de la souris
 	public void mouseWheelMoved(int change) {
 		if (change < 0) {
 			Camera.cameraDezoom(map);
@@ -533,7 +540,7 @@ public class Jeu extends BasicGameState {
 		}
 	}
 
-	// Arreter correctement le jeu en appuyant sur ECHAP
+	
 	@Override
 	public void keyReleased(int key, char c) {
 

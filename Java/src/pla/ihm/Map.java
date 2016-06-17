@@ -70,17 +70,17 @@ public class Map {
 	}
 
 	public void afficher() {
-		// On indique à la SpriteSheet qu'on s'apprete à l'utiliser
+		// On indique ï¿½ la SpriteSheet qu'on s'apprete ï¿½ l'utiliser
 		ssmap.startUse();
 		// Pour chaque case de la map
 		for (int i = 0; i < nbCasesHauteur; i++) {
 			for (int j = 0; j < nbCasesLargeur; j++) {
-				// d = le décor appartenant à la case aux coordonnées i,j
+				// d = le dï¿½cor appartenant ï¿½ la case aux coordonnï¿½es i,j
 				Decor d = cases[i][j].getDecor();
-				// Afficher d'abord un sol normal(béton gris) de taille TILE_SIZE = 64
+				// Afficher d'abord un sol normal(bï¿½ton gris) de taille TILE_SIZE = 64
 				ssmap.renderInUse(j * TILE_SIZE, i * TILE_SIZE, DecorSprite.SOL_NORMAL.getX(),
 						DecorSprite.SOL_NORMAL.getY());
-				// Afficher par dessus le décor d
+				// Afficher par dessus le dï¿½cor d
 				ssmap.renderInUse(j * TILE_SIZE, i * TILE_SIZE, d.getX(), d.getY());
 			}
 		}
@@ -369,7 +369,7 @@ public class Map {
 		return lmax;
 	}
 
-	// Place un personnage pseudo-aléatoirement sur la map
+	// Place un personnage pseudo-alï¿½atoirement sur la map
 	public void placerPersonnageRandom(List<Personnage> lPersonnage) {
 		Random rand = new Random();
 
@@ -379,12 +379,12 @@ public class Map {
 
 		for (int i = 0; i < lPersonnage.size(); i++) {
 			do {
-				// Calcul des coordonnées futures du personnages tant que cela ne tombe pas sur un automate
+				// Calcul des coordonnï¿½es futures du personnages tant que cela ne tombe pas sur un automate
 				posX = rand.nextInt(w) * TILE_SIZE + TILE_SIZE / 2; 
 				posY = rand.nextInt(h) * TILE_SIZE + TILE_SIZE / 2;			
 			} while (automatePresent(lPersonnage, posX, posY, lPersonnage.size()));
 			
-			// Modification des coordonées du personnages
+			// Modification des coordonï¿½es du personnages
 			lPersonnage.get(i).setX(posX % (w * TILE_SIZE));
 			lPersonnage.get(i).setY(posY % (h * TILE_SIZE));
 			
@@ -427,7 +427,20 @@ public class Map {
 
 	
 	public Case getCase(int i, int j){
-		return cases[i%nbCasesHauteur][j%nbCasesLargeur];
+            if(i>=0) {
+                if(j>=0) {
+                    return cases[i%nbCasesHauteur][j%nbCasesLargeur];
+                } else {
+                    return cases[i%nbCasesHauteur][j%nbCasesLargeur+nbCasesLargeur];
+                }
+            } else {
+                if(j>=0) {
+                    return cases[i%nbCasesHauteur+nbCasesHauteur][j%nbCasesLargeur];
+                } else {
+                    return cases[i%nbCasesHauteur+nbCasesHauteur][j%nbCasesLargeur+nbCasesLargeur];
+                }
+            }
+                
 	}
 	
 	

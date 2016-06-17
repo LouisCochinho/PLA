@@ -1,10 +1,12 @@
 package pla;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +30,7 @@ import pla.ihm.Map;
 import pla.util.Musique;
 
 public class Jeu extends BasicGameState {
+        private int scenario = 0;
 	private Map map; // carte du jeu
 	private List<Personnage> personnages = new ArrayList<Personnage>(); 
 	public static final int ID = 1; // personnages
@@ -111,6 +114,14 @@ public class Jeu extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame game) throws SlickException {
             
                 make();
+                
+                try {
+                    Scanner scanner = new Scanner(new File("scenario.txt"));
+                    if(scanner.hasNextInt())
+                        scenario = scanner.nextInt();
+                } catch (FileNotFoundException ex) {
+
+                }
 
 		this.gc = gc;
 
@@ -158,7 +169,10 @@ public class Jeu extends BasicGameState {
 
 	public void initAutomates() throws SlickException {
 		try {
-			ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "joueur1.xml")));
+                    if(scenario == 1)
+			ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "scenario1.xml")));
+                    else
+                        ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "joueur1.xml")));
 		} catch (IOException ex) {
 			try {
 				ajouterPersonnage(
@@ -168,7 +182,10 @@ public class Jeu extends BasicGameState {
 			}
 		}
 		try {
-			ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "joueur2.xml")));
+                    if(scenario == 1)
+			ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "scenario1.xml")));
+                    else
+                        ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "joueur2.xml")));
 		} catch (IOException ex) {
 			try {
 				ajouterPersonnage(

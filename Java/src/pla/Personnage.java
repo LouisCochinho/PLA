@@ -218,4 +218,9 @@ public class Personnage {
 		}
 		return compteur;
 	}
+	
+	public boolean hasBombe(){
+		return objet != null && (objet instanceof BombePeinture || objet instanceof BombeEau);
+	}
+	
 }

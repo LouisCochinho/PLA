@@ -428,7 +428,9 @@ public class Map {
 	}
 	
 	public Case getCase(int i, int j){
-		return cases[i][j];
+		return cases[i%nbCasesHauteur][j%nbCasesLargeur];
 	}
+	
+	
 
 }

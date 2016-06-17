@@ -13,12 +13,11 @@ public class Automate {
 	private Transition tabTransition[][];
 	private Etat tabEtatSuivant[][];
 	private Action_transition tabActionTransition[][];
-	// private int tabActionTransition[][];
 	private Condition tabCondition[][];
 	private int nbLignes = 0;
 	private int nbColonnes = 0;
-	private int posX; // position en abcisse sur la grille
-	private int posY; // position en ordonn�e sur la grille
+	private int posX;
+	private int posY;
 	private ArrayList<Etat> etats;
 	private ArrayList<Transition> transitions;
 	private Transition transitionParDefaut;
@@ -26,14 +25,7 @@ public class Automate {
 	private Etat etatInitial;
 	private Condition conditionParDefaut;
 
-	// automate par defaut
-	public Automate() throws IOException {
-		this(0, 0);
-	}
 
-	public Automate(int posX, int posY) throws IOException {
-		this("../Ocaml/xml/automate1.xml", posX, posY);
-	}
 
 	public Automate(String fileName) throws IOException {
 		this(fileName, 5, 6);

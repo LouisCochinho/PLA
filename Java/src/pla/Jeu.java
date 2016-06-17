@@ -365,65 +365,51 @@ public class Jeu extends BasicGameState {
 			g.drawString(this.rouge_score1, (gc.getWidth() / 2) - 24, (gc.getHeight() / 2) + 75);
 
 		}
-		if (gc.getInput().isKeyDown(Input.KEY_R)){
-			exploser(Input.KEY_R);
-		}
-		
-		if (gc.getInput().isKeyDown(Input.KEY_B)){
-			exploser(Input.KEY_B);
-		}
-	}
-	
-
-	public void exploser(int input) {
-		Personnage p = null;
-		switch (input) {
-			case Input.KEY_R: {
-				p = getPersonnageParType(TypePersonnage.ROUGE);
-				break;
-			}
-			case Input.KEY_B: {
-				p = getPersonnageParType(TypePersonnage.BLEU);
-				break;
-			}
-		}
-		if (p != null && p.hasBombe()) {
+		if (gc.getInput().isKeyDown(Input.KEY_R)) {
+			Personnage p = getPersonnageParType(TypePersonnage.ROUGE);
 			Case c = map.getCaseFromCoord((int) p.getX(), (int) p.getY());
-			Decor d = null;
-			if(p.getObjet() instanceof BombePeinture){
-				d = p.getTypePersonnage() == TypePersonnage.ROUGE ? new SolAmi() : new SolEnnemi();
-				map.getCase(c.getIndexI(), c.getIndexJ() - 1).setDecor(d);
-				map.getCase(c.getIndexI() - 1, c.getIndexJ() - 1).setDecor(d);
-				map.getCase(c.getIndexI() - 1, c.getIndexJ()).setDecor(d);
-				map.getCase(c.getIndexI() - 1, c.getIndexJ() + 1).setDecor(d);
-				map.getCase(c.getIndexI(), c.getIndexJ() + 1).setDecor(d);
-				map.getCase(c.getIndexI() + 1, c.getIndexJ() + 1).setDecor(d);
-				map.getCase(c.getIndexI() + 1, c.getIndexJ()).setDecor(d);
-				map.getCase(c.getIndexI() + 1, c.getIndexJ() - 1).setDecor(d);
-				map.getCase(c.getIndexI(), c.getIndexJ() - 2).setDecor(d);
-				map.getCase(c.getIndexI(), c.getIndexJ() + 2).setDecor(d);
-				map.getCase(c.getIndexI() + 2, c.getIndexJ()).setDecor(d);
-				map.getCase(c.getIndexI() - 2, c.getIndexJ()).setDecor(d);
+			Action_transition pe = null;
+			if (p.hasBombe() && p.getObjet() instanceof BombePeinture) {
+				pe = new PeindreAmi();
+			} else if (p.hasBombe() && p.getObjet() instanceof BombeEau) {
+				pe = new PeindreNeutre();
 			}
-			else if(p.getObjet() instanceof BombeEau){
-				PeindreNeutre n = new PeindreNeutre();
-				n.executer(p, map.getCase(c.getIndexI(), c.getIndexJ() - 1), this, 0);
-				n.executer(p, map.getCase(c.getIndexI()-1, c.getIndexJ() - 1), this, 0);
-				n.executer(p, map.getCase(c.getIndexI()-1, c.getIndexJ()), this, 0);
-				n.executer(p, map.getCase(c.getIndexI()-1, c.getIndexJ() + 1), this, 0);
-				n.executer(p, map.getCase(c.getIndexI(), c.getIndexJ() + 1), this, 0);
-				n.executer(p, map.getCase(c.getIndexI()+1, c.getIndexJ() + 1), this, 0);
-				n.executer(p, map.getCase(c.getIndexI()+1, c.getIndexJ()), this, 0);
-				n.executer(p, map.getCase(c.getIndexI()+1, c.getIndexJ() - 1), this, 0);
-				n.executer(p, map.getCase(c.getIndexI(), c.getIndexJ() - 2), this, 0);
-				n.executer(p, map.getCase(c.getIndexI(), c.getIndexJ() + 2), this, 0);
-				n.executer(p, map.getCase(c.getIndexI()+2, c.getIndexJ()), this, 0);
-				n.executer(p, map.getCase(c.getIndexI()-2, c.getIndexJ()), this, 0);
-			}						
-			p.setObjet(null);
-		}		
+			if (pe != null) {
+				exploser(pe,p,c);
+			}
+		}
+
+		if (gc.getInput().isKeyDown(Input.KEY_B)) {
+			Personnage p = getPersonnageParType(TypePersonnage.BLEU);
+			Case c = map.getCaseFromCoord((int) p.getX(), (int) p.getY());
+			Action_transition pe = null;
+
+			if (p.hasBombe() && p.getObjet() instanceof BombePeinture) {
+				pe = new PeindreEnnemi();
+			} else if (p.hasBombe() && p.getObjet() instanceof BombeEau) {
+				pe = new PeindreNeutre();
+			}			
+			if(pe != null){
+				exploser(pe,p,c);
+			}			
+		}	
 	}
 
+	public void exploser(Action_transition pe,Personnage p, Case c){
+		pe.executer(p, map.getCase(c.getIndexI(), c.getIndexJ() - 1), this, 0);
+		pe.executer(p, map.getCase(c.getIndexI() - 1, c.getIndexJ() - 1), this, 0);
+		pe.executer(p, map.getCase(c.getIndexI() - 1, c.getIndexJ()), this, 0);
+		pe.executer(p, map.getCase(c.getIndexI() - 1, c.getIndexJ() + 1), this, 0);
+		pe.executer(p, map.getCase(c.getIndexI(), c.getIndexJ() + 1), this, 0);
+		pe.executer(p, map.getCase(c.getIndexI() + 1, c.getIndexJ() + 1), this, 0);
+		pe.executer(p, map.getCase(c.getIndexI() + 1, c.getIndexJ()), this, 0);
+		pe.executer(p, map.getCase(c.getIndexI() + 1, c.getIndexJ() - 1), this, 0);
+		pe.executer(p, map.getCase(c.getIndexI(), c.getIndexJ() - 2), this, 0);
+		pe.executer(p, map.getCase(c.getIndexI(), c.getIndexJ() + 2), this, 0);
+		pe.executer(p, map.getCase(c.getIndexI() + 2, c.getIndexJ()), this, 0);
+		pe.executer(p, map.getCase(c.getIndexI() - 2, c.getIndexJ()), this, 0);
+		p.setObjet(null);
+	}
 	// Met � jour les �l�ments de la sc�ne en fonction du delta temps
 	// survenu.
 	// C'est ici que la logique du jeu est enferm�e.

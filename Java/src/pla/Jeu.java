@@ -217,7 +217,6 @@ public class Jeu extends BasicGameState {
 			for (Personnage p : personnages) {
 				p.afficher(g);
 			}
-			g.drawString(Mouse.getX() + " " + Mouse.getY(), 10, 30);
 
 		} else if (!TimerFin.getFinJeu() && gc.isPaused()) { // Le jeu quand il
 																// est en pause

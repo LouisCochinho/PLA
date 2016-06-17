@@ -30,27 +30,31 @@ public class Camera {
 		currentSizeMapX = SIZE_WINDOW_X;
 		currentSizeMapY = SIZE_WINDOW_Y;
 
-		if(largeur/map.getLargeur()>=hauteur/map.getHauteur()){
-			bordure_centrageX = (SIZE_WINDOW_X-map.getLargeur())/2;
+		if(SIZE_WINDOW_X/map.getLargeur()>=SIZE_WINDOW_Y/map.getHauteur()){
 			zoomX = (float)SIZE_WINDOW_Y/(float)map.getHauteur();
 			zoomY = zoomX;
-			camX = -bordure_centrageX;
+
+			currentSizeMapX = zoomX*map.getHauteur();
+			bordure_centrageX = ((float)SIZE_WINDOW_X-currentSizeMapX)/2;
+			camX = +bordure_centrageX;
 			camY =0;
-			currentSizeMapX = SIZE_WINDOW_X-bordure_centrageX;
 		}
 		else{
-			bordure_centrageY = (SIZE_WINDOW_Y-map.getHauteur())/2;
 			zoomX = (float)SIZE_WINDOW_X/(float)map.getLargeur();
 			zoomY = zoomX;
-			camY = -bordure_centrageY;
+
+			currentSizeMapY = zoomY*map.getLargeur();
+			bordure_centrageY = ((float)SIZE_WINDOW_Y-currentSizeMapY)/2;
+			camY = +bordure_centrageY;
 			camX =0;
-			currentSizeMapY = SIZE_WINDOW_Y-bordure_centrageY;
 		}
 		/*
 		if(currentSizeMapX+camX<SIZE_WINDOW_X){camX = camX+(SIZE_WINDOW_X-currentSizeMapX-camX);}
 		if(currentSizeMapY+camY<SIZE_WINDOW_Y){camY = camY+(SIZE_WINDOW_Y-currentSizeMapY-camY);}
 		*/
-
+		System.out.println("SIZE_WINDOW_X:"+SIZE_WINDOW_X+" SIZE_WINDOW_Y:"+SIZE_WINDOW_Y);
+		System.out.println("camX:"+camX+" camY:"+camY);
+		System.out.println("currentSizeMapX:"+currentSizeMapY+" currentSizeMapY:"+currentSizeMapY+"\n");
 
 	}
 

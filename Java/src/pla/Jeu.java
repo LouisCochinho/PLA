@@ -408,25 +408,25 @@ public class Jeu extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
 		
-		// Sauvegarde des coordonnées de la souris
+		// Sauvegarde des coordonnï¿½es de la souris
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
 
 		ArrayList<Personnage> personnages = new ArrayList<Personnage>(this.personnages);
-		// Pour chaque personnage, si son déplacement est terminé, l'état courant de son automate change
+		// Pour chaque personnage, si son dï¿½placement est terminï¿½, l'ï¿½tat courant de son automate change
 		for (Personnage p : personnages) {
 			if (p.isDeplacementTermine()) {
 				changerEtatAutomate(p, delta);
-				// Si le personnage était à vélo, son nombre de tours à vélo est décrémenté
+				// Si le personnage ï¿½tait ï¿½ vï¿½lo, son nombre de tours ï¿½ vï¿½lo est dï¿½crï¿½mentï¿½
 				p.decrementeToursVelo();
 			}
 
-			// On s'apprete à déplacer le personnage : 
-			// Supprimer le personnage de la liste de personnages de la case que le personnage s'apprête à quitter
+			// On s'apprete ï¿½ dï¿½placer le personnage : 
+			// Supprimer le personnage de la liste de personnages de la case que le personnage s'apprï¿½te ï¿½ quitter
 			map.getCaseFromCoord((int) p.getX(), (int) p.getY()).supprimerPersonnage(p);
-			// On déplace le personnage
+			// On dï¿½place le personnage
 			deplacerPersonnage(p, delta);
-			// On ajoute le personnage a la liste de personnages détenue par la case sur laquelle le personnage se trouve
+			// On ajoute le personnage a la liste de personnages dï¿½tenue par la case sur laquelle le personnage se trouve
 			map.getCaseFromCoord((int) p.getX(), (int) p.getY()).ajouterPersonnage(p);
 
 		}
@@ -442,7 +442,7 @@ public class Jeu extends BasicGameState {
 			music.pause();
 		}
 
-		// Permet de faire bouger la caméra
+		// Permet de faire bouger la camï¿½ra
 		if (gc.getInput().isKeyDown(Input.KEY_UP)) {
 			Camera.cameraUP();
 		}
@@ -467,10 +467,13 @@ public class Jeu extends BasicGameState {
 		}
 		
 		
+		//Si le jeu est en pause et le timer du jeu n'est pas encore fini ...
 		if (gc.isPaused() && !TimerFin.getFinJeu()) {
-			if ((posX > gc.getWidth() / 2 - 175 && posX < gc.getWidth() / 2 + 175)
-					&& (posY > 8 * gc.getHeight() / 20 - 37 && posY < 8 * gc.getHeight() / 20 + 37)) { // Reprendre
+			// On delimite une zone pour la souris (zone qui sera cliquable)
+			if ((posX > gc.getWidth() / 2 - 175 && posX < gc.getWidth() / 2 + 175) && (posY > 8 * gc.getHeight() / 20 - 37 && posY < 8 * gc.getHeight() / 20 + 37))  { // Reprendre
+				// Si on clique sur le boutton gauche de la souris
 				if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+					//Si le timer n'est pas en pause 
 					if (!TimerFin.getPause()) {
 						TimerFin.pause();
 					} else {

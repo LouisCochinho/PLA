@@ -10,28 +10,28 @@ import pla.action.transition.PeindreEnnemi;
 import pla.decor.Decor;
 
 public class Automate {
-	private Transition tabTransition[][];
-	private Etat tabEtatSuivant[][];
-	private Action_transition tabActionTransition[][];
-	private Condition tabCondition[][];
-	private int nbLignes = 0;
-	private int nbColonnes = 0;
-	private int posX;
-	private int posY;
-	private ArrayList<Etat> etats;
-	private ArrayList<Transition> transitions;
+	private Transition tabTransition[][]; // Tableau des transitions
+	private Etat tabEtatSuivant[][]; // Tableau des etats suivants
+	private Action_transition tabActionTransition[][]; // Tableau des
+														// actions-transitions
+	private Condition tabCondition[][]; // Tableau des conditions
+	private int nbLignes = 0; // Nombre de lignes de l'automate
+	private int nbColonnes = 0; // Nombre de colonnes
+	private int posX; // Position en abcisses
+	private int posY; // Position en ordonnées
+	private ArrayList<Etat> etats; // Liste des états de l'automate
+	private ArrayList<Transition> transitions; // Liste des transitions de
+												// l'automate
 	private Transition transitionParDefaut;
 	private Action_transition actionParDefaut;
 	private Etat etatInitial;
 	private Condition conditionParDefaut;
 
-
-
 	public Automate(String fileName) throws IOException {
 		this(fileName, 5, 6);
 	}
 
-	// automate avec parsing
+	// Constructeur qui prend un nom de fichier xml et des coordonées de départ
 	public Automate(String fileName, int posX, int posY) throws IOException {
 		this.posX = posX;
 		this.posY = posY;
@@ -39,7 +39,7 @@ public class Automate {
 		etats = new ArrayList<Etat>();
 		transitions = new ArrayList<Transition>();
 
-                XMLParser.parse(this, fileName);
+		XMLParser.parse(this, fileName);
 
 		nbLignes = getNbTransitionsMax();
 		nbColonnes = etats.size();
@@ -49,12 +49,15 @@ public class Automate {
 		conditionParDefaut = new Condition();
 		transitionParDefaut = new Transition(etatInitial, conditionParDefaut, actionParDefaut, etatInitial);
 
+		// Remplit les tableaux
 		initTabTransition();
 		initTabActionTransition();
 		initTabEtatSuivant();
 		initTabCondition();
 	}
 
+	// retourne le nombre de transitions de l'automate => Pour calculer la
+	// hauteur de l'automate
 	private int getNbTransitionsMax() {
 		int nbTransitions[] = new int[etats.size()];
 		Arrays.fill(nbTransitions, 0); // Initialise le tableau avec la valeur 0
@@ -75,6 +78,7 @@ public class Automate {
 		return max;
 	}
 
+	// initialise le tableeau transition de l'automate
 	private void initTabTransition() {
 		tabTransition = new Transition[nbLignes][nbColonnes];
 		for (Transition[] row : tabTransition) {
@@ -89,10 +93,9 @@ public class Automate {
 		}
 	}
 
-	// remplissage du tableau des actions transitions en dur => a changer
+	// Initialise le tableau qui associe une action à une transition
 	private void initTabActionTransition() {
 
-		// tabActionTransition = new int[4][4];
 		tabActionTransition = new Action_transition[nbLignes][nbColonnes];
 		for (Action_transition[] row : tabActionTransition) {
 			Arrays.fill(row, actionParDefaut);
@@ -106,20 +109,9 @@ public class Automate {
 				}
 			}
 		}
-
-		/*
-		 * tabActionTransition[0][0] = 0; tabActionTransition[0][1] = 1;
-		 * tabActionTransition[0][2] = 3; tabActionTransition[0][3] = 1;
-		 * tabActionTransition[1][0] = 1; tabActionTransition[1][1] = 0;
-		 * tabActionTransition[1][2] = 0; tabActionTransition[1][3] = 0;
-		 * tabActionTransition[2][0] = 0; tabActionTransition[2][1] = 0;
-		 * tabActionTransition[2][2] = 0; tabActionTransition[2][3] = 1;
-		 * tabActionTransition[3][0] = 4; tabActionTransition[3][1] = 4;
-		 * tabActionTransition[3][2] = 4; tabActionTransition[3][3] = 0;
-		 */
-
 	}
 
+	// Initialise le tableau associant une transition à une condition
 	private void initTabCondition() {
 		tabCondition = new Condition[nbLignes][nbColonnes];
 		for (Condition[] row : tabCondition) {
@@ -135,6 +127,26 @@ public class Automate {
 			}
 		}
 	}
+
+	// initialisation du tableau des etats suivants en fonction de l'état
+	// courant et de la transition
+	private void initTabEtatSuivant() {
+		tabEtatSuivant = new Etat[nbLignes][nbColonnes];
+		for (Etat[] row : tabEtatSuivant) {
+			Arrays.fill(row, etatInitial);
+		}
+		for (int i = 0; i < nbLignes; i++) {
+			for (int j = 0; j < nbColonnes; j++) {
+				if (tabTransition[i][j] == null) {
+					tabEtatSuivant[i][j] = etatInitial;
+				} else {
+					tabEtatSuivant[i][j] = tabTransition[i][j].getEtatArrivee();
+				}
+			}
+		}
+	}
+
+	// GETTERS/SETTERS
 
 	public Action_transition[][] getTabActionTransition() {
 		return tabActionTransition;
@@ -172,24 +184,6 @@ public class Automate {
 		return nbColonnes;
 	}
 
-	// initialisation du tableau des etats suivants
-	private void initTabEtatSuivant() {
-		tabEtatSuivant = new Etat[nbLignes][nbColonnes];
-		for (Etat[] row : tabEtatSuivant) {
-			Arrays.fill(row, etatInitial);
-		}
-		for (int i = 0; i < nbLignes; i++) {
-			for (int j = 0; j < nbColonnes; j++) {
-				if (tabTransition[i][j] == null) {
-					tabEtatSuivant[i][j] = etatInitial;
-				} else {
-					tabEtatSuivant[i][j] = tabTransition[i][j].getEtatArrivee();
-				}
-			}
-		}
-		// System.out.println(Arrays.deepToString(tabEtatSuivant));
-	}
-
 	public void addEtat(Etat e) {
 		e.setId(etats.size());
 		etats.add(e);
@@ -208,7 +202,7 @@ public class Automate {
 			System.out.println();
 		}
 		System.out.println();
-	
+
 		System.out.println("Tableau action transition :");
 		for (int i = 0; i < nbLignes; i++) {
 			for (int j = 0; j < nbColonnes; j++) {
@@ -216,7 +210,7 @@ public class Automate {
 			}
 			System.out.println();
 		}
-		
+
 		System.out.println();
 		System.out.println("Tableau condition :");
 		for (int i = 0; i < nbLignes; i++) {
@@ -225,7 +219,7 @@ public class Automate {
 			}
 			System.out.println();
 		}
-		
+
 	}
 
 	public Etat getEtatSuivant(int i, int j) {
@@ -244,6 +238,10 @@ public class Automate {
 		return this.etats.size();
 	}
 
+	public void modifierTabActionTransition(int i, int j, Decor decor) {
+		tabActionTransition[i][j] = Association.getAction(decor);
+	}
+
 	// Inverse SolAmi/SolEnnemi et PeindreAmi/PeindreEnnemi
 	public void inverser() {
 		for (int i = 0; i < nbLignes; i++) {
@@ -260,9 +258,5 @@ public class Automate {
 				tabCondition[i][j].inverser();
 			}
 		}
-	}
-	
-	public void modifierTabActionTransition(int i, int j,Decor decor){
-		tabActionTransition[i][j] = Association.getAction(decor);
 	}
 }

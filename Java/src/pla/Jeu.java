@@ -8,9 +8,7 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.lwjgl.input.Mouse;
-import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -18,17 +16,12 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
-
 import pla.action.transition.*;
 import pla.decor.*;
-
 import org.newdawn.slick.gui.MouseOverArea;
-
 import pla.TimerFin;
-
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-
 import pla.ihm.Camera;
 import pla.ihm.Case;
 import pla.ihm.Map;
@@ -36,15 +29,13 @@ import pla.util.Musique;
 
 public class Jeu extends BasicGameState {
 	private Map map; // carte du jeu
-	private List<Personnage> personnages = new ArrayList<Personnage>(); // Liste
-																		// //
-																		// des
+	private List<Personnage> personnages = new ArrayList<Personnage>(); 
 	public static final int ID = 1; // personnages
 	private GameContainer gc; // conteneur
 
 	Image ImageNoire;
 
-	Music test2;
+	Music music;
 
 	private boolean MusicEnable = false;
 	Image play, play2, play3;
@@ -68,7 +59,7 @@ public class Jeu extends BasicGameState {
 
 	MouseOverArea ms;
 
-	public boolean fouad = true;
+	public boolean timerOnce = true;
 
 	// private static final int P_BAR_X = 15;
 	// private static final int P_BAR_Y = 25;
@@ -128,7 +119,7 @@ public class Jeu extends BasicGameState {
 		timerI = new Image("res/modif.png");
 
 		if (MusicEnable) {
-			test2 = new Music("res/thug.ogg");
+			music = new Music("res/thug.ogg");
 			// test2.loop();
 		}
 
@@ -413,50 +404,45 @@ public class Jeu extends BasicGameState {
 		pe.executer(p, map.getCase(c.getIndexI() - 2, c.getIndexJ()), this, 0);
 		p.setObjet(null);
 	}
-	// Met ï¿½ jour les ï¿½lï¿½ments de la scï¿½ne en fonction du delta temps
-	// survenu.
-	// C'est ici que la logique du jeu est enfermï¿½e.
+
 	@Override
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////// UPDATE
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// ////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
-		// TODO Auto-generated method stub
-
-		// System.out.println(">>>>>>>>>>>>>>>>>>>>>>"+TimerFin.getFinJeu()+"<<<<<<<<<<<<<<<<<<<<<<<<<<");
-
+		
+		// Sauvegarde des coordonnées de la souris
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
 
 		ArrayList<Personnage> personnages = new ArrayList<Personnage>(this.personnages);
+		// Pour chaque personnage, si son déplacement est terminé, l'état courant de son automate change
 		for (Personnage p : personnages) {
 			if (p.isDeplacementTermine()) {
-				// System.out.println("Tableau avant : \n");
-				// p.getAutomate().afficher();
 				changerEtatAutomate(p, delta);
-
+				// Si le personnage était à vélo, son nombre de tours à vélo est décrémenté
 				p.decrementeToursVelo();
-
 			}
 
+			// On s'apprete à déplacer le personnage : 
+			// Supprimer le personnage de la liste de personnages de la case que le personnage s'apprête à quitter
 			map.getCaseFromCoord((int) p.getX(), (int) p.getY()).supprimerPersonnage(p);
+			// On déplace le personnage
 			deplacerPersonnage(p, delta);
+			// On ajoute le personnage a la liste de personnages détenue par la case sur laquelle le personnage se trouve
 			map.getCaseFromCoord((int) p.getX(), (int) p.getY()).ajouterPersonnage(p);
 
 		}
 
+		// Liste des interactions clavier
+		// Si on appuie sur M => Relance la musique
 		if (gc.getInput().isKeyPressed(Input.KEY_M) && gc.isMusicOn() && MusicEnable) {
-
-			test2.resume();
-
+			music.resume();
 		}
 
+		// Si on appuie sur P => met en pause la musique
 		if (gc.getInput().isKeyPressed(Input.KEY_P) && MusicEnable) {
-
-			test2.pause();
+			music.pause();
 		}
 
+		// Permet de faire bouger la caméra
 		if (gc.getInput().isKeyDown(Input.KEY_UP)) {
 			Camera.cameraUP();
 		}
@@ -470,19 +456,18 @@ public class Jeu extends BasicGameState {
 			Camera.cameraLEFT();
 		}
 
+		// Echap => Met en pause le jeu et arrete le timer
 		if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
-
 			if (!TimerFin.getPause()) {
 				TimerFin.pause();
 			} else {
 				TimerFin.resume();
 			}
 			gc.setPaused(!gc.isPaused());
-
 		}
-
+		
+		
 		if (gc.isPaused() && !TimerFin.getFinJeu()) {
-
 			if ((posX > gc.getWidth() / 2 - 175 && posX < gc.getWidth() / 2 + 175)
 					&& (posY > 8 * gc.getHeight() / 20 - 37 && posY < 8 * gc.getHeight() / 20 + 37)) { // Reprendre
 				if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
@@ -508,7 +493,7 @@ public class Jeu extends BasicGameState {
 			}
 
 			if ((posX > gc.getWidth() / 2 - 175 && posX < gc.getWidth() / 2 + 175)
-					&& (posY > 2 * gc.getHeight() / 20 - 37 && posY < 2 * gc.getHeight() / 20 + 37)) { // Quitter
+					&& (posY > 2 * gc.getHeight() / 20 - 37 && posY < 2 * gc.getHeight() / 20 + 37)) { 
 				if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 					gc.exit();
 				}
@@ -516,12 +501,8 @@ public class Jeu extends BasicGameState {
 		}
 
 		if (TimerFin.getFinJeu()) {
-
 			if ((posX > gc.getWidth() / 2 - 122.5f && posX < gc.getWidth() / 2 + 122.5f)
-					&& (posY > 2.5 * gc.getHeight() / 10 - 100 && posY < 2.5 * gc.getHeight() / 10)) { // Accueil
-																										// depuis
-																										// menu
-																										// fin
+					&& (posY > 2.5 * gc.getHeight() / 10 - 100 && posY < 2.5 * gc.getHeight() / 10)) { 
 				if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 					gc.setPaused(!gc.isPaused());
 					game.enterState(0);
@@ -536,9 +517,9 @@ public class Jeu extends BasicGameState {
 		bleu_score1 = Integer.toString(bleu_score);
 		rouge_score1 = Integer.toString(rouge_score);
 
-		if (TimerFin.getFinJeu() && fouad) {
+		if (TimerFin.getFinJeu() && timerOnce) {
 			gc.setPaused(!gc.isPaused());
-			fouad = false;
+			timerOnce = false;
 		}
 	}
 
@@ -625,7 +606,7 @@ public class Jeu extends BasicGameState {
 
 		gc.getInput().clearMousePressedRecord();
 		if (MusicEnable) {
-			test2.loop();
+			music.loop();
 		}
 		// System.out.println(">>>>>>> ENTRER DANS JEU <<<<<<<");
 	}

@@ -118,6 +118,8 @@ public class Jeu extends BasicGameState {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public void init(GameContainer gc, StateBasedGame game) throws SlickException {
+            
+                make();
 
 		this.gc = gc;
 
@@ -666,5 +668,22 @@ public class Jeu extends BasicGameState {
 		}
 		return nb;
 	}
+        
+        public void make() {
+            try {
+                    ProcessBuilder pb = new ProcessBuilder("make");
+                    pb.directory(new File("../Ocaml/"));
+                    File log = new File("log");
+                    pb.redirectErrorStream(true);
+                    pb.redirectOutput(ProcessBuilder.Redirect.appendTo(log));
+                    Process p = pb.start();
+                    assert pb.redirectInput() == ProcessBuilder.Redirect.PIPE;
+                    assert pb.redirectOutput().file() == log;
+                    assert p.getInputStream().read() == -1;
+            }
+            catch(IOException e) {
+                    System.out.println(e.getMessage());
+            }
+        }
 
 }

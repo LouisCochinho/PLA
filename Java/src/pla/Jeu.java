@@ -238,7 +238,7 @@ public class Jeu extends BasicGameState {
 		} else if (!TimerFin.getFinJeu() && gc.isPaused()) { // Le jeu quand il
 																// est en pause
 																// et que le
-																// timer est
+																// timer est pzd
 																// fini
 
 			Camera.moveCamera(g);
@@ -247,6 +247,7 @@ public class Jeu extends BasicGameState {
 			for (Personnage p : personnages) {
 				p.afficher(g);
 			}
+			/*
 			g.resetTransform();
 			ImageNoire.setAlpha(0.7f);
 			ImageNoire.draw(0, 0, gc.getWidth(), gc.getHeight()); // Taille de
@@ -261,9 +262,10 @@ public class Jeu extends BasicGameState {
 			g.setColor(Color.white);
 			g.drawString("PAUSE", gc.getWidth() / 2 - 20, 4 * gc.getHeight() / 10);
 			g.drawString(Mouse.getX() + " " + Mouse.getY(), 10, 30);
-
+			 */
+			
 		} else if (TimerFin.getFinJeu()) { // Le jeu quand il est en pause et
-											// que le timer n'est pas fini
+											// que le timer est  fini
 
 			if (rouge_score > bleu_score) {
 				g.resetTransform();

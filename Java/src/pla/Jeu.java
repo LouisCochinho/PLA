@@ -396,6 +396,7 @@ public class Jeu extends BasicGameState {
 	}
 
 	public void exploser(Action_transition pe,Personnage p, Case c){
+		pe.executer(p, map.getCase(c.getIndexI(), c.getIndexJ()), this, 0);
 		pe.executer(p, map.getCase(c.getIndexI(), c.getIndexJ() - 1), this, 0);
 		pe.executer(p, map.getCase(c.getIndexI() - 1, c.getIndexJ() - 1), this, 0);
 		pe.executer(p, map.getCase(c.getIndexI() - 1, c.getIndexJ()), this, 0);

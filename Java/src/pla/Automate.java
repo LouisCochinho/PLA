@@ -10,36 +10,23 @@ import pla.action.transition.PeindreEnnemi;
 import pla.decor.Decor;
 
 public class Automate {
-	private Transition tabTransition[][];
-	private Etat tabEtatSuivant[][];
-	private Action_transition tabActionTransition[][];
-	// private int tabActionTransition[][];
-	private Condition tabCondition[][];
-	private int nbLignes = 0;
-	private int nbColonnes = 0;
-	private int posX; // position en abcisse sur la grille
-	private int posY; // position en ordonnï¿½e sur la grille
-	private ArrayList<Etat> etats;
-	private ArrayList<Transition> transitions;
-	private Transition transitionParDefaut;
+	private Transition tabTransition[][]; // Tableau des transitions 
+	private Etat tabEtatSuivant[][]; // Tableau des etats suivants
+	private Action_transition tabActionTransition[][]; // Tableau des actions-transition
+	private Condition tabCondition[][]; // Tableau des conditions 
+	private int nbLignes = 0; // nombre de lignes de l'automate
+	private int nbColonnes = 0; // nombre de colonnes de l'automate
+	private int posX; // Position en abcisse du coin supérieur gauche de l'automate
+	private int posY; // Position en ordonnées du coin supérieur gauche de l'automate
+	private ArrayList<Etat> etats; // Liste des états de l'automate
+	private ArrayList<Transition> transitions; // Liste des transitions de l'automate
+	private Transition transitionParDefaut; 
 	private Action_transition actionParDefaut;
-	private Etat etatInitial;
+	private Etat etatInitial; 
 	private Condition conditionParDefaut;
 
-	// automate par defaut
-	public Automate() throws IOException {
-		this(0, 0);
-	}
 
-	public Automate(int posX, int posY) throws IOException {
-		this("../Ocaml/xml/automate1.xml", posX, posY);
-	}
-
-	public Automate(String fileName) throws IOException {
-		this(fileName, 5, 6);
-	}
-
-	// automate avec parsing
+	//Constructeur qui parse le fichier filename passé en parametre et grâce à ce fichier, remplit les différents tableaux
 	public Automate(String fileName, int posX, int posY) throws IOException {
 		this.posX = posX;
 		this.posY = posY;
@@ -63,6 +50,7 @@ public class Automate {
 		initTabCondition();
 	}
 
+	// Méthode retournant le nombre de transitions maximum
 	private int getNbTransitionsMax() {
 		int nbTransitions[] = new int[etats.size()];
 		Arrays.fill(nbTransitions, 0); // Initialise le tableau avec la valeur 0
@@ -83,8 +71,9 @@ public class Automate {
 		return max;
 	}
 
+	// Initialise le tableau des transitions 
 	private void initTabTransition() {
-		tabTransition = new Transition[nbLignes][nbColonnes];
+		tabTransition = new Transition[nbLignes][nbColonnes];		
 		for (Transition[] row : tabTransition) {
 			Arrays.fill(row, transitionParDefaut);
 		}
@@ -114,20 +103,8 @@ public class Automate {
 				}
 			}
 		}
-
-		/*
-		 * tabActionTransition[0][0] = 0; tabActionTransition[0][1] = 1;
-		 * tabActionTransition[0][2] = 3; tabActionTransition[0][3] = 1;
-		 * tabActionTransition[1][0] = 1; tabActionTransition[1][1] = 0;
-		 * tabActionTransition[1][2] = 0; tabActionTransition[1][3] = 0;
-		 * tabActionTransition[2][0] = 0; tabActionTransition[2][1] = 0;
-		 * tabActionTransition[2][2] = 0; tabActionTransition[2][3] = 1;
-		 * tabActionTransition[3][0] = 4; tabActionTransition[3][1] = 4;
-		 * tabActionTransition[3][2] = 4; tabActionTransition[3][3] = 0;
-		 */
-
 	}
-
+	// initialise le tableau des conditions
 	private void initTabCondition() {
 		tabCondition = new Condition[nbLignes][nbColonnes];
 		for (Condition[] row : tabCondition) {
@@ -143,7 +120,26 @@ public class Automate {
 			}
 		}
 	}
+	
+	// initialisation du tableau des etats suivants
+		private void initTabEtatSuivant() {
+			tabEtatSuivant = new Etat[nbLignes][nbColonnes];
+			for (Etat[] row : tabEtatSuivant) {
+				Arrays.fill(row, etatInitial);
+			}
+			for (int i = 0; i < nbLignes; i++) {
+				for (int j = 0; j < nbColonnes; j++) {
+					if (tabTransition[i][j] == null) {
+						tabEtatSuivant[i][j] = etatInitial;
+					} else {
+						tabEtatSuivant[i][j] = tabTransition[i][j].getEtatArrivee();
+					}
+				}
+			}
+		}
 
+	// GETTERS/SETTERS
+	
 	public Action_transition[][] getTabActionTransition() {
 		return tabActionTransition;
 	}
@@ -180,23 +176,6 @@ public class Automate {
 		return nbColonnes;
 	}
 
-	// initialisation du tableau des etats suivants
-	private void initTabEtatSuivant() {
-		tabEtatSuivant = new Etat[nbLignes][nbColonnes];
-		for (Etat[] row : tabEtatSuivant) {
-			Arrays.fill(row, etatInitial);
-		}
-		for (int i = 0; i < nbLignes; i++) {
-			for (int j = 0; j < nbColonnes; j++) {
-				if (tabTransition[i][j] == null) {
-					tabEtatSuivant[i][j] = etatInitial;
-				} else {
-					tabEtatSuivant[i][j] = tabTransition[i][j].getEtatArrivee();
-				}
-			}
-		}
-		// System.out.println(Arrays.deepToString(tabEtatSuivant));
-	}
 
 	public void addEtat(Etat e) {
 		e.setId(etats.size());
@@ -207,34 +186,6 @@ public class Automate {
 		this.transitions = transitions;
 	}
 
-	public void afficher() {
-		System.out.println("Tableau Ã©tat suivant :");
-		for (int i = 0; i < nbLignes; i++) {
-			for (int j = 0; j < nbColonnes; j++) {
-				System.out.print(tabEtatSuivant[i][j] + "\t");
-			}
-			System.out.println();
-		}
-		System.out.println();
-	
-		System.out.println("Tableau action transition :");
-		for (int i = 0; i < nbLignes; i++) {
-			for (int j = 0; j < nbColonnes; j++) {
-				System.out.print(tabActionTransition[i][j] + "\t");
-			}
-			System.out.println();
-		}
-		
-		System.out.println();
-		System.out.println("Tableau condition :");
-		for (int i = 0; i < nbLignes; i++) {
-			for (int j = 0; j < nbColonnes; j++) {
-				System.out.print(tabCondition[i][j] + "\t");
-			}
-			System.out.println();
-		}
-		
-	}
 
 	public Etat getEtatSuivant(int i, int j) {
 		return tabEtatSuivant[i][j];
@@ -270,7 +221,37 @@ public class Automate {
 		}
 	}
 	
+	// modifie l'action associée à la transition
 	public void modifierTabActionTransition(int i, int j,Decor decor){
 		tabActionTransition[i][j] = Association.getAction(decor);
+	}
+	
+	// Affichage du contenu des différents tableaux
+	public void afficher() {
+		System.out.println("Tableau Ã©tat suivant :");
+		for (int i = 0; i < nbLignes; i++) {
+			for (int j = 0; j < nbColonnes; j++) {
+				System.out.print(tabEtatSuivant[i][j] + "\t");
+			}
+			System.out.println();
+		}
+		System.out.println();
+	
+		System.out.println("Tableau action transition :");
+		for (int i = 0; i < nbLignes; i++) {
+			for (int j = 0; j < nbColonnes; j++) {
+				System.out.print(tabActionTransition[i][j] + "\t");
+			}
+			System.out.println();
+		}
+		
+		System.out.println();
+		System.out.println("Tableau condition :");
+		for (int i = 0; i < nbLignes; i++) {
+			for (int j = 0; j < nbColonnes; j++) {
+				System.out.print(tabCondition[i][j] + "\t");
+			}
+			System.out.println();
+		}		
 	}
 }

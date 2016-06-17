@@ -283,13 +283,13 @@ public class Map {
 		try {
 			switch (cellule) {
 			case Nord:
-				return cases[caseCourante.getIndexI()][caseCourante.getIndexJ() - 1];
-			case Sud:
-				return cases[caseCourante.getIndexI()][caseCourante.getIndexJ() + 1];
-			case Est:
-				return cases[caseCourante.getIndexI() + 1][caseCourante.getIndexJ()];
-			case Ouest:
 				return cases[caseCourante.getIndexI() - 1][caseCourante.getIndexJ()];
+			case Sud:
+				return cases[caseCourante.getIndexI() + 1][caseCourante.getIndexJ()];
+			case Est:
+				return cases[caseCourante.getIndexI()][caseCourante.getIndexJ() + 1];
+			case Ouest:
+				return cases[caseCourante.getIndexI()][caseCourante.getIndexJ() - 1];
 			case Case:
 			default:
 				return caseCourante;

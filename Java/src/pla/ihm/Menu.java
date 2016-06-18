@@ -100,6 +100,7 @@ public class Menu extends BasicGameState {
 				g.drawString("Tab                     :	  Score", gc.getWidth()/3,350);
 				g.drawString("I                       :	  Inventaire", gc.getWidth()/3,400);
 				g.drawString("P / M                   :	  Pause / Lecture musique", gc.getWidth()/3,450);
+				g.drawString("R / B                   :	  Utiliser bombe Rouge / Bleue", gc.getWidth()/3,500);
 			}
 		} else {
 			background.draw(0, 0, gc.getWidth(), gc.getHeight());

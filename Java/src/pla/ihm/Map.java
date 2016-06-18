@@ -98,15 +98,15 @@ public class Map {
 		Decor muret = new Muret();
 		Decor sn = new SolNormal();
 		Decor v = new Velo();
-		int nbBat = (int) ((bat.getFrequence() / 100.0) * nbCasesHorsAutomate);
-		int nbBe = (int) ((be.getFrequence() / 100.0) * nbCasesHorsAutomate);
-		int nbBp = (int) ((bp.getFrequence() / 100.0) * nbCasesHorsAutomate);
-		int nbBoe = (int) ((boe.getFrequence() / 100.0) * nbCasesHorsAutomate);
-		int nbG = (int) ((g.getFrequence() / 100.0) * nbCasesHorsAutomate);
-		int nbMur = (int) ((mur.getFrequence() / 100.0) * nbCasesHorsAutomate);
-		int nbMuret = (int) ((muret.getFrequence() / 100.0) * nbCasesHorsAutomate);
-		int nbSn = (int) ((sn.getFrequence() / 100.0) * nbCasesHorsAutomate);
-		int nbV = (int) ((v.getFrequence() / 100.0) * nbCasesHorsAutomate);
+		int nbBat = (int) ((bat.getFrequence() / 1000.0) * nbCasesHorsAutomate);
+		int nbBe = (int) ((be.getFrequence() / 1000.0) * nbCasesHorsAutomate);
+		int nbBp = (int) ((bp.getFrequence() / 1000.0) * nbCasesHorsAutomate);
+		int nbBoe = (int) ((boe.getFrequence() / 1000.0) * nbCasesHorsAutomate);
+		int nbG = (int) ((g.getFrequence() / 1000.0) * nbCasesHorsAutomate);
+		int nbMur = (int) ((mur.getFrequence() / 1000.0) * nbCasesHorsAutomate);
+		int nbMuret = (int) ((muret.getFrequence() / 1000.0) * nbCasesHorsAutomate);
+		int nbSn = (int) ((sn.getFrequence() / 1000.0) * nbCasesHorsAutomate);
+		int nbV = (int) ((v.getFrequence() / 1000.0) * nbCasesHorsAutomate);
 		Random rand = new Random();
 
 		int r;

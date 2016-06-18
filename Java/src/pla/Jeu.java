@@ -242,6 +242,17 @@ public class Jeu extends BasicGameState {
 		this.map.placerDecorRandom();
 		if(scenario==0)
                     this.map.placerPersonnageRandom(personnages);
+                
+                for(int i=64*15; i<64*25; i+=64) {
+                    for(int j=64*15; j<64*25; j+=64) {
+                        Random rand = new Random();
+                        if(rand.nextInt(2) == 1)
+                            map.getCaseFromCoord(i, j).setDecor(new SolAmi());
+                        else
+                            map.getCaseFromCoord(i, j).setDecor(new SolEnnemi());
+                    }
+                }
+                exploser(new PeindreNeutre(),personnages.get(0),map.getCaseFromCoord(64*20, 64*20));
 	}
 
 	// Affiche le contenu du jeu

@@ -45,19 +45,30 @@
 </header>
 <automate>
 <liste_etat>
-<etat type="initial" id="0">3</etat>
-<etat id="1">3</etat>
+<etat type="initial" id="0">2</etat>
+<etat id="1">2</etat>
 </liste_etat>
 <liste_transition>
 <transition>
 <etat_depart>0</etat_depart>
 <condition>
 <condition_simple>
-<decor id="0">0</decor>
+<decor id="0">1</decor>
 <cellule id="0">0</cellule>
 </condition_simple>
 </condition>
-<action_transition>1</action_transition>
+<action_transition>0</action_transition>
+<etat_arrivee>1</etat_arrivee>
+</transition>
+<transition>
+<etat_depart>1</etat_depart>
+<condition>
+<condition_simple>
+<decor id="0">2</decor>
+<cellule id="0">0</cellule>
+</condition_simple>
+</condition>
+<action_transition>0</action_transition>
 <etat_arrivee>0</etat_arrivee>
 </transition>
 </liste_transition>

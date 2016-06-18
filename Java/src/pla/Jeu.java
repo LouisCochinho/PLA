@@ -179,7 +179,7 @@ public class Jeu extends BasicGameState {
                 
 		try {
                     if(scenario == 1)
-			ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "scenario1.xml")));
+			ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "scenario1.xml", 64*5, 64*4)));
                     else
                         ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "joueur1.xml")));
 		} catch (IOException ex) {
@@ -192,7 +192,7 @@ public class Jeu extends BasicGameState {
 		}
 		try {
                     if(scenario == 1)
-			ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "scenario1.xml")));
+			ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "scenario1.xml", 64, 64*5)));
                     else
                         ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "joueur2.xml")));
 		} catch (IOException ex) {
@@ -205,8 +205,10 @@ public class Jeu extends BasicGameState {
 		}
 
 		try {
-			ajouterPersonnage(
-					new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "automateBernard.xml")));
+                    if(scenario == 1)
+                        ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "verticalBernard.xml", 64, 64)));
+                    else
+			ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "automateBernard.xml")));
 		} catch (IOException ex) {
 			Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -218,12 +220,28 @@ public class Jeu extends BasicGameState {
 		for (Personnage p : personnages) {
 			p.init();
 		}
+                
+                if(scenario==1) {
+                    personnages.get(0).setX(64+32);
+                    personnages.get(0).setY(64*3+32);
+                    personnages.get(1).setX(64+32);
+                    personnages.get(1).setY(64*5+32);
+                    personnages.get(2).setX(32);
+                    personnages.get(2).setY(32);
+                }
 
-		this.map.placerAutoRandom(personnages, gc.getGraphics());
+                if(scenario==0)
+                    this.map.placerAutoRandom(personnages, gc.getGraphics());
+                else {
+                    for(Personnage p : personnages) {
+                        map.placerAutomate(p.getAutomate(), p.getCouleur(), gc.getGraphics());
+                    }
+                }
 		this.map.setCasesEstDansAutomate(personnages);
 		this.map.setNbCasesHorsAutomate();
 		this.map.placerDecorRandom();
-		this.map.placerPersonnageRandom(personnages);
+		if(scenario==0)
+                    this.map.placerPersonnageRandom(personnages);
 	}
 
 	// Affiche le contenu du jeu

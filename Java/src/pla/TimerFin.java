@@ -80,6 +80,11 @@ public class TimerFin extends TimerTask{
 	public static boolean getPause() {
 		return pause;
 	}
+        
+        public static void setTimer(int temps) {
+            temps_timer = temps;
+            currentTime = temps;
+        }
 
 
 

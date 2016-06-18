@@ -114,14 +114,6 @@ public class Jeu extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame game) throws SlickException {
             
                 make();
-                
-                try {
-                    Scanner scanner = new Scanner(new File("scenario.txt"));
-                    if(scanner.hasNextInt())
-                        scenario = scanner.nextInt();
-                } catch (FileNotFoundException ex) {
-
-                }
 
 		this.gc = gc;
 
@@ -168,6 +160,23 @@ public class Jeu extends BasicGameState {
 	}
 
 	public void initAutomates() throws SlickException {
+                
+                try {
+                    Scanner scanner = new Scanner(new File("scenario.txt"));
+                    if(scanner.hasNextInt())
+                        scenario = scanner.nextInt();
+                } catch (FileNotFoundException ex) {
+
+                }
+                
+                try {
+                    Scanner scanner = new Scanner(new File("time.txt"));
+                    if(scanner.hasNextInt())
+                        TimerFin.setTimer(scanner.nextInt());
+                } catch (FileNotFoundException ex) {
+
+                }
+                
 		try {
                     if(scenario == 1)
 			ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "scenario1.xml")));

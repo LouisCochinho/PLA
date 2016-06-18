@@ -178,10 +178,16 @@ public class Jeu extends BasicGameState {
                 }
                 
 		try {
-                    if(scenario == 1)
-			ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "scenario1.xml", 64*5, 64*4)));
-                    else
-                        ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "joueur1.xml")));
+                    switch(scenario) {
+                        case 1:
+                            ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "scenario1.xml", 64*10, 64*4)));
+                            break;
+                        case 2:
+                            ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "scenario2.xml", 64*5, 64*4)));
+                            break;
+                        default:
+                            ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "joueur1.xml")));
+                    }
 		} catch (IOException ex) {
 			try {
 				ajouterPersonnage(
@@ -191,10 +197,16 @@ public class Jeu extends BasicGameState {
 			}
 		}
 		try {
-                    if(scenario == 1)
-			ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "scenario1.xml", 64, 64*5)));
-                    else
-                        ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "joueur2.xml")));
+                    switch(scenario) {
+                        case 1:
+                            ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "scenario2.xml", 64, 64*5)));
+                            break;
+                        case 2:
+                            ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "scenario2.xml", 64, 64*5)));
+                            break;
+                        default:
+                            ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "joueur2.xml")));
+                    }
 		} catch (IOException ex) {
 			try {
 				ajouterPersonnage(
@@ -205,10 +217,14 @@ public class Jeu extends BasicGameState {
 		}
 
 		try {
-                    if(scenario == 1)
-                        ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "verticalBernard.xml", 64, 64)));
-                    else
-			ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "automateBernard.xml")));
+                    switch(scenario) {
+                        case 1:
+                        case 2:
+                            ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "verticalBernard.xml", 64, 64)));
+                            break;
+                        default:
+                            ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "automateBernard.xml")));
+                    }
 		} catch (IOException ex) {
 			Logger.getLogger(Jeu.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -221,13 +237,29 @@ public class Jeu extends BasicGameState {
 			p.init();
 		}
                 
-                if(scenario==1) {
-                    personnages.get(0).setX(64+32);
-                    personnages.get(0).setY(64*3+32);
-                    personnages.get(1).setX(64+32);
-                    personnages.get(1).setY(64*5+32);
-                    personnages.get(2).setX(32);
-                    personnages.get(2).setY(32);
+                switch(scenario) {
+                    case 1:
+                        personnages.get(1).setX(64*4+32);
+                        personnages.get(1).setY(64*3+32);
+                        personnages.get(0).setX(64+32);
+                        personnages.get(0).setY(64*5+32);
+                        personnages.get(2).setX(32);
+                        personnages.get(2).setY(32);
+                        map.getCaseFromCoord(64*5, 64*5).setDecor(new Muret());
+                        map.getCaseFromCoord(64*8, 64*5).setDecor(new Mur());
+                        map.getCaseFromCoord(64*11, 64*5).setDecor(new Gendarmerie());
+                        map.getCaseFromCoord(64*11, 64*8).setDecor(new Mur());
+                        map.getCaseFromCoord(64*11, 64*11).setDecor(new Muret());
+                        break;
+                    case 2:
+                        personnages.get(0).setX(64+32);
+                        personnages.get(0).setY(64*3+32);
+                        personnages.get(1).setX(64+32);
+                        personnages.get(1).setY(64*5+32);
+                        personnages.get(2).setX(32);
+                        personnages.get(2).setY(32);
+                        break;
+                    default:
                 }
 
                 if(scenario==0)
@@ -239,9 +271,10 @@ public class Jeu extends BasicGameState {
                 }
 		this.map.setCasesEstDansAutomate(personnages);
 		this.map.setNbCasesHorsAutomate();
-		this.map.placerDecorRandom();
-		if(scenario==0)
+		if(scenario==0) {
+                    this.map.placerDecorRandom();
                     this.map.placerPersonnageRandom(personnages);
+                }
 	}
 
 	// Affiche le contenu du jeu

@@ -96,7 +96,7 @@ public class Menu extends BasicGameState {
 				g.setColor(Color.white);
 				g.drawString("Flèches directionnelles :	  Caméra", gc.getWidth()/3,200);
 				g.drawString("Molette de la souris    :	  Zoom", gc.getWidth()/3,250);
-				g.drawString("F1                      :	  Menu Pause", gc.getWidth()/3,300);
+				g.drawString("Echap                   :	  Menu Pause", gc.getWidth()/3,300);
 				g.drawString("Tab                     :	  Score", gc.getWidth()/3,350);
 				g.drawString("I                       :	  Inventaire", gc.getWidth()/3,400);
 				g.drawString("P / M                   :	  Pause / Lecture musique", gc.getWidth()/3,450);

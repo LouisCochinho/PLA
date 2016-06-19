@@ -1,5 +1,6 @@
 package pla.ihm;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Graphics;
 
 public class Camera {
@@ -30,7 +31,7 @@ public class Camera {
 		currentSizeMapX = SIZE_WINDOW_X;
 		currentSizeMapY = SIZE_WINDOW_Y;
 
-		if(SIZE_WINDOW_X/map.getLargeur()>=SIZE_WINDOW_Y/map.getHauteur()){
+		if((float)SIZE_WINDOW_X/(float)map.getLargeur()>=(float)SIZE_WINDOW_Y/(float)map.getHauteur()){
 			zoomX = (float)SIZE_WINDOW_Y/(float)map.getHauteur();
 			zoomY = zoomX;
 
@@ -38,6 +39,7 @@ public class Camera {
 			bordure_centrageX = ((float)SIZE_WINDOW_X-currentSizeMapX)/2;
 			camX = +bordure_centrageX;
 			camY =0;
+			System.out.println("1");
 		}
 		else{
 			zoomX = (float)SIZE_WINDOW_X/(float)map.getLargeur();
@@ -47,43 +49,46 @@ public class Camera {
 			bordure_centrageY = ((float)SIZE_WINDOW_Y-currentSizeMapY)/2;
 			camY = +bordure_centrageY;
 			camX =0;
+			System.out.println("2");
 		}
 		/*
 		if(currentSizeMapX+camX<SIZE_WINDOW_X){camX = camX+(SIZE_WINDOW_X-currentSizeMapX-camX);}
 		if(currentSizeMapY+camY<SIZE_WINDOW_Y){camY = camY+(SIZE_WINDOW_Y-currentSizeMapY-camY);}
 		*/
-		System.out.println("SIZE_WINDOW_X:"+SIZE_WINDOW_X+" SIZE_WINDOW_Y:"+SIZE_WINDOW_Y);
-		System.out.println("camX:"+camX+" camY:"+camY);
-		System.out.println("currentSizeMapX:"+currentSizeMapY+" currentSizeMapY:"+currentSizeMapY+"\n");
+		//System.out.println("SIZE_WINDOW_X:"+SIZE_WINDOW_X+" SIZE_WINDOW_Y:"+SIZE_WINDOW_Y);
+		//System.out.println("camX:"+camX+" camY:"+camY);
+		//System.out.println("currentSizeMapX:"+currentSizeMapY+" currentSizeMapY:"+currentSizeMapY+"\n");
 
 	}
 
 	public static void cameraDown(){
-	/*	if(camY-DEPLACEMENT >= -currentSizeMapY+SIZE_WINDOW_Y-bordure_centrageY*2){camY-=DEPLACEMENT;}
-		else{camY = camY - (camY +currentSizeMapY-SIZE_WINDOW_Y-bordure_centrageY*2);}	*/
-		camY-=DEPLACEMENT;
+		if(SIZE_WINDOW_Y <= currentSizeMapY+camY-DEPLACEMENT+bordure_centrageY ){camY-=DEPLACEMENT;}
+		else{camY = SIZE_WINDOW_Y-currentSizeMapY-bordure_centrageY;}
+		//camY-=DEPLACEMENT;
 
 	}
 
 	public static void cameraUP(){
-		/*if(camY+DEPLACEMENT <= -bordure_centrageY){camY+=DEPLACEMENT;}
-		else{camY = -bordure_centrageY;}*/
-		camY+=DEPLACEMENT;
+		if(camY<= bordure_centrageY-DEPLACEMENT){camY+=DEPLACEMENT;}
+		else{camY = +bordure_centrageY;}
+		//camY+=DEPLACEMENT;
 
 	}
 
 	public static void cameraLEFT(){
-		/*if(camX+DEPLACEMENT <= -bordure_centrageX){camX+=DEPLACEMENT;}
-		else{camX = -bordure_centrageX;}*/
-		camX+=DEPLACEMENT;
+		//if(SIZE_WINDOW_X >= (currentSizeMapX+bordure_centrageX/2)+camX+DEPLACEMENT){camX+=DEPLACEMENT;}
+		if(camX<= bordure_centrageX-DEPLACEMENT){camX+=DEPLACEMENT;}
+		else{camX = +bordure_centrageX;}
+		//camX = +bordure_centrageX;
+		//camX+=DEPLACEMENT;
 
 	}
 
 	public static void cameraRIGHT(){
-		/*if(camX-DEPLACEMENT >= -currentSizeMapX+SIZE_WINDOW_X+bordure_centrageX){camX-= DEPLACEMENT;}
-		else{camX = camX - (camX +currentSizeMapX-SIZE_WINDOW_X)+bordure_centrageX;}*/
-		camX-= DEPLACEMENT;
-
+		if(SIZE_WINDOW_X <= (currentSizeMapX+bordure_centrageX)+camX-DEPLACEMENT){camX-= DEPLACEMENT;}
+		else{camX = SIZE_WINDOW_X-currentSizeMapX-bordure_centrageX;}
+		
+		//camX-= DEPLACEMENT;
 	}
 /*
 	public static void camerajDezoom(Map map){
@@ -118,49 +123,50 @@ public class Camera {
 	}
 	*/
 	public static void cameraDezoom(Map map){
-		zoomX -= ZOOM; zoomY -= ZOOM;
-		/*float lastSizeMapX = currentSizeMapX;
+		//zoomX -= ZOOM; zoomY -= ZOOM;
+		float lastSizeMapX = currentSizeMapX;
 		float lastSizeMapY = currentSizeMapY;
-		if((zoomX-ZOOM)*currentSizeMapX >= SIZE_WINDOW_X && 
-				(zoomY-ZOOM)*currentSizeMapY >= SIZE_WINDOW_Y){
+		if((zoomX-ZOOM)*(map.getLargeur()+bordure_centrageX) >= SIZE_WINDOW_X && 
+				(zoomY-ZOOM)*(map.getHauteur()+bordure_centrageY) >= SIZE_WINDOW_Y){
 			zoomX -= ZOOM; zoomY -= ZOOM;
-			currentSizeMapX = zoomX*map.getLargeur();
-			currentSizeMapY = zoomY*map.getHauteur();
+			currentSizeMapX = zoomX*(map.getLargeur()/*+bordure_centrageX*/);
+			currentSizeMapY = zoomY*(map.getHauteur()/*+bordure_centrageY*/);
 			camX = camX-(currentSizeMapX-lastSizeMapX)/2;
 			camY = camY-(currentSizeMapY-lastSizeMapY)/2;
+			//System.out.println(currentSizeMapX+" "+currentSizeMapY);
+			//System.out.println(SIZE_WINDOW_X+" "+SIZE_WINDOW_Y+"\n");
+			
 		}
 		else{
-			if(SIZE_WINDOW_X/map.getLargeur()<=SIZE_WINDOW_Y/map.getHauteur()){
+			if((float)SIZE_WINDOW_X/(float)map.getLargeur()>=(float)SIZE_WINDOW_Y/(float)map.getHauteur()){
 				zoomX = (float)SIZE_WINDOW_Y/(float)map.getHauteur();
-				zoomY = zoomX;
-				camX = -bordure_centrageX;
-				camY =0;
-				currentSizeMapX = SIZE_WINDOW_X-bordure_centrageX;
+
 			}
 			else{
 				zoomX = (float)SIZE_WINDOW_X/(float)map.getLargeur();
-				zoomY = zoomX;
-				camY = -bordure_centrageY;
-				camX =0;
-				currentSizeMapY = SIZE_WINDOW_Y-bordure_centrageY;
 			}
+			zoomY = zoomX;
+			camX = +bordure_centrageX;
+			camY = +bordure_centrageY;
+			currentSizeMapX = zoomX*map.getLargeur();
+			currentSizeMapY = zoomY*map.getHauteur();
 		}
-		if(currentSizeMapX+camX<SIZE_WINDOW_X){camX = camX+(SIZE_WINDOW_X-currentSizeMapX-camX)+bordure_centrageX;}
-		if(currentSizeMapY+camY<SIZE_WINDOW_Y){camY = camY+(SIZE_WINDOW_Y-currentSizeMapY-camY)+bordure_centrageY;}
-		if(currentSizeMapX-camX>=SIZE_WINDOW_X){camX = -bordure_centrageX;}
-		if(currentSizeMapY-camY>=SIZE_WINDOW_Y){camY = -bordure_centrageY;}*/
+		if(currentSizeMapX+camX<SIZE_WINDOW_X){camX = (SIZE_WINDOW_X-currentSizeMapX)-bordure_centrageX;}
+		if(currentSizeMapY+camY<SIZE_WINDOW_Y){camY = (SIZE_WINDOW_Y-currentSizeMapY)-bordure_centrageY;}
+		if(camX>=bordure_centrageX){camX = +bordure_centrageX;}
+		if(camY>=bordure_centrageY){camY = +bordure_centrageY;}
 	}
 
 	public static void cameraZoom(Map map){
-		/*float lastSizeMapX = currentSizeMapX;
+		float lastSizeMapX = currentSizeMapX;
 		float lastSizeMapY = currentSizeMapY;
 		if(zoomX<=ZOOM_MAX && zoomY<=ZOOM_MAX){
 			zoomX += ZOOM; zoomY += ZOOM;
-			currentSizeMapX = zoomX*(map.getLargeur()-bordure_centrageX);
-			currentSizeMapY = zoomY*(map.getHauteur()-bordure_centrageY);
+			currentSizeMapX = zoomX*(map.getLargeur()/*-bordure_centrageX*/);
+			currentSizeMapY = zoomY*(map.getHauteur()/*-bordure_centrageY*/);
 			camX = camX-(currentSizeMapX-lastSizeMapX)/2;
 			camY = camY-(currentSizeMapY-lastSizeMapY)/2;
-		}	*/
-		zoomX += ZOOM; zoomY += ZOOM;
+
+		}	
 	}
 }

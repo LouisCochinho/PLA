@@ -49,6 +49,27 @@ public class Personnage {
 		if (inverse)
 			a.inverser();
 	}
+        
+        public Personnage(TypePersonnage typePersonnage, int direction, int wSprite, int hSprite, Automate a, boolean duplique)
+                        throws SlickException {
+                this.typePersonnage = typePersonnage;
+                this.ref = typePersonnage.getRef();
+                this.direction = direction;
+                this.automate = a;
+                etatCourant = a.getEtatInitial();
+                this.couleur = typePersonnage.getColor();
+                this.wSprite = wSprite;
+                this.hSprite = hSprite;
+                try {
+                        this.sperso = new SpriteSheet(ref, wSprite, hSprite);
+                } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        System.out.println("le fichier " + ref + " n'a pas pu �tre trouv�");
+                }
+                this.inverse = typePersonnage.isInverse();
+                if (inverse && !duplique)
+                        a.inverser();
+        }
 
 	public void init() throws SlickException {
 		this.animations[0] = chargerAnimation(sperso, 0, 1, 8);

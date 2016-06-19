@@ -15,4 +15,5 @@ let autTest =
     (1, Decor(Sol(Ami),C), PeindreNeutre,1);
     (1, Decor(Sol(Ennemi),C), PeindreNeutre,1);
     (1, Decor(Gendarmerie,C), Dupliquer,1);
+    (1, Decor(SolNormal,C), Admirer,1);
   ] ;;

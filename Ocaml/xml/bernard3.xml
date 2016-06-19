@@ -115,5 +115,16 @@
 <action_transition>11</action_transition>
 <etat_arrivee>1</etat_arrivee>
 </transition>
+<transition>
+<etat_depart>1</etat_depart>
+<condition>
+<condition_simple>
+<decor id="0">0</decor>
+<cellule id="0">0</cellule>
+</condition_simple>
+</condition>
+<action_transition>5</action_transition>
+<etat_arrivee>1</etat_arrivee>
+</transition>
 </liste_transition>
 </automate></root>

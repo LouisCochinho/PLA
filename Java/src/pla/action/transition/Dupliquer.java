@@ -38,7 +38,16 @@ public class Dupliquer extends Action_transition {
                     if(i==0 || j.scenario == 3) {
                         Personnage newP = new Personnage(p.getTypePersonnage(), p.getDirection(), (int)p.getwSprite(), (int)p.gethSprite(), p.getAutomate(), true);
                         j.ajouterPersonnage(newP);
-                        j.getMap().placerPersonnageRandom(newP, j.getPersonnages());
+                        if(j.scenario == 3) {
+                            if(p.getTypePersonnage() == TypePersonnage.BLEU) {
+                                newP.setX(64*2+32);
+                                newP.setY(64*1+32);
+                            } else {
+                                newP.setX(64*13+32);
+                                newP.setY(64*1+32);
+                            }
+                        } else
+                            j.getMap().placerPersonnageRandom(newP, j.getPersonnages());
                         newP.init();
                     }
                 }

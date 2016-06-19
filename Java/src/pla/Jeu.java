@@ -208,7 +208,7 @@ public class Jeu extends BasicGameState {
                             ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "scenario2.xml", 64, 64*5)));
                             break;
                         case 3:
-                            ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "scenario2.xml", 64, 64*5)));
+                            ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "scenario2.xml", 64*2, 64*5)));
                             break;
                         default:
                             ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "joueur2.xml")));
@@ -229,7 +229,7 @@ public class Jeu extends BasicGameState {
                             ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "verticalBernard.xml", 64, 64)));
                             break;
                         case 3:
-                            ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "bernard3.xml", 0, 64)));
+                            ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "bernard3.xml", 64*6, 64)));
                             break;
                         default:
                             ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "automateBernard.xml")));
@@ -278,7 +278,9 @@ public class Jeu extends BasicGameState {
                         map.getCaseFromCoord(64*4, 64*3).setDecor(new Velo());
                         map.getCaseFromCoord(64*9, 64*4).setDecor(new BoucheEgout());
                         map.getCaseFromCoord(64*12, 64*10).setDecor(new BoucheEgout());
-                        map.getCaseFromCoord(64*3, 64*10).setDecor(new Skatepark());
+                        map.getCaseFromCoord(64*6, 64*10).setDecor(new Skatepark());
+                        map.getCaseFromCoord(64*14, 64*14).setDecor(new Mur());
+                        map.getCaseFromCoord(64*1, 64*14).setDecor(new Gendarmerie());
                         break;
                     default:
                 }

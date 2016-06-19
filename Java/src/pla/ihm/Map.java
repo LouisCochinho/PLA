@@ -70,15 +70,21 @@ public class Map {
 	}
 
 	public void afficher() {
+		// On indique � la SpriteSheet qu'on s'apprete � l'utiliser
 		ssmap.startUse();
+		// Pour chaque case de la map
 		for (int i = 0; i < nbCasesHauteur; i++) {
 			for (int j = 0; j < nbCasesLargeur; j++) {
+				// d = le d�cor appartenant � la case aux coordonn�es i,j
 				Decor d = cases[i][j].getDecor();
+				// Afficher d'abord un sol normal(b�ton gris) de taille TILE_SIZE = 64
 				ssmap.renderInUse(j * TILE_SIZE, i * TILE_SIZE, DecorSprite.SOL_NORMAL.getX(),
 						DecorSprite.SOL_NORMAL.getY());
+				// Afficher par dessus le d�cor d
 				ssmap.renderInUse(j * TILE_SIZE, i * TILE_SIZE, d.getX(), d.getY());
 			}
 		}
+		// On termine l'utilisation de la spriteSheet
 		ssmap.endUse();
 	}
 
@@ -363,21 +369,26 @@ public class Map {
 		return lmax;
 	}
 
+	// Place un personnage pseudo-al�atoirement sur la map
 	public void placerPersonnageRandom(List<Personnage> lPersonnage) {
 		Random rand = new Random();
 
 		int posX, posY;
-		int w = getCases()[0].length;
-		int h = getCases().length;
+		int w = getCases()[0].length; // w = largeur de la map en nombre de cases
+		int h = getCases().length; // h = hauteur de la map en nombre de cases
 
 		for (int i = 0; i < lPersonnage.size(); i++) {
 			do {
-				posX = rand.nextInt(w) * TILE_SIZE + TILE_SIZE / 2;
-				posY = rand.nextInt(h) * TILE_SIZE + TILE_SIZE / 2;
-			} while (personnagePresent(lPersonnage, posX, posY, i)
-					|| automatePresent(lPersonnage, posX, posY, lPersonnage.size()));
+				// Calcul des coordonn�es futures du personnages tant que cela ne tombe pas sur un automate
+				posX = rand.nextInt(w) * TILE_SIZE + TILE_SIZE / 2; 
+				posY = rand.nextInt(h) * TILE_SIZE + TILE_SIZE / 2;			
+			} while (automatePresent(lPersonnage, posX, posY, lPersonnage.size()));
+			
+			// Modification des coordon�es du personnages
 			lPersonnage.get(i).setX(posX % (w * TILE_SIZE));
 			lPersonnage.get(i).setY(posY % (h * TILE_SIZE));
+			
+			// On ajoute le personnage a la liste des personnaes de la case sur laquelle va apparaitre le personnage 
 			this.getCaseFromCoord((int) lPersonnage.get(i).getX(), (int) lPersonnage.get(i).getY())
 					.ajouterPersonnage(lPersonnage.get(i));
 		}
@@ -394,8 +405,7 @@ public class Map {
 		do {
 			posX = rand.nextInt(w) * TILE_SIZE + TILE_SIZE / 2;
 			posY = rand.nextInt(h) * TILE_SIZE + TILE_SIZE / 2;
-		} while (personnagePresent(lPersonnage, posX, posY, lPersonnage.size())
-				|| automatePresent(lPersonnage, posX, posY, 0));
+		} while (automatePresent(lPersonnage, posX, posY, 0));
 		personnage.setX(posX % (w * TILE_SIZE));
 		personnage.setY(posY % (h * TILE_SIZE));
 	}
@@ -415,20 +425,22 @@ public class Map {
 		return present;
 	}
 
-	private boolean personnagePresent(List<Personnage> lPersonnage, int posX, int posY, int i) {
-		boolean present = false;
-		for (int j = 0; j < i; j++) {
-			if ((lPersonnage.get(j).getX() - posX) + (lPersonnage.get(j).getY() - posY) <= DISTANCE * TILE_SIZE
-					&& (lPersonnage.get(j).getX() - posX) + (lPersonnage.get(j).getY() - posY) <= DISTANCE
-							* TILE_SIZE) {
-				present = true;
-			}
-		}
-		return false;
-	}
 	
 	public Case getCase(int i, int j){
-		return cases[i%nbCasesHauteur][j%nbCasesLargeur];
+            if(i>=0) {
+                if(j>=0) {
+                    return cases[i%nbCasesHauteur][j%nbCasesLargeur];
+                } else {
+                    return cases[i%nbCasesHauteur][j%nbCasesLargeur+nbCasesLargeur];
+                }
+            } else {
+                if(j>=0) {
+                    return cases[i%nbCasesHauteur+nbCasesHauteur][j%nbCasesLargeur];
+                } else {
+                    return cases[i%nbCasesHauteur+nbCasesHauteur][j%nbCasesLargeur+nbCasesLargeur];
+                }
+            }
+                
 	}
 	
 	

@@ -35,7 +35,7 @@ public class Dupliquer extends Action_transition {
                     c.setDecor(new Mur());
                     Random r = new Random();
                     int i = r.nextInt(2);
-                    if(i==0) {
+                    if(i==0 || j.scenario == 3) {
                         Personnage newP = new Personnage(p.getTypePersonnage(), p.getDirection(), (int)p.getwSprite(), (int)p.gethSprite(), p.getAutomate());
                         j.ajouterPersonnage(newP);
                         j.getMap().placerPersonnageRandom(newP, j.getPersonnages());

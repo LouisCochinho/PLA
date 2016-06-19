@@ -1,0 +1,131 @@
+<root>
+<header>
+<liste_action_etat>
+<action_etat id="0">NePasBouger</action_etat>
+<action_etat id="1">DeplacerHaut</action_etat>
+<action_etat id="2">DeplacerBas</action_etat>
+<action_etat id="3">DeplacerDroite</action_etat>
+<action_etat id="4">DeplacerGauche</action_etat>
+</liste_action_etat>
+<liste_action_transition>
+<action_transition id="0">PeindreNeutre</action_transition>
+<action_transition id="1">PeindreAmi</action_transition>
+<action_transition id="2">PeindreEnnemi</action_transition>
+<action_transition id="3">Construire</action_transition>
+<action_transition id="4">Demolir</action_transition>
+<action_transition id="5">Admirer</action_transition>
+<action_transition id="6">Voyager</action_transition>
+<action_transition id="7">Prendre</action_transition>
+<action_transition id="8">Voler</action_transition>
+<action_transition id="9">LaisserTomber</action_transition>
+<action_transition id="10">Combattre</action_transition>
+<action_transition id="11">Dupliquer</action_transition>
+</liste_action_transition>
+<liste_decor>
+<decor id="0">SolNormal</decor>
+<decor id="1">SolAmi</decor>
+<decor id="2">SolEnnemi</decor>
+<decor id="3">Muret</decor>
+<decor id="4">Mur</decor>
+<decor id="5">Gendarmerie</decor>
+<decor id="6">Skatepark</decor>
+<decor id="7">BatimentNeutre</decor>
+<decor id="8">BoucheEgout</decor>
+<decor id="9">Velo</decor>
+<decor id="10">BombePeinture</decor>
+<decor id="11">BombeEau</decor>
+</liste_decor>
+<liste_cellule>
+<cellule id="0">Case</cellule>
+<cellule id="1">Nord</cellule>
+<cellule id="2">Sud</cellule>
+<cellule id="3">Est</cellule>
+<cellule id="4">Ouest</cellule>
+</liste_cellule>
+</header>
+<automate>
+<liste_etat>
+<etat type="initial" id="0">3</etat>
+<etat id="1">4</etat>
+<etat id="2">2</etat>
+</liste_etat>
+<liste_transition>
+<transition>
+<etat_depart>0</etat_depart>
+<condition>
+<condition_simple>
+<decor id="0">0</decor>
+<cellule id="0">0</cellule>
+</condition_simple>
+</condition>
+<action_transition>1</action_transition>
+<etat_arrivee>0</etat_arrivee>
+</transition>
+<transition>
+<etat_depart>0</etat_depart>
+<condition>
+<condition_simple>
+<decor id="0">9</decor>
+<cellule id="0">0</cellule>
+</condition_simple>
+</condition>
+<action_transition>8</action_transition>
+<etat_arrivee>0</etat_arrivee>
+</transition>
+<transition>
+<etat_depart>0</etat_depart>
+<condition>
+<condition_simple>
+<decor id="0">8</decor>
+<cellule id="0">0</cellule>
+</condition_simple>
+</condition>
+<action_transition>6</action_transition>
+<etat_arrivee>1</etat_arrivee>
+</transition>
+<transition>
+<etat_depart>0</etat_depart>
+<condition>
+<condition_simple>
+<decor id="0">1</decor>
+<cellule id="0">0</cellule>
+</condition_simple>
+</condition>
+<action_transition>5</action_transition>
+<etat_arrivee>2</etat_arrivee>
+</transition>
+<transition>
+<etat_depart>1</etat_depart>
+<condition>
+<condition_simple>
+<decor id="0">0</decor>
+<cellule id="0">0</cellule>
+</condition_simple>
+</condition>
+<action_transition>1</action_transition>
+<etat_arrivee>1</etat_arrivee>
+</transition>
+<transition>
+<etat_depart>1</etat_depart>
+<condition>
+<condition_simple>
+<decor id="0">6</decor>
+<cellule id="0">0</cellule>
+</condition_simple>
+</condition>
+<action_transition>11</action_transition>
+<etat_arrivee>1</etat_arrivee>
+</transition>
+<transition>
+<etat_depart>2</etat_depart>
+<condition>
+<condition_simple>
+<decor id="0">0</decor>
+<cellule id="0">0</cellule>
+</condition_simple>
+</condition>
+<action_transition>1</action_transition>
+<etat_arrivee>0</etat_arrivee>
+</transition>
+</liste_transition>
+</automate></root>

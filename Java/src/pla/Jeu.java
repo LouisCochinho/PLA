@@ -30,7 +30,7 @@ import pla.ihm.Map;
 import pla.util.Musique;
 
 public class Jeu extends BasicGameState {
-        private int scenario = 0;
+        public int scenario = 0;
 	private Map map; // carte du jeu
 	private List<Personnage> personnages = new ArrayList<Personnage>(); 
 	public static final int ID = 1; // personnages
@@ -185,6 +185,9 @@ public class Jeu extends BasicGameState {
                         case 2:
                             ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "scenario2.xml", 64*5, 64*4)));
                             break;
+                        case 3:
+                            ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "scenario3.xml", 64*5, 64*4)));
+                            break;
                         default:
                             ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "joueur1.xml")));
                     }
@@ -204,6 +207,9 @@ public class Jeu extends BasicGameState {
                         case 2:
                             ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "scenario2.xml", 64, 64*5)));
                             break;
+                        case 3:
+                            ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "scenario2.xml", 64, 64*5)));
+                            break;
                         default:
                             ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "joueur2.xml")));
                     }
@@ -221,6 +227,9 @@ public class Jeu extends BasicGameState {
                         case 1:
                         case 2:
                             ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "verticalBernard.xml", 64, 64)));
+                            break;
+                        case 3:
+                            ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "bernard3.xml", 0, 64)));
                             break;
                         default:
                             ajouterPersonnage(new Personnage(TypePersonnage.BERNARD, 3, 64, 64, new Automate(cheminXML + "automateBernard.xml")));
@@ -258,6 +267,18 @@ public class Jeu extends BasicGameState {
                         personnages.get(1).setY(64*5+32);
                         personnages.get(2).setX(32);
                         personnages.get(2).setY(32);
+                        break;
+                    case 3:
+                        personnages.get(0).setX(64+32);
+                        personnages.get(0).setY(64*3+32);
+                        personnages.get(1).setX(64+32);
+                        personnages.get(1).setY(64*12+32);
+                        personnages.get(2).setX(64*14+32);
+                        personnages.get(2).setY(32);
+                        map.getCaseFromCoord(64*4, 64*3).setDecor(new Velo());
+                        map.getCaseFromCoord(64*9, 64*4).setDecor(new BoucheEgout());
+                        map.getCaseFromCoord(64*12, 64*10).setDecor(new BoucheEgout());
+                        map.getCaseFromCoord(64*3, 64*10).setDecor(new Skatepark());
                         break;
                     default:
                 }

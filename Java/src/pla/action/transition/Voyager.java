@@ -34,6 +34,8 @@ public class Voyager extends Action_transition {
             if(!cases.isEmpty()) {
                 Random r = new Random();
                 int i = r.nextInt(cases.size());
+                if(j.scenario == 3)
+                    i=1;
                 Case cc = cases.get(i);
                 p.setX(cc.getIndexJ() * 64 + 32);
                 p.setY(cc.getIndexI() * 64 + 32);

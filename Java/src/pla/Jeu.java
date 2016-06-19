@@ -158,7 +158,7 @@ public class Jeu extends BasicGameState {
 
 	public void initAutomates() throws SlickException {
 		try {
-			ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "automateBernard.xml")));
+			ajouterPersonnage(new Personnage(TypePersonnage.BLEU, 2, 64, 64, new Automate(cheminXML + "joueur1.xml")));
 		} catch (IOException ex) {
 			try {
 				ajouterPersonnage(
@@ -168,7 +168,7 @@ public class Jeu extends BasicGameState {
 			}
 		}
 		try {
-			ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "automateBernard.xml")));
+			ajouterPersonnage(new Personnage(TypePersonnage.ROUGE, 1, 64, 64, new Automate(cheminXML + "joueur2.xml")));
 		} catch (IOException ex) {
 			try {
 				ajouterPersonnage(

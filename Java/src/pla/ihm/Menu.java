@@ -85,7 +85,7 @@ public class Menu extends BasicGameState {
 				g.drawString("Louis COCHINHO", gc.getWidth()/3,250);
 				g.drawString("Raphaël FUSTES", gc.getWidth()/3,300);
 				g.drawString("Antoine GAMBRO", gc.getWidth()/3,350);
-				g.drawString("Fuad OUAZZANI-IBRAHIMI", gc.getWidth()/3,400);
+				g.drawString("Fouad OUAZZANI-IBRAHIMI", gc.getWidth()/3,400);
 				g.drawString("Damien SIEST", gc.getWidth()/3,450);
 			} 
 			if (ToucheOn){

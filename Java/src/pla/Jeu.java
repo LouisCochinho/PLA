@@ -368,6 +368,10 @@ public class Jeu extends BasicGameState {
                             g.setColor(Color.white);
                             g.drawString("PAUSE", gc.getWidth() / 2 - 20, 4 * gc.getHeight() / 10);
                             g.drawString(Mouse.getX() + " " + Mouse.getY(), 10, 30);
+                        } else {
+                            g.resetTransform();
+                            play2.setAlpha(0.2f);
+                            play2.draw(gc.getWidth() / 2 - 175, 15 * gc.getHeight() / 20 - 37);
                         }
 			
 		} else if (TimerFin.getFinJeu()) { // Le jeu quand il est en pause et

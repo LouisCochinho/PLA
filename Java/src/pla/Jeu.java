@@ -40,7 +40,7 @@ public class Jeu extends BasicGameState {
 
 	Music music;
 
-	private boolean MusicEnable = false;
+	private boolean MusicEnable = true;
 	Image play, play2, play3;
 
 	private int SIZE_WINDOW_X;
